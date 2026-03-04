@@ -3,7 +3,7 @@ import Stripe from "stripe";
 // Lazy-initialized Stripe instance (avoids crash at build time when env var is missing)
 let _stripe: Stripe | null = null;
 
-export function getStripe(): Stripe {
+function getStripe(): Stripe {
     if (!_stripe) {
         const key = process.env.STRIPE_SECRET_KEY;
         if (!key) {
@@ -14,9 +14,11 @@ export function getStripe(): Stripe {
     return _stripe;
 }
 
-// Keep backward-compatible named export (getter)
+// Proxy that lazily initializes Stripe on first access
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const stripe = new Proxy({} as Stripe, {
     get(_target, prop) {
-        return (getStripe() as Record<string | symbol, unknown>)[prop];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (getStripe() as any)[prop];
     },
 });
