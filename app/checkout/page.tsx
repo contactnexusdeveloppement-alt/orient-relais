@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronRight, CreditCard, Lock, MapPin, Truck, User, AlertCircle } from "lucide-react";
+import { ChevronRight, CreditCard, Lock, MapPin, Truck, User, AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { MondialRelayWidget, RelayPoint } from "@/components/checkout/MondialRelayWidget";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -112,11 +113,13 @@ function StripePaymentForm({
 
 export default function CheckoutPage() {
     const { items, subtotal, cartCount, clearCart } = useCart();
+    const { user, isAuthenticated, isLoading: authLoading } = useAuth();
     const router = useRouter();
     const [step, setStep] = useState(1);
     const [clientSecret, setClientSecret] = useState<string | null>(null);
     const [paymentError, setPaymentError] = useState<string | null>(null);
     const [isCreatingIntent, setIsCreatingIntent] = useState(false);
+    const [cgvAccepted, setCgvAccepted] = useState(false);
 
     // Shipping method state
     const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay">("colissimo");
@@ -140,9 +143,31 @@ export default function CheckoutPage() {
         phone: ""
     });
 
+    // Redirect if not authenticated
+    useEffect(() => {
+        if (!authLoading && !isAuthenticated) {
+            router.push("/login?redirect=/checkout");
+        }
+    }, [authLoading, isAuthenticated, router]);
+
+    // Pre-fill form with user data
+    useEffect(() => {
+        if (user) {
+            setFormData((prev) => ({
+                email: user.email || prev.email,
+                firstName: user.firstName || prev.firstName,
+                lastName: user.lastName || prev.lastName,
+                address: user.billing?.address_1 || prev.address,
+                zip: user.billing?.postcode || prev.zip,
+                city: user.billing?.city || prev.city,
+                phone: user.billing?.phone || prev.phone,
+            }));
+        }
+    }, [user]);
+
     const handleNext = (e: React.FormEvent) => {
         e.preventDefault();
-        setStep(step + 1);
+        setStep(3);
         window.scrollTo(0, 0);
     };
 
@@ -184,10 +209,45 @@ export default function CheckoutPage() {
         }
     };
 
-    const handlePaymentSuccess = (paymentIntentId: string) => {
-        clearCart();
-        router.push(`/checkout/success?payment_intent=${paymentIntentId}`);
+    const handlePaymentSuccess = async (paymentIntentId: string) => {
+        // Create WooCommerce order
+        try {
+            const res = await fetch("/api/orders/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    paymentIntentId,
+                    items: items.map(item => ({
+                        id: item.id,
+                        title: item.title,
+                        quantity: item.quantity,
+                        price: item.price,
+                    })),
+                    customerInfo: formData,
+                    shippingMethod,
+                    shippingCost,
+                    selectedRelay,
+                }),
+            });
+            const data = await res.json();
+            clearCart();
+            router.push(`/checkout/success?payment_intent=${paymentIntentId}&order=${data.orderNumber || ""}`);
+        } catch {
+            // Order still succeeded even if WC order creation fails
+            clearCart();
+            router.push(`/checkout/success?payment_intent=${paymentIntentId}`);
+        }
     };
+
+    if (authLoading) {
+        return (
+            <div className="container mx-auto py-24 flex justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        );
+    }
+
+    if (!isAuthenticated) return null;
 
     if (items.length === 0 && !clientSecret) {
         return (
@@ -218,7 +278,7 @@ export default function CheckoutPage() {
                             <span className={`transition-colors ${step >= 4 ? "text-primary font-bold" : ""}`}>Paiement</span>
                         </div>
 
-                        {/* Step 1 & 2: Information & Shipping */}
+                        {/* Step 1: Information & Address */}
                         {step <= 2 && (
                             <form onSubmit={handleNext} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                                 {/* Identification */}
@@ -296,8 +356,8 @@ export default function CheckoutPage() {
                                         <div
                                             onClick={() => { setShippingMethod("colissimo"); setSelectedRelay(null); }}
                                             className={`flex items-center space-x-4 border rounded-lg p-4 cursor-pointer transition-all ${shippingMethod === "colissimo"
-                                                    ? "border-primary bg-primary/5 ring-1 ring-primary"
-                                                    : "border-stone-200 hover:border-stone-300 bg-stone-50"
+                                                ? "border-primary bg-primary/5 ring-1 ring-primary"
+                                                : "border-stone-200 hover:border-stone-300 bg-stone-50"
                                                 }`}
                                         >
                                             <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${shippingMethod === "colissimo" ? "border-primary" : "border-stone-300"
@@ -317,8 +377,8 @@ export default function CheckoutPage() {
                                         <div
                                             onClick={() => setShippingMethod("mondialrelay")}
                                             className={`flex items-center space-x-4 border rounded-lg p-4 cursor-pointer transition-all ${shippingMethod === "mondialrelay"
-                                                    ? "border-primary bg-primary/5 ring-1 ring-primary"
-                                                    : "border-stone-200 hover:border-stone-300 bg-stone-50"
+                                                ? "border-primary bg-primary/5 ring-1 ring-primary"
+                                                : "border-stone-200 hover:border-stone-300 bg-stone-50"
                                                 }`}
                                         >
                                             <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${shippingMethod === "mondialrelay" ? "border-primary" : "border-stone-300"
@@ -365,11 +425,33 @@ export default function CheckoutPage() {
                                     </div>
                                 )}
 
+                                {/* CGV Acceptance */}
+                                <div className="bg-white p-4 rounded-xl border border-stone-200 shadow-sm">
+                                    <label className="flex items-start gap-3 cursor-pointer group">
+                                        <input
+                                            type="checkbox"
+                                            checked={cgvAccepted}
+                                            onChange={(e) => setCgvAccepted(e.target.checked)}
+                                            className="mt-1 h-4 w-4 rounded border-stone-300 text-primary focus:ring-primary cursor-pointer"
+                                        />
+                                        <span className="text-sm text-stone-600 leading-relaxed">
+                                            J'ai lu et j'accepte les{" "}
+                                            <Link href="/cgv" target="_blank" className="text-primary hover:underline font-medium">
+                                                Conditions Générales de Vente
+                                            </Link>{" "}
+                                            et la{" "}
+                                            <Link href="/confidentialite" target="_blank" className="text-primary hover:underline font-medium">
+                                                Politique de Confidentialité
+                                            </Link>.
+                                        </span>
+                                    </label>
+                                </div>
+
                                 <div className="flex justify-between">
                                     <Button variant="outline" onClick={() => setStep(2)}>Retour</Button>
                                     <Button
                                         onClick={goToPayment}
-                                        disabled={isCreatingIntent || (shippingMethod === "mondialrelay" && !selectedRelay)}
+                                        disabled={isCreatingIntent || !cgvAccepted || (shippingMethod === "mondialrelay" && !selectedRelay)}
                                         size="lg"
                                         className="font-bold"
                                     >

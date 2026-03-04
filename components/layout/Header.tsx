@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
 import { CartDrawer } from "@/components/shop/CartDrawer";
+import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -94,16 +95,8 @@ export function Header() {
                     <div className="flex items-center gap-2 flex-shrink-0 z-50">
                         {/* Desktop Search */}
                         <div className="hidden md:flex relative w-48 lg:w-64 group mr-2">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 group-focus-within:text-primary transition-colors" />
-                            <Input
-                                type="search"
-                                placeholder="Rechercher..."
-                                className="pl-9 bg-transparent border-stone-200 focus-visible:ring-primary focus-visible:bg-white rounded-full h-9 text-sm transition-all focus:w-full"
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        window.location.href = `/recherche?q=${(e.target as HTMLInputElement).value}`;
-                                    }
-                                }}
+                            <SearchAutocomplete
+                                inputClassName="rounded-full h-9 text-sm"
                             />
                         </div>
 
@@ -173,17 +166,10 @@ export function Header() {
                             className="lg:hidden border-t border-stone-100 bg-white overflow-hidden"
                         >
                             <div className="p-4 space-y-6 overflow-y-auto h-full pb-20">
-                                <div className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
-                                    <Input
-                                        type="search"
-                                        placeholder="Rechercher..."
-                                        className="pl-10 bg-stone-50"
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                window.location.href = `/recherche?q=${(e.target as HTMLInputElement).value}`;
-                                            }
-                                        }}
+                                <div className="relative z-50">
+                                    <SearchAutocomplete
+                                        inputClassName="h-12 bg-stone-50"
+                                        onClose={() => setIsMenuOpen(false)}
                                     />
                                 </div>
 

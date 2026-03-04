@@ -1,12 +1,12 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { ProductCard } from "@/components/shop/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Search, Sparkles } from "lucide-react";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { CategoryProductGrid } from "@/components/shop/CategoryProductGrid";
 
 function SearchResults() {
     const searchParams = useSearchParams();
@@ -57,11 +57,11 @@ function SearchResults() {
                     ))}
                 </div>
             ) : results.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {results.map((product) => (
-                        <ProductCard key={product.id} product={product} />
-                    ))}
-                </div>
+                <CategoryProductGrid
+                    category="all"
+                    products={results}
+                    productCount={results.length}
+                />
             ) : (
                 <div className="relative text-center py-24 bg-gradient-to-br from-amber-50/50 to-stone-50 rounded-3xl border border-primary/10 overflow-hidden">
                     {/* Decorative glow */}

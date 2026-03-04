@@ -12,7 +12,7 @@ import { useCart } from "@/context/CartContext";
 export function CartDrawer() {
     const { items, removeItem, updateQuantity, cartCount, subtotal, isDrawerOpen, setIsDrawerOpen } = useCart();
 
-    const freeShippingThreshold = 59;
+    const freeShippingThreshold = 39;
     const remainingForFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
     const progress = Math.min(100, (subtotal / freeShippingThreshold) * 100);
 

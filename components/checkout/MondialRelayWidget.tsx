@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export interface RelayPoint {
     id: string;
@@ -25,14 +25,20 @@ declare global {
 
 export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const onSelectRef = useRef(onSelect);
+    onSelectRef.current = onSelect;
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [retryCount, setRetryCount] = useState(0);
     const brandCode = process.env.NEXT_PUBLIC_MR_BRAND_CODE || "BDTEST13";
 
     useEffect(() => {
         let cancelled = false;
 
         const loadWidget = async () => {
+            setIsLoading(true);
+            setError(null);
+
             try {
                 // Load jQuery if not present
                 if (!window.jQuery) {
@@ -45,6 +51,9 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
 
                 if (cancelled || !containerRef.current) return;
 
+                // Clear previous widget content
+                containerRef.current.innerHTML = "";
+
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const $ = window.jQuery as any;
 
@@ -53,7 +62,7 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                     Target: "#mr-selected-point",
                     Brand: brandCode,
                     Country: "FR",
-                    PostCode: postcode || "",
+                    PostCode: postcode || "75000",
                     ColLivMod: "24R",
                     NbResults: "7",
                     ShowResultsOnMap: true,
@@ -65,7 +74,7 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                         CP: string;
                         Pays: string;
                     }) => {
-                        onSelect({
+                        onSelectRef.current({
                             id: point.ID,
                             name: point.Nom,
                             address: point.Adresse1,
@@ -80,7 +89,7 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
             } catch (err) {
                 console.error("Failed to load Mondial Relay widget:", err);
                 if (!cancelled) {
-                    setError("Impossible de charger la carte Mondial Relay. Veuillez réessayer.");
+                    setError("Impossible de charger la carte Mondial Relay.");
                     setIsLoading(false);
                 }
             }
@@ -91,12 +100,18 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
         return () => {
             cancelled = true;
         };
-    }, [postcode, brandCode, onSelect]);
+    }, [postcode, brandCode, retryCount]);
 
     if (error) {
         return (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-                {error}
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm space-y-3">
+                <p>{error}</p>
+                <button
+                    onClick={() => setRetryCount((c) => c + 1)}
+                    className="text-xs font-bold text-red-700 underline hover:no-underline"
+                >
+                    Réessayer
+                </button>
             </div>
         );
     }
@@ -121,6 +136,7 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
         </div>
     );
 }
+
 
 // Helper: load a script dynamically
 function loadScript(src: string): Promise<void> {

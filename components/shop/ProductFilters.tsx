@@ -140,7 +140,6 @@ export function ProductFilters({ category, products, onFilterChange }: ProductFi
 
             <Accordion
                 type="multiple"
-                defaultValue={filterConfigs.map(f => f.key)}
                 className="w-full"
             >
                 {filterConfigs.map(config => (

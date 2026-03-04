@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { fetchWooProductsByCategory, fetchWooCategoryBySlug } from "@/lib/woocommerce";
-import { CategoryProductGridHorizontal } from "@/components/shop/CategoryProductGridHorizontal";
+import { CategoryProductGrid } from "@/components/shop/CategoryProductGrid";
 import { CategoryHeroSplit } from "@/components/shop/CategoryHeroSplit";
 import type { Metadata } from "next";
 
@@ -69,7 +69,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             />
 
             <div className="container mx-auto px-4 py-8 md:py-16">
-                <CategoryProductGridHorizontal
+                <CategoryProductGrid
                     category={slug}
                     products={products}
                     productCount={products.length}

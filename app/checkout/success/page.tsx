@@ -9,11 +9,9 @@ import { Suspense } from "react";
 function SuccessContent() {
     const searchParams = useSearchParams();
     const paymentIntentId = searchParams.get("payment_intent");
-
-    // Generate a display order number from the payment intent ID
-    const orderNumber = paymentIntentId
+    const orderNumber = searchParams.get("order") || (paymentIntentId
         ? `OR-${paymentIntentId.slice(-8).toUpperCase()}`
-        : `OR-${Math.floor(Math.random() * 100000)}`;
+        : `OR-${Math.floor(Math.random() * 100000)}`);
 
     return (
         <div className="min-h-screen bg-stone-50 flex flex-col items-center justify-center p-4">
@@ -34,7 +32,7 @@ function SuccessContent() {
                         </div>
                         <div>
                             <p className="text-sm font-bold text-stone-900">Commande #{orderNumber}</p>
-                            <p className="text-xs text-stone-500">Préparation en cours</p>
+                            <p className="text-xs text-stone-500">En cours de préparation</p>
                         </div>
                     </div>
                     <p className="text-sm text-stone-600">
@@ -50,11 +48,18 @@ function SuccessContent() {
                     )}
                 </div>
 
-                <Button asChild className="w-full h-12 text-lg font-bold">
-                    <Link href="/">
-                        Retour à la boutique
-                    </Link>
-                </Button>
+                <div className="space-y-3">
+                    <Button asChild className="w-full h-12 text-lg font-bold">
+                        <Link href="/mon-compte">
+                            Suivre ma commande
+                        </Link>
+                    </Button>
+                    <Button asChild variant="outline" className="w-full">
+                        <Link href="/boutique">
+                            Continuer mes achats
+                        </Link>
+                    </Button>
+                </div>
             </div>
         </div>
     );

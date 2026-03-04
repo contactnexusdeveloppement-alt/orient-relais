@@ -11,9 +11,10 @@ import { WooProduct } from "@/lib/woocommerce-types";
 interface HomeContentProps {
     featuredProducts: WooProduct[];
     promoProducts: WooProduct[];
+    categoryImages?: Record<string, string>;
 }
 
-export function HomeContent({ featuredProducts, promoProducts }: HomeContentProps) {
+export function HomeContent({ featuredProducts, promoProducts, categoryImages = {} }: HomeContentProps) {
     return (
         <>
             {/* Bento Grid - Nos Univers */}
@@ -51,7 +52,7 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
                         <StaggerItem className="md:col-span-2 md:row-span-1">
                             <Link href="/categorie/complements" className="group block h-full relative overflow-hidden rounded-3xl bg-white border border-stone-200 min-h-[200px] hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
                                 <Image
-                                    src="/images/categories/Compléments alimentaires.webp"
+                                    src={categoryImages["complements"] || "/images/categories/Compléments alimentaires.webp"}
                                     alt="Compléments Alimentaires Bio"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 33vw"
@@ -68,7 +69,7 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
                         <StaggerItem className="md:col-span-1 md:row-span-1">
                             <Link href="/categorie/huiles-essentielles" className="group block h-full relative overflow-hidden rounded-3xl bg-white border border-stone-200 min-h-[150px] hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
                                 <Image
-                                    src="/images/categories/Huiles essentiels.webp"
+                                    src={categoryImages["huiles-essentielles"] || "/images/categories/Huiles essentiels.webp"}
                                     alt="Huiles Essentielles Bio"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -85,7 +86,7 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
                         <StaggerItem className="md:col-span-1 md:row-span-1">
                             <Link href="/categorie/coffrets" className="group block h-full relative overflow-hidden rounded-3xl bg-white border border-stone-200 min-h-[150px] hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
                                 <Image
-                                    src="/images/categories/Coffrets.webp"
+                                    src={categoryImages["coffrets"] || "/images/categories/Coffrets.webp"}
                                     alt="Coffrets Cadeaux"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 25vw"
@@ -106,25 +107,25 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
                 <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             </div>
 
-            {/* Best-Sellers Section - Dark Theme */}
-            <section className="relative py-20 bg-gradient-to-b from-stone-900 to-stone-800 overflow-hidden">
-                {/* Decorative glow */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-radial from-primary/20 via-primary/5 to-transparent blur-3xl pointer-events-none" />
+            {/* Best-Sellers Section */}
+            <section className="relative py-20 bg-white overflow-hidden">
+                {/* Subtle top border */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
                 <div className="container mx-auto px-4 relative z-10">
                     <FadeIn className="flex justify-between items-end mb-10">
                         <div>
                             <span className="text-sm font-bold uppercase tracking-widest text-primary">Incontournables</span>
-                            <h2 className="mt-2 font-serif text-4xl font-bold text-white">Nos Best-Sellers</h2>
-                            <p className="mt-3 text-stone-400 max-w-md">Les produits plébiscités par notre communauté.</p>
+                            <h2 className="mt-2 font-serif text-4xl font-bold text-stone-900">Nos Best-Sellers</h2>
+                            <p className="mt-3 text-stone-500 max-w-md">Les produits plébiscités par notre communauté.</p>
                         </div>
-                        <Link href="/boutique" className="hidden md:flex items-center gap-2 text-primary hover:text-amber-300 font-medium transition-colors">
+                        <Link href="/boutique" className="hidden md:flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors">
                             Voir tout <ArrowRight className="h-4 w-4" />
                         </Link>
                     </FadeIn>
 
-                    <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.1}>
+                    <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6" staggerDelay={0.1}>
                         {featuredProducts.map((product) => (
-                            <StaggerItem key={product.id}>
+                            <StaggerItem key={product.id} className="h-full">
                                 <ProductCard product={product} />
                             </StaggerItem>
                         ))}
@@ -175,18 +176,12 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
                 </div>
             </section>
 
-            {/* Reassurance Section - Rich Stone with pattern */}
-            <section className="relative py-20 bg-stone-900 overflow-hidden">
-                {/* Oriental pattern overlay */}
-                <div className="absolute inset-0 opacity-5" style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                }} />
-                {/* Gold accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            {/* Reassurance Section - Clean & Minimal */}
+            <section className="relative py-16 bg-stone-50 overflow-hidden">
                 <div className="container mx-auto px-4 relative z-10">
                     <FadeIn className="text-center mb-12">
                         <span className="text-sm font-bold uppercase tracking-widest text-primary">Nos Engagements</span>
-                        <h2 className="mt-2 font-serif text-3xl font-bold text-white">Pourquoi nous choisir ?</h2>
+                        <h2 className="mt-2 font-serif text-3xl font-bold text-stone-900">Pourquoi nous choisir ?</h2>
                     </FadeIn>
                     <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-8" staggerDelay={0.1}>
                         <StaggerItem><ReassuranceItem icon={Leaf} title="Certifié Bio" text="Ingrédients 100% naturels" /></StaggerItem>
@@ -203,11 +198,11 @@ export function HomeContent({ featuredProducts, promoProducts }: HomeContentProp
 function ReassuranceItem({ icon: Icon, title, text }: { icon: React.ElementType, title: string, text: string }) {
     return (
         <div className="flex flex-col items-center text-center gap-3 group">
-            <div className="h-16 w-16 rounded-2xl flex items-center justify-center mb-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary/30 border bg-stone-800 border-stone-700 text-primary">
-                <Icon className="h-7 w-7" />
+            <div className="h-14 w-14 rounded-full flex items-center justify-center mb-2 transition-all duration-300 group-hover:scale-110 bg-white border border-stone-200 text-primary shadow-sm">
+                <Icon className="h-6 w-6" />
             </div>
-            <h4 className="font-serif font-bold text-lg text-white">{title}</h4>
-            <p className="text-sm text-stone-400">{text}</p>
+            <h4 className="font-serif font-bold text-base text-stone-900">{title}</h4>
+            <p className="text-sm text-stone-500">{text}</p>
         </div>
     );
 }

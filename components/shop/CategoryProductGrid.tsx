@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,10 @@ interface CategoryProductGridProps {
 export function CategoryProductGrid({ category, products, productCount }: CategoryProductGridProps) {
     const [filteredProducts, setFilteredProducts] = useState<WooProduct[]>(products);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    useEffect(() => {
+        setFilteredProducts(products);
+    }, [products]);
 
     const handleFilterChange = useCallback((filtered: WooProduct[]) => {
         setFilteredProducts(filtered);

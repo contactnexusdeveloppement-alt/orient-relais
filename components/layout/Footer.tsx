@@ -124,9 +124,15 @@ export function Footer() {
                 </div>
 
                 <div className="border-t border-stone-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-xs text-stone-500">
-                        © 2026 Orient Relais. SIRET 924 298 540 00015. Tous droits réservés.
-                    </p>
+                    <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                        <p className="text-xs text-stone-500">
+                            © 2026 Orient Relais. SIRET 924 298 540 00015. Tous droits réservés.
+                        </p>
+                        <span className="hidden md:inline text-stone-700">·</span>
+                        <a href="https://nexusdeveloppement.fr/" target="_blank" rel="noopener noreferrer" className="text-xs text-stone-600 hover:text-primary transition-colors">
+                            Site créé par Nexus Développement
+                        </a>
+                    </div>
                     <div className="flex gap-6 text-xs text-stone-500">
                         <Link href="/mentions-legales" className="hover:text-primary transition-colors">Mentions Légales</Link>
                         <Link href="/cgv" className="hover:text-primary transition-colors">CGV</Link>

@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AddToCartButton } from "@/components/shop/AddToCartButton";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { useWishlist } from "@/context/WishlistContext";
 
 // Helper to determine badge color based on tag name
 function getBadgeColor(tag: string): "green" | "orange" | "stone" | "blue" | "pink" | "default" {
@@ -20,6 +21,9 @@ function getBadgeColor(tag: string): "green" | "orange" | "stone" | "blue" | "pi
 }
 
 export function ProductCard({ product }: { product: WooProduct }) {
+    const { isInWishlist, toggleWishlist } = useWishlist();
+    const isFavorite = isInWishlist(String(product.id));
+
     // Safely access image
     const imageSrc = product.images && product.images.length > 0 ? product.images[0].src : '/images/placeholder.png';
 
@@ -68,9 +72,17 @@ export function ProductCard({ product }: { product: WooProduct }) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="absolute top-2 right-2 h-8 w-8 rounded-full bg-white/0 text-stone-400 hover:bg-white hover:text-red-500 hover:shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleWishlist(String(product.id));
+                    }}
+                    className={`absolute top-2 right-2 h-8 w-8 rounded-full transition-all duration-300 z-20 ${isFavorite
+                        ? "bg-white text-red-500 opacity-100 shadow-sm"
+                        : "bg-white/0 text-stone-400 hover:bg-white hover:text-red-500 hover:shadow-sm opacity-0 group-hover:opacity-100"
+                        }`}
                 >
-                    <Heart className="h-4 w-4" />
+                    <Heart className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`} />
                 </Button>
 
                 {/* Quick Add Button (Slide up) */}
@@ -116,6 +128,6 @@ export function ProductCard({ product }: { product: WooProduct }) {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

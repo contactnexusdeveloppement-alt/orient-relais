@@ -7,13 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { CartDrawer } from "@/components/shop/CartDrawer";
+import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
 
 export function HeaderCentered() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
+    const { user, isAuthenticated } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -58,17 +61,10 @@ export function HeaderCentered() {
                     <div className="flex items-center justify-between h-20 md:h-24 relative">
                         {/* Left: Search (Desktop) */}
                         <div className="hidden lg:flex items-center w-1/3">
-                            <div className="relative group w-48 transition-all duration-300 focus-within:w-64">
-                                <Search className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 group-focus-within:text-primary transition-colors" />
-                                <input
-                                    type="search"
+                            <div className="relative group w-64 transition-all duration-300 focus-within:w-72">
+                                <SearchAutocomplete
                                     placeholder="Que recherchez-vous ?"
-                                    className="w-full pl-6 bg-transparent border-b border-transparent focus:border-primary/20 outline-none text-sm placeholder:text-stone-400 text-stone-800 py-1 transition-all"
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            window.location.href = `/recherche?q=${(e.target as HTMLInputElement).value}`;
-                                        }
-                                    }}
+                                    inputClassName="w-full pl-10 bg-transparent border-b border-transparent focus:border-primary/20 outline-none text-sm placeholder:text-stone-400 text-stone-800 py-1 rounded-none shadow-none ring-0 focus-visible:ring-0"
                                 />
                             </div>
                         </div>
@@ -101,8 +97,18 @@ export function HeaderCentered() {
 
                         {/* Right: Actions */}
                         <div className="w-1/3 flex justify-end items-center gap-4">
-                            <Link href="/login" className="border-stone-200 p-2 rounded-full hover:bg-stone-50 text-stone-600 hover:text-primary transition-colors">
-                                <User className="h-5 w-5" />
+                            <Link
+                                href={isAuthenticated ? "/mon-compte" : "/login"}
+                                className="relative p-2 rounded-full hover:bg-stone-50 text-stone-600 hover:text-primary transition-colors"
+                                title={isAuthenticated ? `Mon compte (${user?.firstName})` : "Se connecter"}
+                            >
+                                {isAuthenticated ? (
+                                    <div className="h-5 w-5 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold">
+                                        {user?.firstName?.charAt(0)?.toUpperCase()}
+                                    </div>
+                                ) : (
+                                    <User className="h-5 w-5" />
+                                )}
                             </Link>
                             <CartDrawer />
                         </div>
@@ -191,13 +197,12 @@ export function HeaderCentered() {
                             className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl z-50 max-h-[80vh] overflow-y-auto"
                         >
                             <div className="p-6 space-y-6">
-                                <form onSubmit={(e) => {
-                                    e.preventDefault();
-                                    // Handle search
-                                }} className="relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
-                                    <Input placeholder="Rechercher..." className="pl-10 bg-stone-50 border-none" />
-                                </form>
+                                <div className="relative z-50">
+                                    <SearchAutocomplete
+                                        inputClassName="pl-10 bg-stone-50 border-none h-12"
+                                        onClose={() => setIsMenuOpen(false)}
+                                    />
+                                </div>
 
                                 <div className="space-y-6">
                                     <div>

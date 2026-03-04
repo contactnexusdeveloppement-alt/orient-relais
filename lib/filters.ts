@@ -9,14 +9,14 @@ export interface FilterOption {
 export interface FilterConfig {
     key: string;
     label: string;
-    type: "checkbox" | "range";
+    type: "checkbox" | "range" | "radio";
     options?: FilterOption[];
     min?: number;
     max?: number;
 }
 
 export interface ActiveFilters {
-    [key: string]: string[] | [number, number];
+    [key: string]: string[] | [number, number] | string;
 }
 
 // Extracts unique values from attributes
@@ -24,10 +24,11 @@ export function extractAttributeValues(products: WooProduct[], attributeName: st
     const counts = new Map<string, number>();
 
     products.forEach(p => {
-        const attr = p.attributes.find(a => a.name === attributeName);
+        const attr = p.attributes.find(a => a.name.toLowerCase() === attributeName.toLowerCase());
         if (attr) {
             attr.options.forEach(opt => {
-                counts.set(opt, (counts.get(opt) || 0) + 1);
+                const cleanOpt = opt.trim();
+                counts.set(cleanOpt, (counts.get(cleanOpt) || 0) + 1);
             });
         }
     });
@@ -68,13 +69,31 @@ export function getPriceRange(products: WooProduct[]): { min: number; max: numbe
 // Category-specific filter configurations
 export function getFiltersForCategory(categorySlug: string, products: WooProduct[]): FilterConfig[] {
     const priceRange = getPriceRange(products);
+
+    // Extract various dynamic attributes
+    const brands = extractAttributeValues(products, "Marque");
+    const poids = extractAttributeValues(products, "Poids");
+    const contenances = extractAttributeValues(products, "Contenance");
+
+    // Merge Poids and Contenances
+    const weightsMap = new Map<string, FilterOption>();
+    [...poids, ...contenances].forEach(opt => {
+        const existing = weightsMap.get(opt.value);
+        if (existing && existing.count) {
+            existing.count += (opt.count || 0);
+        } else {
+            weightsMap.set(opt.value, { ...opt });
+        }
+    });
+    const weights = Array.from(weightsMap.values()).sort((a, b) => (b.count || 0) - (a.count || 0));
+
     const benefits = extractAttributeValues(products, "Bienfaits");
 
     // Define which tags represent certifications/labels
     const certTags = data.certifications || ["Bio", "Vegan", "Ecocert", "Naturel"];
     const certifications = extractTags(products, certTags);
 
-    const baseFilters: FilterConfig[] = [
+    const filters: FilterConfig[] = [
         {
             key: "price",
             label: "Prix",
@@ -84,15 +103,24 @@ export function getFiltersForCategory(categorySlug: string, products: WooProduct
         }
     ];
 
-    // Generic filters based on category
-    // We can customize this further based on real attributes in WooCommerce
-    const filters: FilterConfig[] = [];
+    if (brands.length > 0) {
+        filters.push({
+            key: "brand",
+            label: "Marque",
+            type: "checkbox",
+            options: brands
+        });
+    }
 
-    // 1. Subcategory filter (Simulated via tags or specific attributes)
-    // In Mock data, subcategories are not explicitly defined fields, but we can infer them if needed.
-    // For now, let's skip subcategory unless we have a specific attribute for it.
+    if (weights.length > 0) {
+        filters.push({
+            key: "weight",
+            label: "Poids / Contenance",
+            type: "checkbox",
+            options: weights
+        });
+    }
 
-    // 2. Benefits
     if (benefits.length > 0) {
         filters.push({
             key: "benefits",
@@ -102,7 +130,6 @@ export function getFiltersForCategory(categorySlug: string, products: WooProduct
         });
     }
 
-    // 3. Certifications
     if (certifications.length > 0) {
         filters.push({
             key: "tags",
@@ -112,7 +139,7 @@ export function getFiltersForCategory(categorySlug: string, products: WooProduct
         });
     }
 
-    return [...filters, ...baseFilters];
+    return filters;
 }
 
 // Data for allowed tags to be considered as certifications
@@ -125,32 +152,36 @@ export function filterProducts(products: WooProduct[], filters: ActiveFilters): 
         for (const [key, value] of Object.entries(filters)) {
             if (!value || (Array.isArray(value) && value.length === 0)) continue;
 
-            switch (key) {
-                case "price":
-                    if (Array.isArray(value) && value.length === 2) {
-                        const [min, max] = value as [number, number];
-                        const price = parseFloat(product.price);
-                        if (price < min || price > max) return false;
-                    }
-                    break;
+            if (key === "price" && Array.isArray(value) && value.length === 2) {
+                const [min, max] = value as [number, number];
+                const price = parseFloat(product.price);
+                if (price < min || price > max) return false;
+            }
 
-                case "benefits":
-                    if (Array.isArray(value)) {
-                        const required = value as string[];
-                        const productBenefits = product.attributes.find(a => a.name === "Bienfaits")?.options || [];
-                        if (!required.some(r => productBenefits.includes(r))) return false;
-                    }
-                    break;
+            if (key === "benefits" && Array.isArray(value)) {
+                const required = value as string[];
+                const productBenefits = product.attributes.find(a => a.name.toLowerCase() === "bienfaits")?.options || [];
+                if (!required.some(r => productBenefits.includes(r))) return false;
+            }
 
-                case "tags": // Certifications are tags
-                    if (Array.isArray(value)) {
-                        const required = value as string[];
-                        const productTags = product.tags.map(t => t.name);
-                        if (!required.some(r => productTags.includes(r))) return false;
-                    }
-                    break;
+            if (key === "brand" && Array.isArray(value)) {
+                const required = value as string[];
+                const productBrands = product.attributes.find(a => a.name.toLowerCase() === "marque")?.options || [];
+                if (!required.some(r => productBrands.some(pb => pb.trim() === r.trim()))) return false;
+            }
 
-                // Add specific logic for other keys if needed
+            if (key === "weight" && Array.isArray(value)) {
+                const required = value as string[];
+                const weightOptions = product.attributes.find(a => a.name.toLowerCase() === "poids")?.options || [];
+                const contenanceOptions = product.attributes.find(a => a.name.toLowerCase() === "contenance")?.options || [];
+                const allWeightOptions = [...weightOptions, ...contenanceOptions];
+                if (!required.some(r => allWeightOptions.some(pw => pw.trim() === r.trim()))) return false;
+            }
+
+            if (key === "tags" && Array.isArray(value)) {
+                const required = value as string[];
+                const productTags = product.tags.map(t => t.name);
+                if (!required.some(r => productTags.includes(r))) return false;
             }
         }
         return true;

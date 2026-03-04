@@ -1,32 +1,74 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/context/AuthContext";
+import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
+    const { login } = useAuth();
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirect = searchParams.get("redirect") || "/mon-compte";
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        setIsLoading(true);
+
+        const result = await login(email, password);
+
+        if (result.success) {
+            router.push(redirect);
+        } else {
+            setError(result.error || "Email ou mot de passe incorrect.");
+        }
+        setIsLoading(false);
+    };
+
     return (
         <div className="container mx-auto px-4 py-16 md:py-24 max-w-md">
-            <div className="space-y-6 text-center mb-8">
-                <h1 className="font-playfair text-3xl md:text-4xl font-bold text-[#1A3C34]">Connexion</h1>
-                <p className="text-stone-600 font-manrope">
+            <div className="space-y-3 text-center mb-8">
+                <h1 className="font-serif text-3xl md:text-4xl font-bold text-stone-900">Connexion</h1>
+                <p className="text-stone-500">
                     Accédez à votre compte pour suivre vos commandes et gérer vos préférences.
                 </p>
             </div>
 
-            <div className="bg-white p-6 md:p-8 rounded-xl border border-stone-100 shadow-lg shadow-stone-200/50">
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <div className="bg-white p-6 md:p-8 rounded-2xl border border-stone-200 shadow-lg shadow-stone-200/50">
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    {error && (
+                        <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                            <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                            <p>{error}</p>
+                        </div>
+                    )}
+
                     <div className="space-y-2">
                         <Label htmlFor="email">Adresse Email</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="votre@email.com"
-                            className="bg-stone-50 border-stone-200 focus:border-[#4A5D5A] focus:ring-1 focus:ring-[#4A5D5A]"
-                        />
+                        <div className="relative">
+                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+                            <Input
+                                required
+                                id="email"
+                                type="email"
+                                placeholder="votre@email.com"
+                                className="pl-10"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
                     </div>
 
                     <div className="space-y-2">
@@ -34,38 +76,52 @@ export default function LoginPage() {
                             <Label htmlFor="password">Mot de passe</Label>
                             <Link
                                 href="/mot-de-passe-oublie"
-                                className="text-xs text-[#4A5D5A] hover:underline hover:text-[#1A3C34]"
+                                className="text-xs text-primary hover:underline"
                             >
                                 Mot de passe oublié ?
                             </Link>
                         </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            className="bg-stone-50 border-stone-200 focus:border-[#4A5D5A] focus:ring-1 focus:ring-[#4A5D5A]"
-                        />
+                        <div className="relative">
+                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+                            <Input
+                                required
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                className="pl-10 pr-10"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+                            >
+                                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="flex items-center space-x-2">
-                        <Checkbox id="remember" />
-                        <label
-                            htmlFor="remember"
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-stone-600"
-                        >
-                            Se souvenir de moi
-                        </label>
-                    </div>
-
-                    <Button className="w-full bg-[#1A3C34] hover:bg-[#0F2822] text-white py-6 text-lg font-playfair tracking-wide">
-                        Se connecter
+                    <Button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full font-bold py-6 text-base"
+                    >
+                        {isLoading ? (
+                            <span className="flex items-center gap-2">
+                                <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                Connexion...
+                            </span>
+                        ) : (
+                            "Se connecter"
+                        )}
                     </Button>
                 </form>
 
-                <div className="mt-8">
-                    <Separator className="my-6 bg-stone-100" />
-                    <div className="text-center text-sm text-stone-600">
+                <div className="mt-6">
+                    <Separator className="my-6" />
+                    <div className="text-center text-sm text-stone-500">
                         Vous n'avez pas de compte ?{" "}
-                        <Link href="/inscription" className="font-bold text-[#1A3C34] hover:underline">
+                        <Link href="/inscription" className="font-bold text-primary hover:underline">
                             Créer un compte
                         </Link>
                     </div>
