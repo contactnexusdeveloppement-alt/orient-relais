@@ -59,7 +59,11 @@ async function handleProxy(request: NextRequest) {
                         // Special handling for redirect location header
                         let finalValue = value as string;
                         if (key.toLowerCase() === 'location') {
-                            finalValue = finalValue.replace(`http://${WP_BACKEND_IP}`, `https://${WP_DOMAIN}`);
+                            // WordPress on OVH thinks its URL is https://orient-relais.com
+                            // But Vercel forces www.orient-relais.com. If we don't rewrite it to www,
+                            // Vercel will 308 redirect back to www, causing an infinite loop.
+                            finalValue = finalValue.replace(/https?:\/\/orient-relais\.com/gi, `https://www.${WP_DOMAIN}`);
+                            finalValue = finalValue.replace(`http://${WP_BACKEND_IP}`, `https://www.${WP_DOMAIN}`);
                         }
                         responseHeaders.set(key, finalValue);
                     }
