@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { AddToCartButton } from "@/components/shop/AddToCartButton";
 import { WooProduct } from "@/lib/woocommerce-types";
 import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
 
 // Helper to determine badge color based on tag name
 function getBadgeColor(tag: string): "green" | "orange" | "stone" | "blue" | "pink" | "default" {
@@ -22,6 +23,7 @@ function getBadgeColor(tag: string): "green" | "orange" | "stone" | "blue" | "pi
 
 export function ProductCard({ product }: { product: WooProduct }) {
     const { isInWishlist, toggleWishlist } = useWishlist();
+    const { isAuthenticated } = useAuth();
     const isFavorite = isInWishlist(String(product.id));
 
     // Safely access image
@@ -75,6 +77,10 @@ export function ProductCard({ product }: { product: WooProduct }) {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        if (!isAuthenticated) {
+                            window.location.href = "/login";
+                            return;
+                        }
                         toggleWishlist(String(product.id));
                     }}
                     className={`absolute top-2 right-2 h-8 w-8 rounded-full transition-all duration-300 z-20 ${isFavorite

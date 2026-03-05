@@ -28,23 +28,23 @@ const nextConfig: NextConfig = {
     },
     {
       source: '/wp-admin/:path*',
-      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
     {
       source: '/wp-login.php',
-      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
     {
       source: '/wp-json/:path*',
-      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
     {
       source: '/wp-content/:path*',
-      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
     {
       source: '/wp-includes/:path*',
-      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
   ],
   rewrites: async () => [

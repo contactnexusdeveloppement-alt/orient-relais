@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Star, Truck, ShieldCheck, Leaf, ShoppingCart, ArrowLeft, Heart, Plus } from "lucide-react";
 import { ProductGallery } from "@/components/shop/ProductGallery";
 import { ProductInfo } from "@/components/shop/ProductInfo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -120,7 +120,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             {/* Content Tabs */}
             <div className="mb-20">
                 <Tabs defaultValue="description" className="w-full">
-                    <TabsList className="w-full justify-start border-b-2 border-stone-100 rounded-none bg-transparent p-0 h-auto gap-8 overflow-x-auto">
+                    <TabsList className="w-full justify-start border-b-2 border-stone-100 rounded-none bg-transparent p-0 h-auto gap-8 overflow-x-auto scrollbar-hide">
                         <TabsTrigger value="description" className="rounded-none border-b-2 border-transparent px-0 py-3 font-serif text-lg text-stone-500 data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none hover:text-stone-800 transition-colors">
                             Description
                         </TabsTrigger>
@@ -257,13 +257,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                         {relatedProducts.map(product => (
                             <ProductCard key={product.id} product={product} />
                         ))}
-                        <Link href="/boutique" className="flex flex-col items-center justify-center bg-gradient-to-br from-stone-900 to-stone-800 rounded-3xl border border-stone-700 text-stone-300 text-sm p-8 text-center hover:border-primary/50 transition-all group">
-                            {/* Gold glow */}
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-10 bg-primary/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                            <div className="h-12 w-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform border border-primary/30">
-                                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                        <Link href="/boutique" className="flex flex-col items-center justify-center bg-stone-50 rounded-3xl border-2 border-dashed border-stone-200 text-stone-500 text-sm p-8 text-center hover:border-primary/50 hover:bg-white transition-all group">
+                            <div className="h-12 w-12 rounded-xl bg-stone-100 flex items-center justify-center text-stone-400 mb-4 group-hover:scale-110 group-hover:bg-primary/10 group-hover:text-primary transition-all border border-stone-200 group-hover:border-primary/30">
+                                <Plus className="h-6 w-6" />
                             </div>
-                            <span className="font-serif font-bold text-white">Voir plus</span>
+                            <span className="font-serif font-bold text-stone-900 group-hover:text-primary transition-colors">Voir plus</span>
                             <span className="text-xs text-stone-400 mt-1">Découvrir la boutique</span>
                         </Link>
                     </div>

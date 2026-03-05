@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Star, ShoppingCart, Heart, Truck, ShieldCheck, Leaf, Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
+import { useAuth } from "@/context/AuthContext";
 import { WooProduct } from "@/lib/woocommerce-types";
 
 interface ProductInfoProps {
@@ -32,6 +34,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
     // Parse rating safely
     const ratingValue = parseFloat(product.average_rating || "0");
 
+    const totalPrice = price * quantity;
+    const { isInWishlist, toggleWishlist } = useWishlist();
+    const { isAuthenticated } = useAuth();
+    const isFavorite = isInWishlist(String(product.id));
+
     const handleAddToCart = () => {
         addItem({
             id: String(product.id),
@@ -40,6 +47,16 @@ export function ProductInfo({ product }: ProductInfoProps) {
             image: product.images[0]?.src || '/images/placeholder.png',
             quantity: quantity,
         });
+    };
+
+    const handleWishlist = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!isAuthenticated) {
+            window.location.href = "/login";
+            return;
+        }
+        toggleWishlist(String(product.id));
     };
 
     return (
@@ -86,15 +103,15 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
             {/* Price */}
             <div className="flex items-baseline gap-3 pt-2">
-                <span className="text-4xl font-bold text-primary">{price.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
+                <span className="text-4xl font-bold text-primary">{totalPrice.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
                 {isOnSale && (
-                    <span className="text-xl text-stone-400 line-through">{regularPrice.toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
+                    <span className="text-xl text-stone-400 line-through">{(regularPrice * quantity).toLocaleString("fr-FR", { style: "currency", currency: "EUR" })}</span>
                 )}
             </div>
 
             {/* Weight */}
             {product.weight && (
-                <p className="text-sm text-stone-500">Poids : {product.weight}</p>
+                <p className="text-sm text-stone-500"><span className="font-medium text-stone-700">Contenance :</span> {product.weight}</p>
             )}
 
             {/* Quantity & Cart */}
@@ -122,8 +139,13 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     <ShoppingCart className="h-5 w-5" />
                     Ajouter au panier
                 </Button>
-                <Button variant="outline" size="icon" className="h-14 w-14 shrink-0 rounded-2xl border-2 hover:border-primary/50 hover:text-primary transition-colors">
-                    <Heart className="h-5 w-5" />
+                <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleWishlist}
+                    className={`h-14 w-14 shrink-0 rounded-2xl border-2 transition-colors ${isFavorite ? "border-red-200 bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-600" : "hover:border-primary/50 hover:text-primary"}`}
+                >
+                    <Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
                 </Button>
             </div>
 
