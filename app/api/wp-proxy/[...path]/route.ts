@@ -25,6 +25,10 @@ async function handleProxy(request: NextRequest) {
     // Force the host header so OVH routes it to the right virtual host
     headers['host'] = WP_DOMAIN;
 
+    // Tell WordPress the connection is secure to avoid redirect loops (ERR_TOO_MANY_REDIRECTS)
+    headers['x-forwarded-proto'] = 'https';
+    headers['x-forwarded-ssl'] = 'on';
+
     // Remove headers that might cause issues with proxying
     delete headers['connection'];
     delete headers['accept-encoding']; // We want raw uncompressed data to stream easily without decoding issues
