@@ -64,10 +64,16 @@ async function handleProxy(request: NextRequest) {
                         // Special handling for redirect location header
                         let finalValue = value as string;
                         if (key.toLowerCase() === 'location') {
-                            // On réécrit dynamiquement TOUT ce qui ressemble au domaine (avec ou sans www) 
-                            // vers la version www officielle pour éviter que Vercel ne refasse une 308.
-                            finalValue = finalValue.replace(/https?:\/\/(www\.)?orient-relais\.com/gi, `https://www.orient-relais.com`);
+                            // On réécrit vers www.orient-relais.com proprement
+                            // On supprime aussi le port :443 et le trailing slash qui peuvent causer des 308 chez Vercel
+                            finalValue = finalValue.replace(/https?:\/\/(www\.)?orient-relais\.com(:443)?/gi, `https://www.orient-relais.com`);
                             finalValue = finalValue.replace(`http://${WP_BACKEND_IP}`, `https://www.orient-relais.com`);
+
+                            // Si l'URL finit par un slash (sauf à la racine), on le retire pour matcher le comportement Vercel
+                            if (finalValue.endsWith('/') && finalValue.length > 30) {
+                                finalValue = finalValue.slice(0, -1);
+                            }
+
                             console.log(`[Proxy] Rewriting Location: ${value} -> ${finalValue}`);
                         }
                         responseHeaders.set(key, finalValue);
