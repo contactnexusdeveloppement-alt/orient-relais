@@ -32,7 +32,8 @@ async function handleProxy(request: NextRequest) {
     // Remove headers that might cause issues with proxying
     delete headers['connection'];
     delete headers['accept-encoding']; // We want raw uncompressed data to stream easily without decoding issues
-    delete headers['x-forwarded-host'];
+    // Set X-Forwarded-Host so WordPress generates correct internal URLs (solves WP Admin CORS)
+    headers['x-forwarded-host'] = WP_DOMAIN;
 
     // In dev, next.js adds some headers, remove them just in case
     delete headers['x-invoke-path'];
