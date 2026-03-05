@@ -2,12 +2,19 @@ import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import { WooProduct, WooCategory } from "@/lib/woocommerce-types";
 import { unstable_cache } from "next/cache";
 
+// Ensure we always use the www version to avoid Vercel 308 redirects that break the API client
+let wooUrl = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://www.orient-relais.com";
+if (wooUrl === "https://orient-relais.com") {
+    wooUrl = "https://www.orient-relais.com";
+}
+
 // Initialize the WooCommerce API client (server-side only)
 const client = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://orient-relais.com",
+    url: wooUrl,
     consumerKey: process.env.WC_CONSUMER_KEY || "",
     consumerSecret: process.env.WC_CONSUMER_SECRET || "",
     version: "wc/v3",
+    queryStringAuth: true // Force Basic Authentication via query string to bypass Apache header stripping
 });
 
 // ─── In-memory cache ──────────────────────────────────────────────

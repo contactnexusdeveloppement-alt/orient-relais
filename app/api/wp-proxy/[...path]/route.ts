@@ -3,7 +3,7 @@ import * as https from 'https';
 
 // We intercept /wp-admin, /wp-login.php, /wp-json, /wp-content, /wp-includes
 const WP_BACKEND_IP = '51.91.236.255'; // The OVH Server IP
-const WP_DOMAIN = 'orient-relais.com';
+const WP_DOMAIN = 'www.orient-relais.com';
 
 export async function GET(request: NextRequest) { return handleProxy(request); }
 export async function POST(request: NextRequest) { return handleProxy(request); }
