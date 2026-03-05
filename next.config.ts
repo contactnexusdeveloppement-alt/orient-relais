@@ -22,11 +22,24 @@ const nextConfig: NextConfig = {
       ],
     },
     {
-      source: '/wp-:path*',
-      headers: [
-        // Crucial for OVH shared hosting! It uses SNI to know which folder to serve.
-        { key: 'Host', value: 'orient-relais.com' },
-      ],
+      source: '/wp-admin/:path*',
+      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+    },
+    {
+      source: '/wp-login.php',
+      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+    },
+    {
+      source: '/wp-json/:path*',
+      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+    },
+    {
+      source: '/wp-content/:path*',
+      headers: [{ key: 'Host', value: 'orient-relais.com' }],
+    },
+    {
+      source: '/wp-includes/:path*',
+      headers: [{ key: 'Host', value: 'orient-relais.com' }],
     },
   ],
   rewrites: async () => [
