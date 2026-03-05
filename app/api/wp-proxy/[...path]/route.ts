@@ -41,15 +41,20 @@ async function handleProxy(request: NextRequest) {
     return new Promise<Response>((resolve) => {
         const options = {
             hostname: WP_BACKEND_IP,
-            port: 443,
+            port: 443, // Utiliser HTTPS vers OVH pour éviter sa redirection 301 interne
             path: pathAndQuery,
             method: request.method,
             headers: headers,
-            servername: WP_DOMAIN,
-            rejectUnauthorized: false
+            servername: WP_DOMAIN, // Vital pour le SNI sur hébergement mutualisé
+            rejectUnauthorized: false // L'IP ne matchera pas le sujet du cert (orient-relais.com)
         };
 
         const proxyReq = https.request(options, (proxyRes) => {
+            console.log(`[Proxy] Response from OVH: ${proxyRes.statusCode} for ${pathAndQuery}`);
+            if (proxyRes.statusCode && proxyRes.statusCode >= 300 && proxyRes.statusCode < 400) {
+                console.log(`[Proxy] Redirect Location: ${proxyRes.headers.location}`);
+            }
+
             const responseHeaders = new Headers();
             for (const [key, value] of Object.entries(proxyRes.headers)) {
                 if (value) {
