@@ -234,7 +234,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     )}
 
                     <TabsContent value="avis" className="pt-8">
-                        <ProductReviews rating={parseFloat(product.average_rating || "0")} count={product.rating_count} />
+                        <ProductReviews productId={product.id} rating={parseFloat(product.average_rating || "0")} count={product.rating_count} />
                     </TabsContent>
                 </Tabs>
             </div>
