@@ -39,13 +39,27 @@ export async function POST(request: NextRequest) {
                 enabled: true,
             },
             metadata: {
+                // Customer Context
                 customer_email: customerInfo?.email || "",
                 customer_name: `${customerInfo?.firstName || ""} ${customerInfo?.lastName || ""}`.trim(),
                 customer_phone: customerInfo?.phone || "",
+
+                // Shipping Context
                 shipping_address: customerInfo?.address || "",
                 shipping_city: customerInfo?.city || "",
                 shipping_zip: customerInfo?.zip || "",
-                items_count: items.length.toString(),
+                shipping_method: body.shippingMethod || "colissimo",
+                shipping_cost: body.shippingCost?.toString() || "490",
+
+                // Mondial Relay Data (if selected)
+                relay_id: body.selectedRelay?.id || "",
+                relay_name: body.selectedRelay?.name || "",
+                relay_address: body.selectedRelay?.address || "",
+                relay_city: body.selectedRelay?.city || "",
+                relay_zip: body.selectedRelay?.postcode || "",
+
+                // Cart Context (JSON stringified to fit in metadata, limited to ~500 chars usually)
+                items_json: JSON.stringify(items.map((i: any) => ({ id: i.id, q: i.quantity }))),
             },
             receipt_email: customerInfo?.email || undefined,
             description: `Commande Orient Relais — ${items.length} article(s)`,
