@@ -21,6 +21,13 @@ const nextConfig: NextConfig = {
         { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
       ],
     },
+    {
+      source: '/wp-:path*',
+      headers: [
+        // Crucial for OVH shared hosting! It uses SNI to know which folder to serve.
+        { key: 'Host', value: 'orient-relais.com' },
+      ],
+    },
   ],
   rewrites: async () => [
     // Proxy WordPress admin panel to OVH server
