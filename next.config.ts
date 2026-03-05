@@ -43,31 +43,11 @@ const nextConfig: NextConfig = {
     },
   ],
   rewrites: async () => [
-    // Proxy WordPress admin panel to OVH server
-    {
-      source: '/wp-admin/:path*',
-      destination: `${WP_BACKEND}/wp-admin/:path*`,
-    },
-    // Proxy WordPress login
-    {
-      source: '/wp-login.php',
-      destination: `${WP_BACKEND}/wp-login.php`,
-    },
-    // Proxy WordPress REST API (used by WooCommerce)
-    {
-      source: '/wp-json/:path*',
-      destination: `${WP_BACKEND}/wp-json/:path*`,
-    },
-    // Proxy WordPress content (uploaded images, etc.)
-    {
-      source: '/wp-content/:path*',
-      destination: `${WP_BACKEND}/wp-content/:path*`,
-    },
-    // Proxy WordPress includes (scripts, styles)
-    {
-      source: '/wp-includes/:path*',
-      destination: `${WP_BACKEND}/wp-includes/:path*`,
-    },
+    { source: '/wp-admin/:path*', destination: '/api/wp-proxy/wp-admin/:path*' },
+    { source: '/wp-login.php', destination: '/api/wp-proxy/wp-login.php' },
+    { source: '/wp-json/:path*', destination: '/api/wp-proxy/wp-json/:path*' },
+    { source: '/wp-content/:path*', destination: '/api/wp-proxy/wp-content/:path*' },
+    { source: '/wp-includes/:path*', destination: '/api/wp-proxy/wp-includes/:path*' },
   ],
 };
 
