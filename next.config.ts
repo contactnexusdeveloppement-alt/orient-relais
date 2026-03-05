@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const WP_BACKEND = process.env.WP_BACKEND_URL || "https://orient-relais.com";
 
 const nextConfig: NextConfig = {
+  trailingSlash: true,
   images: {
     formats: ['image/webp'],
     remotePatterns: [

@@ -64,16 +64,12 @@ async function handleProxy(request: NextRequest) {
                         // Special handling for redirect location header
                         let finalValue = value as string;
                         if (key.toLowerCase() === 'location') {
-                            // On réécrit vers www.orient-relais.com proprement
-                            // On supprime aussi le port :443 et le trailing slash qui peuvent causer des 308 chez Vercel
+                            // On réécrit systématiquement vers la version canonique www.orient-relais.com
+                            // On retire le port :443 s'il est présent (généré par OVH parfois)
                             finalValue = finalValue.replace(/https?:\/\/(www\.)?orient-relais\.com(:443)?/gi, `https://www.orient-relais.com`);
                             finalValue = finalValue.replace(`http://${WP_BACKEND_IP}`, `https://www.orient-relais.com`);
 
-                            // Si l'URL finit par un slash (sauf à la racine), on le retire pour matcher le comportement Vercel
-                            if (finalValue.endsWith('/') && finalValue.length > 30) {
-                                finalValue = finalValue.slice(0, -1);
-                            }
-
+                            // On ne touche plus au slash final car trailingSlash: true est activé dans next.config.ts
                             console.log(`[Proxy] Rewriting Location: ${value} -> ${finalValue}`);
                         }
                         responseHeaders.set(key, finalValue);
