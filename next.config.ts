@@ -4,6 +4,10 @@ const WP_BACKEND = process.env.WP_BACKEND_URL || "https://orient-relais.com";
 
 const nextConfig: NextConfig = {
   trailingSlash: true,
+  env: {
+    NEXT_PUBLIC_WOOCOMMERCE_URL: "https://www.orient-relais.com",
+    NEXT_PUBLIC_WORDPRESS_URL: "https://www.orient-relais.com",
+  },
   images: {
     formats: ['image/webp'],
     remotePatterns: [
