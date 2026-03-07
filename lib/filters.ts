@@ -66,6 +66,26 @@ export function getPriceRange(products: WooProduct[]): { min: number; max: numbe
     };
 }
 
+// Extracts unique categories from products
+export function extractCategories(products: WooProduct[]): FilterOption[] {
+    const counts = new Map<string, { label: string; count: number }>();
+
+    products.forEach(p => {
+        p.categories.forEach(cat => {
+            const existing = counts.get(cat.slug);
+            if (existing) {
+                existing.count++;
+            } else {
+                counts.set(cat.slug, { label: cat.name, count: 1 });
+            }
+        });
+    });
+
+    return Array.from(counts.entries())
+        .map(([value, { label, count }]) => ({ value, label, count }))
+        .sort((a, b) => b.count - a.count);
+}
+
 // Category-specific filter configurations
 export function getFiltersForCategory(categorySlug: string, products: WooProduct[]): FilterConfig[] {
     const priceRange = getPriceRange(products);
@@ -93,6 +113,8 @@ export function getFiltersForCategory(categorySlug: string, products: WooProduct
     const certTags = data.certifications || ["Bio", "Vegan", "Ecocert", "Naturel"];
     const certifications = extractTags(products, certTags);
 
+    const categories = extractCategories(products);
+
     const filters: FilterConfig[] = [
         {
             key: "price",
@@ -102,6 +124,15 @@ export function getFiltersForCategory(categorySlug: string, products: WooProduct
             max: priceRange.max
         }
     ];
+
+    if (categorySlug === "all" && categories.length > 0) {
+        filters.push({
+            key: "category",
+            label: "Catégories",
+            type: "checkbox",
+            options: categories
+        });
+    }
 
     if (brands.length > 0) {
         filters.push({
@@ -182,6 +213,12 @@ export function filterProducts(products: WooProduct[], filters: ActiveFilters): 
                 const required = value as string[];
                 const productTags = product.tags.map(t => t.name);
                 if (!required.some(r => productTags.includes(r))) return false;
+            }
+
+            if (key === "category" && Array.isArray(value)) {
+                const required = value as string[];
+                const productCats = product.categories.map(c => c.slug);
+                if (!required.some(r => productCats.includes(r))) return false;
             }
         }
         return true;

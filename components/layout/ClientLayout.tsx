@@ -7,14 +7,21 @@ import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { WooCategory } from "@/lib/woocommerce-types";
 
-export function ClientLayout({ children }: { children: React.ReactNode }) {
+export function ClientLayout({
+    children,
+    categories
+}: {
+    children: React.ReactNode;
+    categories: WooCategory[];
+}) {
     return (
         <AuthProvider>
             <CartProvider>
                 <WishlistProvider>
                     <ScrollToTop />
-                    <HeaderCentered />
+                    <HeaderCentered categories={categories} />
                     <main className="flex-1">
                         {children}
                     </main>

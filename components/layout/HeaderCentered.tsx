@@ -11,8 +11,13 @@ import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import { WooCategory } from "@/lib/woocommerce-types";
 
-export function HeaderCentered() {
+interface HeaderCenteredProps {
+    categories: WooCategory[];
+}
+
+export function HeaderCentered({ categories }: HeaderCenteredProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
@@ -26,15 +31,26 @@ export function HeaderCentered() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const productCategories = [
-        { href: "/categorie/savons-dalep", label: "SAVONS D'ALEP", desc: "L'authentique soin millénaire" },
-        { href: "/categorie/huiles-essentielles", label: "HUILES ESSENTIELLES", desc: "Pureté Terra Etica" },
-        { href: "/categorie/complements", label: "COMPLÉMENTS", desc: "Bien-être au naturel" },
-        { href: "/categorie/soins-et-beaute", label: "SOINS ET BEAUTÉ", desc: "Cosmétique naturelle" },
-        { href: "/categorie/coffrets", label: "COFFRETS", desc: "Idées cadeaux" },
-        { href: "/categorie/epicerie-orientale", label: "ÉPICERIE ORIENTALE", desc: "Saveurs d'Orient" },
-        { href: "/categorie/miel", label: "MIEL", desc: "Miels BIO de qualité" },
-    ];
+    // Helper to get description based on slug for consistency with original design
+    const getCategoryDesc = (slug: string, fallbackName: string) => {
+        const descriptions: Record<string, string> = {
+            "savons-dalep": "L'authentique soin millénaire",
+            "huiles-essentielles": "Pureté Terra Etica",
+            "complements": "Bien-être au naturel",
+            "soins-et-beaute": "Cosmétique naturelle",
+            "coffrets": "Idées cadeaux",
+            "epicerie-orientale": "Saveurs d'Orient",
+            "miel": "Miels BIO de qualité",
+            "accessoires": "Zéro déchet & Tradition"
+        };
+        return descriptions[slug] || `Découvrez nos ${fallbackName}`;
+    };
+
+    const productCategories = categories.map(cat => ({
+        href: `/categorie/${cat.slug}`,
+        label: cat.name.toUpperCase(),
+        desc: getCategoryDesc(cat.slug, cat.name)
+    }));
 
     const navLinks = [
         { href: "/a-propos", label: "NOTRE HISTOIRE" },

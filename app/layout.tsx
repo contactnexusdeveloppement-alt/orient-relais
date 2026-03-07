@@ -33,11 +33,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+import { fetchWooCategories } from "@/lib/woocommerce";
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
+  const categories = await fetchWooCategories();
+
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`${playfair.variable} ${manrope.variable} antialiased flex flex-col min-h-screen font-sans`}>
-        <ClientLayout>
+        <ClientLayout categories={categories}>
           {children}
         </ClientLayout>
       </body>
