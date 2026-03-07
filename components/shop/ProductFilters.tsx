@@ -39,13 +39,17 @@ export function ProductFilters({ category, products, onFilterChange }: ProductFi
 
     // Apply filters when they change
     useEffect(() => {
-        const filtersWithPrice = {
-            ...activeFilters,
-            price: priceRange
-        };
-        const filtered = filterProducts(products, filtersWithPrice);
+        // Only apply price filter if it was actually touched
+        const isPriceModified = priceConfig && (priceRange[0] > (priceConfig.min || 0) || priceRange[1] < (priceConfig.max || 100));
+
+        const filtersToApply = { ...activeFilters };
+        if (isPriceModified) {
+            filtersToApply.price = priceRange;
+        }
+
+        const filtered = filterProducts(products, filtersToApply);
         onFilterChange(filtered);
-    }, [activeFilters, priceRange, products, onFilterChange]);
+    }, [activeFilters, priceRange, priceConfig, products, onFilterChange]);
 
     // Toggle a checkbox filter
     const toggleFilter = useCallback((key: string, value: string) => {

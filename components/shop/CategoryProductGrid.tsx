@@ -17,9 +17,17 @@ interface CategoryProductGridProps {
 export function CategoryProductGrid({ category, products, productCount }: CategoryProductGridProps) {
     const [filteredProducts, setFilteredProducts] = useState<WooProduct[]>(products);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
         setFilteredProducts(products);
+        if (products.length > 0) {
+            // Small delay to let filters calculate their min/max before applying
+            const timer = setTimeout(() => setIsInitialized(true), 50);
+            return () => clearTimeout(timer);
+        } else {
+            setIsInitialized(true);
+        }
     }, [products]);
 
     const handleFilterChange = useCallback((filtered: WooProduct[]) => {
@@ -92,7 +100,14 @@ export function CategoryProductGrid({ category, products, productCount }: Catego
                     </p>
                 </div>
 
-                {filteredProducts.length > 0 ? (
+                {!isInitialized ? (
+                    <div className="flex justify-center py-20">
+                        <div className="animate-pulse flex flex-col items-center">
+                            <div className="h-12 w-12 bg-stone-100 rounded-full mb-4"></div>
+                            <div className="h-4 w-32 bg-stone-100 rounded"></div>
+                        </div>
+                    </div>
+                ) : filteredProducts.length > 0 ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                         {filteredProducts.map((product) => (
                             <ProductCard key={product.id} product={product} />
