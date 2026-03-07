@@ -3,10 +3,11 @@ import wooClient from "@/lib/woocommerce";
 
 export async function GET(
     request: NextRequest,
-    context: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const productId = context.params.id;
+        const params = await context.params;
+        const productId = params.id;
 
         if (!productId) {
             return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
@@ -26,10 +27,11 @@ export async function GET(
 
 export async function POST(
     request: NextRequest,
-    context: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const productId = context.params.id;
+        const params = await context.params;
+        const productId = params.id;
         const body = await request.json();
 
         const { reviewer, reviewer_email, review, rating } = body;
