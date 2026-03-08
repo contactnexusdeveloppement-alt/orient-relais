@@ -31,6 +31,15 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     siteName: "Orient Relais",
   },
+  icons: {
+    icon: [
+      { url: "/icon.png" },
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon.png" },
+    ],
+  },
 };
 
 import { fetchWooCategories } from "@/lib/woocommerce";
