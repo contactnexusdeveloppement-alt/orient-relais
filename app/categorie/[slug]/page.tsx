@@ -25,6 +25,8 @@ const FALLBACK_IMAGES: Record<string, string> = {
     coffrets: "/images/categories/coffrets-cadeaux-v2.webp",
     "epicerie-orientale": "/images/categories/soins-cosmetiques-v3.webp",
     miel: "/images/categories/complements-alimentaires-v2.webp",
+    accessoires: "/images/categories/coffrets-cadeaux-v2.webp",
+    "idees-cadeaux": "/images/categories/coffrets-cadeaux-v2.webp",
 };
 
 // ─── Metadata ─────────────────────────────────────────────────

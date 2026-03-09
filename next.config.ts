@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const WP_BACKEND = process.env.WP_BACKEND_URL || "https://orient-relais.com";
 
 const nextConfig: NextConfig = {
-  trailingSlash: true,
+  trailingSlash: false,
   env: {
     NEXT_PUBLIC_WOOCOMMERCE_URL: "https://www.orient-relais.com",
     NEXT_PUBLIC_WORDPRESS_URL: "https://www.orient-relais.com",
@@ -25,26 +25,6 @@ const nextConfig: NextConfig = {
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'Referrer-Policy', value: 'origin-when-cross-origin' },
       ],
-    },
-    {
-      source: '/wp-admin/:path*',
-      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
-    },
-    {
-      source: '/wp-login.php',
-      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
-    },
-    {
-      source: '/wp-json/:path*',
-      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
-    },
-    {
-      source: '/wp-content/:path*',
-      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
-    },
-    {
-      source: '/wp-includes/:path*',
-      headers: [{ key: 'Host', value: 'www.orient-relais.com' }],
     },
   ],
   rewrites: async () => [

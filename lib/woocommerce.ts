@@ -76,20 +76,20 @@ function ensureSlug(product: WooProduct): WooProduct {
  * Fetch all products from WooCommerce.
  * Cached with Next.js ISR (revalidates every 60 seconds).
  */
-export const fetchWooProducts = unstable_cache(
-    async (page = 1, perPage = 100): Promise<WooProduct[]> => {
-        const cacheKey = `all-products-${page}-${perPage}`;
+export const fetchWooProducts = (page = 1, perPage = 100) => unstable_cache(
+    async (p: number, pp: number): Promise<WooProduct[]> => {
+        const cacheKey = `all-products-${p}-${pp}`;
         const cached = getCached<WooProduct[]>(cacheKey);
         if (cached) return cached;
 
         try {
             const allProducts: WooProduct[] = [];
-            let currentPage = page;
+            let currentPage = p;
             let hasMore = true;
 
             while (hasMore) {
                 const response = await client.get("products", {
-                    per_page: Math.min(perPage, 100),
+                    per_page: Math.min(pp, 100),
                     page: currentPage,
                     status: "publish",
                 });
@@ -111,18 +111,18 @@ export const fetchWooProducts = unstable_cache(
             return [];
         }
     },
-    ["woo-all-products"],
+    [`woo-all-products-${page}-${perPage}`],
     { revalidate: 60 } // Refresh every 60s
-);
+)(page, perPage);
 
 /**
  * Fetch a single product by slug (cached 60s)
  */
-export const fetchWooProductBySlug = unstable_cache(
-    async (slug: string): Promise<WooProduct | null> => {
+export const fetchWooProductBySlug = (slug: string) => unstable_cache(
+    async (s: string): Promise<WooProduct | null> => {
         try {
             const response = await client.get("products", {
-                slug: slug,
+                slug: s,
                 status: "publish",
             });
 
@@ -132,29 +132,29 @@ export const fetchWooProductBySlug = unstable_cache(
 
             // Fallback: if slug search fails, try fetching all and matching
             const allProducts = await fetchWooProducts(1, 100);
-            const match = allProducts.find(p => p.slug === slug);
+            const match = allProducts.find(p => p.slug === s);
             return match || null;
         } catch (error) {
-            console.error(`Error fetching product with slug "${slug}":`, error);
+            console.error(`Error fetching product with slug "${s}":`, error);
             return null;
         }
     },
-    ["woo-product-by-slug"],
+    [`woo-product-by-slug-${slug}`],
     { revalidate: 60 }
-);
+)(slug);
 
 /**
  * Fetch products by category slug (cached 60s)
  */
-export const fetchWooProductsByCategory = unstable_cache(
-    async (categorySlug: string): Promise<WooProduct[]> => {
-        const cacheKey = `category-${categorySlug}`;
+export const fetchWooProductsByCategory = (categorySlug: string) => unstable_cache(
+    async (slug: string): Promise<WooProduct[]> => {
+        const cacheKey = `category-${slug}`;
         const cached = getCached<WooProduct[]>(cacheKey);
         if (cached) return cached;
 
         try {
             const removeAccents = (str: string) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const normalizedSlug = removeAccents(categorySlug.toLowerCase());
+            const normalizedSlug = removeAccents(slug.toLowerCase());
 
             // Handle aliases (old slugs → new WooCommerce slugs)
             let searchSlug = normalizedSlug;
@@ -189,13 +189,13 @@ export const fetchWooProductsByCategory = unstable_cache(
             setCache(cacheKey, filtered);
             return filtered;
         } catch (error) {
-            console.error(`Error fetching products for category "${categorySlug}":`, error);
+            console.error(`Error fetching products for category "${slug}":`, error);
             return [];
         }
     },
-    ["woo-products-by-category"],
+    [`woo-products-by-category-${categorySlug}`],
     { revalidate: 60 }
-);
+)(categorySlug);
 
 /**
  * Get featured products (cached 60s)
@@ -294,11 +294,11 @@ export const fetchWooCategories = unstable_cache(
 /**
  * Fetch a single WooCommerce category by slug (cached 60s)
  */
-export const fetchWooCategoryBySlug = unstable_cache(
-    async (slug: string): Promise<WooCategory | null> => {
+export const fetchWooCategoryBySlug = (slug: string) => unstable_cache(
+    async (s: string): Promise<WooCategory | null> => {
         try {
             const response = await client.get("products/categories", {
-                slug,
+                slug: s,
                 per_page: 1,
             });
             if (response.data.length > 0) {
@@ -306,12 +306,12 @@ export const fetchWooCategoryBySlug = unstable_cache(
             }
             return null;
         } catch (error) {
-            console.error(`Error fetching category "${slug}":`, error);
+            console.error(`Error fetching category "${s}":`, error);
             return null;
         }
     },
-    ["woo-category-by-slug"],
+    [`woo-category-by-slug-${slug}`],
     { revalidate: 60 }
-);
+)(slug);
 
 export default client;
