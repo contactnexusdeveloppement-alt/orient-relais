@@ -279,16 +279,18 @@ export const fetchWooCategories = unstable_cache(
                 per_page: 100,
                 hide_empty: false,
             });
-            return (response.data as WooCategory[]).filter(
+            const cats = (response.data as WooCategory[]).filter(
                 (cat) => cat.slug !== "non-classe" && cat.slug !== "uncategorized"
             );
+            // console.log(`Woo API: Fetched ${cats.length} categories`);
+            return cats;
         } catch (error) {
             console.error("Error fetching WooCommerce categories:", error);
             return [];
         }
     },
-    ["woo-categories"],
-    { revalidate: 60 }
+    ["woo-categories-v2"], // Bump version to force refresh
+    { revalidate: 60 } // Refresh every 60s
 );
 
 /**

@@ -43,9 +43,17 @@ export const metadata: Metadata = {
 };
 
 import { fetchWooCategories } from "@/lib/woocommerce";
+import { WooCategory } from "@/lib/woocommerce-types";
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
-  const categories = await fetchWooCategories();
+  // Fetch categories for the header navigation
+  let categories: WooCategory[] = [];
+  try {
+    categories = await fetchWooCategories();
+    // console.log(`Layout fetched ${categories.length} categories`);
+  } catch (error) {
+    console.error("Failed to fetch categories in RootLayout:", error);
+  }
 
   return (
     <html lang="fr" suppressHydrationWarning>

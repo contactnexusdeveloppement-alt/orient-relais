@@ -37,7 +37,12 @@ export async function POST(request: NextRequest) {
             currency: "eur",
             automatic_payment_methods: {
                 enabled: true,
+                // Fallback for some accounts where purely automatic doesn't show up immediately
+                allow_redirects: "always",
             },
+            // Explicitly allow card if automatic is having issues in Live
+            // Note: If you enable specific methods here, they must be enabled in the dashboard
+            // payment_method_types: ['card'], 
             metadata: {
                 // Customer Context
                 customer_email: customerInfo?.email || "",

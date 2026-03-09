@@ -10,7 +10,7 @@ const client = new WooCommerceRestApi({
 });
 
 const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "orient-relais-jwt-secret-key-change-in-production"
+    process.env.JWT_SECRET || "orient-relais-xK9mP2vL7nQ4wR8tB5cY6fH3jA0eU1dS"
 );
 
 export async function POST(request: NextRequest) {
