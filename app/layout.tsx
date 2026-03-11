@@ -71,6 +71,46 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="fr" suppressHydrationWarning>
       <body className={`${playfair.variable} ${manrope.variable} antialiased flex flex-col min-h-screen font-sans`}>
+        {/* Organization + WebSite JSON-LD for Google */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "Orient Relais",
+                url: "https://orient-relais.com",
+                logo: "https://orient-relais.com/images/logo-new.png",
+                description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles, compléments alimentaires naturels.",
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "48 avenue de Touraine",
+                  addressLocality: "MAUREPAS",
+                  postalCode: "78310",
+                  addressCountry: "FR",
+                },
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+33699556977",
+                  contactType: "customer service",
+                  availableLanguage: "French",
+                },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "Orient Relais",
+                url: "https://orient-relais.com",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://orient-relais.com/boutique?search={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
+              },
+            ]),
+          }}
+        />
         <ClientLayout categories={categories}>
           {children}
         </ClientLayout>

@@ -4,13 +4,17 @@ import { ARTICLES } from "@/data/articles";
 
 const BASE_URL = "https://orient-relais.com";
 
-// Manual categories list since we don't have a dedicated endpoint yet
+// Real category slugs matching the WooCommerce store
 const CATEGORIES = [
-    { slug: "savons" },
+    { slug: "savons-dalep" },
     { slug: "huiles-essentielles" },
-    { slug: "complements-alimentaires" },
+    { slug: "complements" },
+    { slug: "cosmetiques" },
+    { slug: "soins-et-beaute" },
     { slug: "coffrets" },
-    { slug: "soins" },
+    { slug: "epicerie-orientale" },
+    { slug: "miel" },
+    { slug: "idees-cadeaux" },
     { slug: "accessoires" },
 ];
 

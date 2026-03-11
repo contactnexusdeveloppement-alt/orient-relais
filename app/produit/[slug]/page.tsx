@@ -67,12 +67,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     const characteristicsMeta = product.meta_data.find(m => m.key === "Characteristics" || m.key === "Caractéristiques");
     const detailsMeta = product.meta_data.find(m => m.key === "Details");
 
-    const jsonLd = {
+    // Build JSON-LD structured data for Google (Product + Merchant Listing)
+    const jsonLd: Record<string, unknown> = {
         "@context": "https://schema.org",
         "@type": "Product",
         name: product.name,
         image: product.images.map(i => i.src),
         description: stripHtml(product.description).slice(0, 200),
+        sku: product.sku || `OR-${product.id}`,
         brand: {
             "@type": "Brand",
             name: "Orient Relais",
@@ -82,14 +84,63 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             url: `https://orient-relais.com/produit/${product.slug}`,
             priceCurrency: "EUR",
             price: product.price,
-            availability: product.stock_status === 'instock' ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-        },
-        aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: product.average_rating || "5",
-            reviewCount: product.rating_count || 1,
+            availability: product.stock_status === 'instock'
+                ? "https://schema.org/InStock"
+                : "https://schema.org/OutOfStock",
+            itemCondition: "https://schema.org/NewCondition",
+            seller: {
+                "@type": "Organization",
+                name: "Orient Relais",
+            },
+            shippingDetails: {
+                "@type": "OfferShippingDetails",
+                shippingRate: {
+                    "@type": "MonetaryAmount",
+                    value: "3.90",
+                    currency: "EUR",
+                },
+                shippingDestination: {
+                    "@type": "DefinedRegion",
+                    addressCountry: "FR",
+                },
+                deliveryTime: {
+                    "@type": "ShippingDeliveryTime",
+                    handlingTime: {
+                        "@type": "QuantitativeValue",
+                        minValue: 1,
+                        maxValue: 2,
+                        unitCode: "DAY",
+                    },
+                    transitTime: {
+                        "@type": "QuantitativeValue",
+                        minValue: 1,
+                        maxValue: 5,
+                        unitCode: "DAY",
+                    },
+                },
+            },
+            hasMerchantReturnPolicy: {
+                "@type": "MerchantReturnPolicy",
+                applicableCountry: "FR",
+                returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+                merchantReturnDays: 14,
+                returnMethod: "https://schema.org/ReturnByMail",
+                returnFees: "https://schema.org/ReturnFeesCustomerResponsibility",
+            },
         },
     };
+
+    // Only add aggregateRating if the product has REAL reviews
+    // (Google rejects fake/default ratings)
+    if (product.rating_count && product.rating_count > 0 && product.average_rating && product.average_rating !== "0") {
+        jsonLd.aggregateRating = {
+            "@type": "AggregateRating",
+            ratingValue: product.average_rating,
+            bestRating: "5",
+            worstRating: "1",
+            reviewCount: product.rating_count,
+        };
+    }
 
     return (
         <div className="container mx-auto px-4 py-8">
