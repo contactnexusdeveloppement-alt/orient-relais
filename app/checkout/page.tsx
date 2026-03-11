@@ -549,6 +549,65 @@ export default function CheckoutPage() {
                                 </div>
                             </div>
 
+                            {/* Dynamic info: shows progressively as user fills in checkout */}
+                            {step >= 2 && (formData.firstName || formData.lastName || formData.email) && (
+                                <>
+                                    <Separator className="my-4" />
+                                    <div className="space-y-2 text-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                        <p className="font-semibold text-stone-800 flex items-center gap-1.5">
+                                            <User className="h-3.5 w-3.5 text-primary" />
+                                            Client
+                                        </p>
+                                        {(formData.firstName || formData.lastName) && (
+                                            <p className="text-stone-600 pl-5">{formData.firstName} {formData.lastName}</p>
+                                        )}
+                                        {formData.email && (
+                                            <p className="text-stone-500 text-xs pl-5">{formData.email}</p>
+                                        )}
+                                        {formData.phone && (
+                                            <p className="text-stone-500 text-xs pl-5">{formData.phone}</p>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+
+                            {step >= 2 && formData.address && (
+                                <>
+                                    <Separator className="my-3" />
+                                    <div className="space-y-1 text-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                        <p className="font-semibold text-stone-800 flex items-center gap-1.5">
+                                            <MapPin className="h-3.5 w-3.5 text-primary" />
+                                            Adresse de livraison
+                                        </p>
+                                        <p className="text-stone-600 pl-5">{formData.address}</p>
+                                        <p className="text-stone-600 pl-5">{formData.zip} {formData.city}</p>
+                                    </div>
+                                </>
+                            )}
+
+                            {step >= 3 && (
+                                <>
+                                    <Separator className="my-3" />
+                                    <div className="space-y-1 text-sm animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                        <p className="font-semibold text-stone-800 flex items-center gap-1.5">
+                                            <Truck className="h-3.5 w-3.5 text-primary" />
+                                            Mode de livraison
+                                        </p>
+                                        <p className="text-stone-600 pl-5">
+                                            {shippingMethod === "colissimo"
+                                                ? "📦 Colissimo — Livraison 24/48h"
+                                                : "📦 Mondial Relay — 3 à 5 jours ouvrés"}
+                                        </p>
+                                        {shippingMethod === "mondialrelay" && selectedRelay && (
+                                            <div className="pl-5 mt-1 text-xs text-stone-500 bg-stone-50 p-2 rounded-md border border-stone-100">
+                                                <p className="font-medium text-stone-700">{selectedRelay.name}</p>
+                                                <p>{selectedRelay.address}, {selectedRelay.postcode} {selectedRelay.city}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+
                             <div className="mt-6 bg-gradient-to-r from-primary/5 to-amber-50 p-3 rounded-xl text-xs text-stone-600 flex gap-2 border border-primary/10">
                                 <Lock className="h-4 w-4 flex-shrink-0 text-primary" />
                                 <p>Transactions sécurisées et cryptées SSL. Vos données sont protégées.</p>
