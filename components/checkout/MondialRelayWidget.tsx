@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 export interface RelayPoint {
     id: string;
@@ -16,83 +16,141 @@ interface MondialRelayWidgetProps {
     onSelect: (point: RelayPoint) => void;
 }
 
+declare global {
+    interface Window {
+        jQuery: unknown;
+        $: unknown;
+    }
+}
+
 export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetProps) {
+    const containerRef = useRef<HTMLDivElement>(null);
     const onSelectRef = useRef(onSelect);
     onSelectRef.current = onSelect;
-    const [selectedPoint, setSelectedPoint] = useState<RelayPoint | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [retryCount, setRetryCount] = useState(0);
+    const [selectedPoint, setSelectedPoint] = useState<RelayPoint | null>(null);
 
+    // Brand code from environment variables
     const brandCode = process.env.NEXT_PUBLIC_MR_BRAND_CODE || "CC23L0MD";
-    const cp = postcode || "75000";
-
-    // Build the official Mondial Relay iframe URL
-    // Using the v4 widget served as a standalone page
-    const iframeUrl = `https://widget.mondialrelay.com/parcelshop-picker/v4_0/fr/fr/compact.html` +
-        `?Brand=${brandCode}` +
-        `&Country=FR` +
-        `&PostCode=${cp}` +
-        `&ColLivMod=24R` +
-        `&NbResults=7` +
-        `&ShowResultsOnMap=1` +
-        `&Target=_MR_Selected`;
 
     useEffect(() => {
-        // Listen for messages from the Mondial Relay iframe
-        const handleMessage = (event: MessageEvent) => {
-            // Accept messages from Mondial Relay widget domain
-            if (!event.origin.includes("mondialrelay.com")) return;
+        let cancelled = false;
+
+        const loadWidget = async () => {
+            setIsLoading(true);
+            setError(null);
 
             try {
-                const data = event.data;
-                // The widget sends relay point data via postMessage
-                if (data && (data.ID || data.MR_Selected)) {
-                    const point = data.ID ? data : data.MR_Selected;
-                    if (point && point.ID) {
+                // Load jQuery if not present
+                if (!window.jQuery) {
+                    await loadScript("https://code.jquery.com/jquery-3.7.1.min.js");
+                }
+
+                // Load Leaflet CSS + JS for the map
+                await loadStylesheet("https://unpkg.com/leaflet@1.9.4/dist/leaflet.css");
+                if (!(window as any).L) {
+                    await loadScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js");
+                }
+
+                // Load Mondial Relay widget - official CDN URL (no version needed, always latest)
+                await loadScript(
+                    "https://widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"
+                );
+
+                if (cancelled || !containerRef.current) return;
+
+                // Clear previous widget content
+                containerRef.current.innerHTML = "";
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const $ = window.jQuery as any;
+
+                // Initialize the widget
+                $(containerRef.current).MR_ParcelShopPicker({
+                    Target: "#mr-selected-point",
+                    Brand: brandCode,
+                    Country: "FR",
+                    PostCode: postcode || "75000",
+                    ColLivMod: "24R",
+                    NbResults: "7",
+                    ShowResultsOnMap: true,
+                    OnParcelShopSelected: (point: {
+                        ID: string;
+                        Nom: string;
+                        Adresse1: string;
+                        Ville: string;
+                        CP: string;
+                        Pays: string;
+                    }) => {
                         const relay: RelayPoint = {
                             id: point.ID,
-                            name: point.Nom || point.Name || "",
-                            address: point.Adresse1 || point.Address || "",
-                            city: point.Ville || point.City || "",
-                            postcode: point.CP || point.Postcode || "",
-                            country: point.Pays || point.Country || "FR",
+                            name: point.Nom,
+                            address: point.Adresse1,
+                            city: point.Ville,
+                            postcode: point.CP,
+                            country: point.Pays,
                         };
                         setSelectedPoint(relay);
                         onSelectRef.current(relay);
-                    }
+                    },
+                });
+
+                setIsLoading(false);
+            } catch (err) {
+                console.error("Failed to load Mondial Relay widget:", err);
+                if (!cancelled) {
+                    setError("Impossible de charger la carte Mondial Relay. Veuillez réessayer.");
+                    setIsLoading(false);
                 }
-            } catch {
-                // Ignore parse errors
             }
         };
 
-        window.addEventListener("message", handleMessage);
-        return () => window.removeEventListener("message", handleMessage);
+        loadWidget();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [postcode, brandCode, retryCount]);
+
+    const handleRetry = useCallback(() => {
+        // Remove existing scripts so they reload fresh
+        document.querySelectorAll('script[src*="mondialrelay"]').forEach(s => s.remove());
+        setRetryCount((c) => c + 1);
     }, []);
+
+    if (error) {
+        return (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm space-y-3">
+                <p>{error}</p>
+                <button
+                    onClick={handleRetry}
+                    className="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-800 rounded-md text-xs font-bold transition-colors"
+                >
+                    🔄 Réessayer
+                </button>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-4">
-            <div className="relative rounded-lg overflow-hidden border border-stone-200 bg-stone-50">
-                {isLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-stone-50 z-10">
-                        <div className="flex items-center gap-3 text-stone-500">
-                            <span className="h-5 w-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" />
-                            <span className="text-sm">Chargement des points relais...</span>
-                        </div>
+            {isLoading && (
+                <div className="flex items-center justify-center py-8">
+                    <div className="flex items-center gap-3 text-stone-500">
+                        <span className="h-5 w-5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" />
+                        <span className="text-sm">Chargement des points relais...</span>
                     </div>
-                )}
-                <iframe
-                    src={iframeUrl}
-                    width="100%"
-                    height="450"
-                    frameBorder="0"
-                    scrolling="no"
-                    style={{ display: "block", minHeight: 450 }}
-                    onLoad={() => setIsLoading(false)}
-                    onError={() => setIsLoading(false)}
-                    title="Choisir un point Mondial Relay"
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                />
-            </div>
+                </div>
+            )}
+            <div
+                ref={containerRef}
+                id="mr-widget-container"
+                className="rounded-lg overflow-hidden border border-stone-200"
+                style={{ minHeight: isLoading ? 0 : 400 }}
+            />
+            <input type="hidden" id="mr-selected-point" />
             {selectedPoint && (
                 <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm">
                     <p className="font-semibold text-green-800">✅ Point relais sélectionné :</p>
@@ -102,4 +160,36 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
             )}
         </div>
     );
+}
+
+
+// Helper: load a script dynamically
+function loadScript(src: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        if (document.querySelector(`script[src="${src}"]`)) {
+            resolve();
+            return;
+        }
+        const script = document.createElement("script");
+        script.src = src;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+        document.head.appendChild(script);
+    });
+}
+
+// Helper: load a stylesheet dynamically
+function loadStylesheet(href: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        if (document.querySelector(`link[href="${href}"]`)) {
+            resolve();
+            return;
+        }
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = href;
+        link.onload = () => resolve();
+        link.onerror = () => reject(new Error(`Failed to load stylesheet: ${href}`));
+        document.head.appendChild(link);
+    });
 }

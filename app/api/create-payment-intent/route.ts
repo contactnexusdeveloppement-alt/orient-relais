@@ -35,9 +35,11 @@ export async function POST(request: NextRequest) {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: totalAmount,
             currency: "eur",
-            // Explicit payment method types for Live mode compatibility
-            // This guarantees the card form shows even without Dashboard config
-            payment_method_types: ["card"],
+            // Use automatic_payment_methods to show all methods enabled in Stripe Dashboard
+            // (Card, Apple Pay, Google Pay, Link, Bancontact, etc.)
+            automatic_payment_methods: {
+                enabled: true,
+            },
             metadata: {
                 // Customer Context
                 customer_email: customerInfo?.email || "",
