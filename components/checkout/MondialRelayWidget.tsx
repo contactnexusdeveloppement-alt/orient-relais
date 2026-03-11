@@ -30,7 +30,9 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [retryCount, setRetryCount] = useState(0);
-    const brandCode = process.env.NEXT_PUBLIC_MR_BRAND_CODE || "BDTEST13";
+    // Production Mondial Relay credentials - CC23L0MD is the real account code
+    const brandCode = process.env.NEXT_PUBLIC_MR_BRAND_CODE || "CC23L0MD";
+    const marque = process.env.NEXT_PUBLIC_MR_MARQUE || "CC";
 
     useEffect(() => {
         let cancelled = false;
@@ -60,7 +62,8 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                 // Initialize the widget
                 $(containerRef.current).MR_ParcelShopPicker({
                     Target: "#mr-selected-point",
-                    Brand: brandCode,
+                    Brand: marque,
+                    Enseigne: brandCode,
                     Country: "FR",
                     PostCode: postcode || "75000",
                     ColLivMod: "24R",

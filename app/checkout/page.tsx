@@ -125,7 +125,9 @@ export default function CheckoutPage() {
     const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay">("colissimo");
     const [selectedRelay, setSelectedRelay] = useState<RelayPoint | null>(null);
 
-    const shippingCost = shippingMethod === "mondialrelay" ? 3.90 : 4.90;
+    // Colissimo: 6.90€ standard (tarif uniforme en attente de la grille poids exacte)
+    // Mondial Relay: 3.90€ - 3 à 5 jours ouvrés
+    const shippingCost = shippingMethod === "mondialrelay" ? 3.90 : 6.90;
     const total = subtotal + shippingCost;
 
     const handleRelaySelect = useCallback((point: RelayPoint) => {
@@ -368,9 +370,9 @@ export default function CheckoutPage() {
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-base font-medium text-stone-900">🏠 Colissimo Domicile</p>
-                                                <p className="text-sm text-stone-500">Livraison à domicile en 2-3 jours ouvrés</p>
+                                                <p className="text-sm text-stone-500">Livraison à domicile en 24/48h</p>
                                             </div>
-                                            <span className="font-bold text-stone-900">4,90 €</span>
+                                            <span className="font-bold text-stone-900">6,90 €</span>
                                         </div>
 
                                         {/* Option 2: Mondial Relay */}
@@ -388,8 +390,8 @@ export default function CheckoutPage() {
                                                 )}
                                             </div>
                                             <div className="flex-1">
-                                                <p className="text-base font-medium text-stone-900">📦 Mondial Relay</p>
-                                                <p className="text-sm text-stone-500">Retrait en Point Relais — 3-5 jours ouvrés</p>
+                                                <p className="text-base font-medium text-stone-900">📦 Mondial Relay — Point Relais</p>
+                                                <p className="text-sm text-stone-500">Retrait en Point Relais — 3 à 5 jours ouvrés</p>
                                             </div>
                                             <span className="font-bold text-stone-900">3,90 €</span>
                                         </div>

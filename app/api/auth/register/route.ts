@@ -45,15 +45,34 @@ export async function POST(request: NextRequest) {
         }
 
         // Create WooCommerce customer
-        const response = await client.post("customers", {
-            email,
-            first_name: firstName,
-            last_name: lastName,
-            username: email,
-            password,
-        });
+        let customer;
+        try {
+            const response = await client.post("customers", {
+                email,
+                first_name: firstName,
+                last_name: lastName,
+                username: email,
+                password,
+            });
+            customer = response.data;
+        } catch (wcError: unknown) {
+            console.error("WooCommerce customer creation error:", JSON.stringify(wcError));
+            // Extract WooCommerce specific error message
+            const wcErr = wcError as { response?: { data?: { message?: string; code?: string } } };
+            const wcMessage = wcErr?.response?.data?.message || "";
+            const wcCode = wcErr?.response?.data?.code || "";
 
-        const customer = response.data;
+            if (wcCode === "registration-error-email-exists" || wcMessage.toLowerCase().includes("email")) {
+                return NextResponse.json(
+                    { error: "Cette adresse email est déjà utilisée. Veuillez vous connecter ou utiliser une autre adresse." },
+                    { status: 409 }
+                );
+            }
+            if (wcMessage) {
+                return NextResponse.json({ error: wcMessage }, { status: 400 });
+            }
+            throw wcError; // Re-throw to be caught by outer catch
+        }
 
         // Create JWT token
         const token = await new SignJWT({
@@ -86,8 +105,8 @@ export async function POST(request: NextRequest) {
 
         return res;
     } catch (error: unknown) {
-        console.error("Registration error:", error);
-        const message = error instanceof Error ? error.message : "Erreur lors de l'inscription.";
+        console.error("Registration error:", JSON.stringify(error));
+        const message = error instanceof Error ? error.message : "Erreur lors de l'inscription. Veuillez réessayer.";
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
