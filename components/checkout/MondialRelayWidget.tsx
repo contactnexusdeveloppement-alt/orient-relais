@@ -47,9 +47,9 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                     await loadScript("https://code.jquery.com/jquery-3.7.1.min.js");
                 }
 
-                // Load Mondial Relay widget
-                await loadScript("https://widget.mondialrelay.com/parcelshop-picker/v4_0/MRParcelShopPicker.min.js");
-                await loadStylesheet("https://widget.mondialrelay.com/parcelshop-picker/v4_0/MRParcelShopPicker.min.css");
+                // Load Mondial Relay widget (v4 - correct paths include /js/ subfolder)
+                await loadScript("https://widget.mondialrelay.com/parcelshop-picker/v4_0/js/MRParcelShopPicker.min.js");
+                await loadStylesheet("https://widget.mondialrelay.com/parcelshop-picker/v4_0/css/MRParcelShopPicker.min.css");
 
                 if (cancelled || !containerRef.current) return;
 
