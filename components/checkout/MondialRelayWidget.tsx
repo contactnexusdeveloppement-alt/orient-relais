@@ -59,11 +59,12 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const $ = window.jQuery as any;
 
-                // Initialize the widget
+                // Initialize the widget with correct v4 parameters
+                // Brand = code enseigne complet (CC23L0MD)
+                // Ref: https://widget.mondialrelay.com/parcelshop-picker/v4_0/
                 $(containerRef.current).MR_ParcelShopPicker({
                     Target: "#mr-selected-point",
-                    Brand: marque,
-                    Enseigne: brandCode,
+                    Brand: brandCode,       // Code enseigne: CC23L0MD
                     Country: "FR",
                     PostCode: postcode || "75000",
                     ColLivMod: "24R",
