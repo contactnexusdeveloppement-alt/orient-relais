@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
   metadataBase: new URL("https://orient-relais.com"),
+  alternates: {
+    canonical: "/",
+  },
   verification: {
     google: "A-Qmi4ToRRQHKQKeC08Keee6qaH-nlLjodb1uL7VHM0",
   },

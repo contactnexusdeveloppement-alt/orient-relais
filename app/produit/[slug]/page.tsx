@@ -37,6 +37,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             images: product.images.map(img => ({ url: img.src, width: 800, height: 800, alt: img.alt || product.name })),
             type: "website",
         },
+        alternates: {
+            canonical: `/produit/${product.slug}`,
+        },
     };
 }
 
@@ -84,6 +87,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             url: `https://orient-relais.com/produit/${product.slug}`,
             priceCurrency: "EUR",
             price: product.price,
+            priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
             availability: product.stock_status === 'instock'
                 ? "https://schema.org/InStock"
                 : "https://schema.org/OutOfStock",
