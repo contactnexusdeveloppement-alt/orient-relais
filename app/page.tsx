@@ -1,5 +1,6 @@
 import { getFeaturedWooProducts, getPromoWooProducts, fetchWooCategories } from "@/lib/woocommerce";
 import { HeroSection } from "@/components/home/HeroSection";
+import { BrandCarousel } from "@/components/home/BrandCarousel";
 import { HomeContent } from "@/components/home/HomeContent";
 import { TrustBadges } from "@/components/home/TrustBadges";
 import { StorySection } from "@/components/home/StorySection";
@@ -21,6 +22,9 @@ export default async function Home() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Brand Carousel */}
+      <BrandCarousel />
 
       {/* Trust Badges - Reassurance */}
       <TrustBadges />
