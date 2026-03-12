@@ -86,12 +86,45 @@ export function extractCategories(products: WooProduct[]): FilterOption[] {
         .sort((a, b) => b.count - a.count);
 }
 
+// Extracts unique brands combining the new 'brands' taxonomy and the old 'Marque' attribute
+export function extractBrands(products: WooProduct[]): FilterOption[] {
+    const counts = new Map<string, number>();
+
+    products.forEach(p => {
+        let hasBrand = false;
+        
+        // Priority 1: Official 'brands' taxonomy property added by WooCommerce Brands plugin
+        if (p.brands && p.brands.length > 0) {
+            p.brands.forEach(b => {
+                const name = b.name.trim();
+                counts.set(name, (counts.get(name) || 0) + 1);
+                hasBrand = true;
+            });
+        }
+        
+        // Priority 2: Fallback to local attribute "Marque" if taxonomy is not set
+        if (!hasBrand) {
+            const attr = p.attributes?.find(a => a.name.toLowerCase() === 'marque' || a.name.toLowerCase() === 'marques');
+            if (attr && attr.options) {
+                attr.options.forEach(opt => {
+                    const cleanOpt = opt.trim();
+                    counts.set(cleanOpt, (counts.get(cleanOpt) || 0) + 1);
+                });
+            }
+        }
+    });
+
+    return Array.from(counts.entries())
+        .map(([value, count]) => ({ value, label: value, count }))
+        .sort((a, b) => b.count - a.count);
+}
+
 // Category-specific filter configurations
 export function getFiltersForCategory(categorySlug: string, products: WooProduct[]): FilterConfig[] {
     const priceRange = getPriceRange(products);
 
-    // Extract various dynamic attributes
-    const brands = extractAttributeValues(products, "Marque");
+    // Extract various dynamic attributes and taxonomies
+    const brands = extractBrands(products);
     const poids = extractAttributeValues(products, "Poids");
     const contenances = extractAttributeValues(products, "Contenance");
 
@@ -197,8 +230,16 @@ export function filterProducts(products: WooProduct[], filters: ActiveFilters): 
 
             if (key === "brand" && Array.isArray(value)) {
                 const required = value as string[];
-                const productBrands = product.attributes.find(a => a.name.toLowerCase() === "marque")?.options || [];
-                if (!required.some(r => productBrands.some(pb => pb.trim() === r.trim()))) return false;
+                const productBrands: string[] = [];
+                
+                if (product.brands && product.brands.length > 0) {
+                    product.brands.forEach(b => productBrands.push(b.name.trim()));
+                }
+                
+                const attrBrands = product.attributes.find(a => a.name.toLowerCase() === "marque" || a.name.toLowerCase() === "marques")?.options || [];
+                attrBrands.forEach(b => productBrands.push(b.trim()));
+                
+                if (!required.some(r => productBrands.some(pb => pb === r.trim()))) return false;
             }
 
             if (key === "weight" && Array.isArray(value)) {

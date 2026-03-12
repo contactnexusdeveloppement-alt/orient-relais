@@ -80,7 +80,8 @@ export interface WooProduct {
     cross_sell_ids: number[];
     parent_id: number;
     purchase_note: string;
-    categories: WooProductCategory[];
+    categories: { id: number; name: string; slug: string }[];
+    brands?: { id: number; name: string; slug: string }[];
     tags: { id: number; name: string; slug: string }[];
     images: WooProductImage[];
     attributes: WooProductAttribute[];
