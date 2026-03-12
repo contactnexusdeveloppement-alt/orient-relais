@@ -8,6 +8,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { WooCategory } from "@/lib/woocommerce-types";
+import { Toaster } from "sonner";
 
 export function ClientLayout({
     children,
@@ -28,8 +29,8 @@ export function ClientLayout({
                     <Footer />
                     <CookieConsent />
                 </WishlistProvider>
+                <Toaster position="top-right" richColors />
             </CartProvider>
         </AuthProvider>
     );
 }
-

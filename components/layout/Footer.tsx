@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Phone, Mail, MapPin, Instagram, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NewsletterForm } from "./NewsletterForm";
 
 export function Footer() {
     return (
@@ -101,25 +102,7 @@ export function Footer() {
                             <span className="w-6 h-px bg-primary/50" />
                             Newsletter
                         </h4>
-                        <div className="p-5 rounded-2xl bg-gradient-to-br from-stone-800/80 to-stone-800/40 border border-stone-700/50">
-                            <div className="flex items-center gap-2 mb-3">
-                                <Sparkles className="h-4 w-4 text-primary" />
-                                <span className="text-sm font-medium text-primary">-10% sur la 1ère commande</span>
-                            </div>
-                            <p className="text-sm text-stone-400 mb-4">
-                                Recevez nos conseils bien-être et offres exclusives.
-                            </p>
-                            <div className="space-y-3">
-                                <Input
-                                    type="email"
-                                    placeholder="Votre email"
-                                    className="bg-stone-900/50 border-stone-600 text-stone-100 placeholder:text-stone-500 focus-visible:ring-primary focus-visible:border-primary rounded-xl"
-                                />
-                                <Button className="w-full font-semibold rounded-xl gap-2 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all">
-                                    Je m'inscris <ArrowRight className="h-4 w-4" />
-                                </Button>
-                            </div>
-                        </div>
+                        <NewsletterForm />
                     </div>
                 </div>
 

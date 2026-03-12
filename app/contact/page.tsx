@@ -1,14 +1,33 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone } from "lucide-react";
-
-export const metadata = {
-    title: "Contact | Orient Relais - Boutique Bio",
-    description: "Contactez Orient Relais pour toute question sur nos produits bio. Email, téléphone ou formulaire de contact. Réponse sous 24h ouvrées.",
-};
+import { sendContactEmail } from "@/app/actions/contact";
+import { toast } from "sonner";
 
 export default function ContactPage() {
+    const [isPending, setIsPending] = useState(false);
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setIsPending(true);
+
+        const formData = new FormData(event.currentTarget);
+        const result = await sendContactEmail(formData);
+
+        setIsPending(false);
+
+        if (result?.error) {
+            toast.error(result.error);
+        } else {
+            toast.success("Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.");
+            (event.target as HTMLFormElement).reset();
+        }
+    }
+
     return (
         <div className="container mx-auto px-4 py-16">
             <div className="max-w-2xl mx-auto text-center mb-16">
@@ -95,27 +114,37 @@ export default function ContactPage() {
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-amber-400 to-primary" />
 
                     <h3 className="font-serif text-2xl font-bold text-stone-900 mb-6">Envoyez-nous un message</h3>
-                    <form className="space-y-5">
+                    <form className="space-y-5" onSubmit={handleSubmit}>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label htmlFor="name" className="text-sm font-bold text-stone-700">Nom</label>
-                                <Input id="name" placeholder="Votre nom" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                                <label htmlFor="prenom" className="text-sm font-bold text-stone-700">Prénom</label>
+                                <Input id="prenom" name="prenom" placeholder="Votre prénom" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="email" className="text-sm font-bold text-stone-700">Email</label>
-                                <Input id="email" type="email" placeholder="votre@email.com" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                                <label htmlFor="nom" className="text-sm font-bold text-stone-700">Nom *</label>
+                                <Input id="nom" name="nom" required placeholder="Votre nom" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <label htmlFor="email" className="text-sm font-bold text-stone-700">Email *</label>
+                                <Input id="email" name="email" required type="email" placeholder="votre@email.com" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                            </div>
+                            <div className="space-y-2">
+                                <label htmlFor="telephone" className="text-sm font-bold text-stone-700">Téléphone</label>
+                                <Input id="telephone" name="telephone" placeholder="06 00 00 00 00" className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="subject" className="text-sm font-bold text-stone-700">Sujet</label>
-                            <Input id="subject" placeholder="Information produit, Commande..." className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                            <label htmlFor="sujet" className="text-sm font-bold text-stone-700">Sujet</label>
+                            <Input id="sujet" name="sujet" placeholder="Information produit, Commande..." className="h-11 rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="message" className="text-sm font-bold text-stone-700">Message</label>
-                            <Textarea id="message" placeholder="Comment pouvons-nous vous aider ?" className="min-h-[150px] rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
+                            <label htmlFor="message" className="text-sm font-bold text-stone-700">Message *</label>
+                            <Textarea id="message" name="message" required placeholder="Comment pouvons-nous vous aider ?" className="min-h-[150px] rounded-xl border-stone-200 focus:border-primary focus:ring-primary" />
                         </div>
-                        <Button className="w-full h-12 font-bold rounded-xl bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all mt-4">
-                            Envoyer le message
+                        <Button disabled={isPending} type="submit" className="w-full h-12 font-bold rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all mt-4">
+                            {isPending ? "Envoi en cours..." : "Envoyer le message"}
                         </Button>
                     </form>
                 </div>
@@ -123,3 +152,4 @@ export default function ContactPage() {
         </div>
     );
 }
+
