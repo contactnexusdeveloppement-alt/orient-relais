@@ -11,7 +11,10 @@ export const fetchWooBrands = unstable_cache(
             // First, try the official WooCommerce Brands REST API endpoint or WP REST API
             // Perfect Brands and WooCommerce Brands plugins often expose this endpoint
             try {
-                const brandResponse = await client.get("products/brands", { hide_empty: false });
+                const brandResponse = await client.get("products/brands", { 
+                    hide_empty: false,
+                    per_page: 50 
+                });
                 if (brandResponse.data && brandResponse.data.length > 0) {
                     return brandResponse.data.map((b: any) => ({
                         id: b.id,
@@ -69,6 +72,6 @@ export const fetchWooBrands = unstable_cache(
             return [];
         }
     },
-    ["woo-brands-taxonomy-v2"],
-    { revalidate: 3600 } // Cache for 1 hour
+    ["woo-brands-taxonomy-v3"],
+    { revalidate: 300 } // Cache for 5 minutes instead of 1 hour to see new brands quickly
 );
