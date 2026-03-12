@@ -28,7 +28,7 @@ export async function sendContactEmail(formData: FormData) {
 
         const mailOptions = {
             from: `"Orient Relais Web" <${process.env.SMTP_USER}>`,
-            to: "contact.nexus.developpement@gmail.com", // Pour les tests, à remplacer par le client
+            to: "contact@orient-relais.com", // Adresse finale de réception
             replyTo: email,
             subject: `Nouveau message - ${sujet || "Contact Site Web"}`,
             html: `

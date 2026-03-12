@@ -23,7 +23,7 @@ export async function subscribeNewsletter(formData: FormData) {
 
         const mailOptions = {
             from: `"Orient Relais Web" <${process.env.SMTP_USER}>`,
-            to: "contact.nexus.developpement@gmail.com", // Pour les tests
+            to: "contact@orient-relais.com", // Adresse finale de réception
             subject: `Nouvel abonné Newsletter : ${email}`,
             html: `
                 <h2>Nouvel abonné à la newsletter !</h2>
