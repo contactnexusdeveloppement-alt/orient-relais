@@ -69,6 +69,6 @@ export const fetchWooBrands = unstable_cache(
             return [];
         }
     },
-    ["woo-brands-taxonomy"],
+    ["woo-brands-taxonomy-v2"],
     { revalidate: 3600 } // Cache for 1 hour
 );
