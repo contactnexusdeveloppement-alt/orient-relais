@@ -90,3 +90,12 @@ export interface WooProduct {
     menu_order: number;
     meta_data: { id: number; key: string; value: string }[];
 }
+
+export interface WooBrand {
+    id: number;
+    name: string;
+    slug: string;
+    description?: string;
+    count?: number;
+    image?: string | null;
+}

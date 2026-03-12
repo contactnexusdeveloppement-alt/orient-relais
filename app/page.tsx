@@ -1,4 +1,5 @@
 import { getFeaturedWooProducts, getPromoWooProducts, fetchWooCategories } from "@/lib/woocommerce";
+import { fetchWooBrands } from "@/lib/woocommerce-brands";
 import { HeroSection } from "@/components/home/HeroSection";
 import { BrandCarousel } from "@/components/home/BrandCarousel";
 import { HomeContent } from "@/components/home/HomeContent";
@@ -9,6 +10,7 @@ export default async function Home() {
   const featuredProducts = (await getFeaturedWooProducts()).slice(0, 4);
   const promoProducts = await getPromoWooProducts();
   const categories = await fetchWooCategories();
+  const brands = await fetchWooBrands();
 
   // Build a slug -> image URL map for the bento grid
   const categoryImages: Record<string, string> = {};
@@ -24,7 +26,7 @@ export default async function Home() {
       <HeroSection />
 
       {/* Brand Carousel */}
-      <BrandCarousel />
+      <BrandCarousel brands={brands} />
 
       {/* Trust Badges - Reassurance */}
       <TrustBadges />
