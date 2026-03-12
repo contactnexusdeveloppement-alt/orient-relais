@@ -1,8 +1,6 @@
 "use server";
 
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from "nodemailer";
 
 export async function sendContactEmail(formData: FormData) {
     try {
@@ -17,12 +15,24 @@ export async function sendContactEmail(formData: FormData) {
             return { error: "Veuillez remplir les champs obligatoires (Nom, Email, Message)." };
         }
 
-        const data = await resend.emails.send({
-            from: "Orient Relais Contact <onboarding@resend.dev>", // Utilisation par défaut pour les tests, à remplacer avec un domaine vérifié
-            to: ["contact.nexus.developpement@gmail.com"], // Adresse de test spécifiée
+        // Configuration SMTP standard
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 465,
+            secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+            auth: {
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASSWORD,
+            },
+        });
+
+        const mailOptions = {
+            from: `"Orient Relais Web" <${process.env.SMTP_USER}>`,
+            to: "contact.nexus.developpement@gmail.com", // Pour les tests, à remplacer par le client
+            replyTo: email,
             subject: `Nouveau message - ${sujet || "Contact Site Web"}`,
             html: `
-                <h2>Nouveau message de contact via le sit web</h2>
+                <h2>Nouveau message de contact via le site web</h2>
                 <p><strong>Nom :</strong> ${nom}</p>
                 <p><strong>Prénom :</strong> ${prenom || 'Non renseigné'}</p>
                 <p><strong>Email :</strong> ${email}</p>
@@ -32,16 +42,13 @@ export async function sendContactEmail(formData: FormData) {
                 <h3>Message :</h3>
                 <p style="white-space: pre-line">${message}</p>
             `,
-        });
+        };
 
-        if (data.error) {
-            console.error("Resend error:", data.error);
-            return { error: "Erreur lors de l'envoi de l'email." };
-        }
-
+        await transporter.sendMail(mailOptions);
         return { success: true };
+
     } catch (error) {
-        console.error("Failed to send email:", error);
-        return { error: "Une erreur inattendue s'est produite." };
+        console.error("Failed to send email via SMTP:", error);
+        return { error: "Une erreur inattendue s'est produite avec le serveur d'envoi." };
     }
 }
