@@ -76,13 +76,13 @@ module.exports = {
         },
         "scroll-x": {
           "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(calc(-50% - 2rem))" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "scroll": "scroll-x 20s linear infinite",
+        "scroll": "scroll-x 35s linear infinite",
       },
     },
   },
