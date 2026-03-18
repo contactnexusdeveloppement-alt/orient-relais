@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Orient Relais",
     images: [
       {
-        url: "/images/logo-new.png",
+        url: "/images/Logo_respon.png",
         width: 512,
         height: 512,
         alt: "Orient Relais - Boutique Bio",
@@ -44,17 +44,18 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    images: ["/images/logo-new.png"],
+    images: ["/images/Logo_respon.png"],
   },
   icons: {
     icon: [
-      { url: "/images/logo-new.png" },
-      { url: "/images/logo-new.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/Logo_respon.png" },
+      { url: "/images/Logo_respon.png", sizes: "32x32", type: "image/png" },
+      { url: "/images/Logo_respon.png", sizes: "192x192", type: "image/png" },
     ],
     apple: [
-      { url: "/images/logo-new.png" },
+      { url: "/images/Logo_respon.png" },
     ],
-    shortcut: "/images/logo-new.png",
+    shortcut: "/images/Logo_respon.png",
   },
 };
 
