@@ -5,8 +5,17 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: "*",
             allow: "/",
-            disallow: ["/checkout/", "/api/"],
+            disallow: [
+                "/checkout/",
+                "/checkout/success",
+                "/api/",
+                "/login",
+                "/account",
+                "/register",
+                "/panier",
+                "/admin",
+            ],
         },
-        sitemap: "https://orient-relais.com/sitemap.xml",
+        sitemap: "https://www.orient-relais.com/sitemap.xml",
     };
 }

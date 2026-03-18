@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { fetchWooProducts } from "@/lib/woocommerce";
 import { ARTICLES } from "@/data/articles";
 
-const BASE_URL = "https://orient-relais.com";
+const BASE_URL = "https://www.orient-relais.com";
 
-// Real category slugs matching the WooCommerce store
+// Only include categories that have actual products published
 const CATEGORIES = [
     { slug: "savons-dalep" },
     { slug: "huiles-essentielles" },
@@ -12,10 +12,9 @@ const CATEGORIES = [
     { slug: "cosmetiques" },
     { slug: "soins-et-beaute" },
     { slug: "coffrets" },
-    { slug: "epicerie-orientale" },
     { slug: "miel" },
-    { slug: "idees-cadeaux" },
     { slug: "accessoires" },
+    // "epicerie-orientale" and "idees-cadeaux" excluded until they have products
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
