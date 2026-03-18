@@ -3,11 +3,18 @@ import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
+// Use www to avoid redirect loops
+const WOO_URL = (() => {
+    const url = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://orient-relais.com";
+    return url === "https://orient-relais.com" ? "https://www.orient-relais.com" : url;
+})();
+
 const woo = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://orient-relais.com",
+    url: WOO_URL,
     consumerKey: process.env.WC_CONSUMER_KEY || "",
     consumerSecret: process.env.WC_CONSUMER_SECRET || "",
     version: "wc/v3",
+    queryStringAuth: true,
 });
 
 const JWT_SECRET = new TextEncoder().encode(
@@ -29,6 +36,31 @@ export async function POST(request: NextRequest) {
         if (!paymentIntentId || !items || items.length === 0) {
             return NextResponse.json({ error: "Données manquantes." }, { status: 400 });
         }
+
+        // ─── IDEMPOTENCY CHECK ────────────────────────────────────────────────────
+        // Check if an order with this paymentIntentId already exists in WooCommerce.
+        // This prevents double orders from double-clicks or network retries.
+        try {
+            const existingOrders = await woo.get("orders", {
+                transaction_id: paymentIntentId,
+                per_page: 1,
+            });
+
+            if (existingOrders.data && existingOrders.data.length > 0) {
+                const existing = existingOrders.data[0];
+                console.log(`[orders/create] Order already exists for payment intent ${paymentIntentId}: #${existing.number}`);
+                return NextResponse.json({
+                    success: true,
+                    orderId: existing.id,
+                    orderNumber: existing.number,
+                    duplicate: true, // Informational flag
+                });
+            }
+        } catch (idempotencyErr) {
+            // If check fails, proceed to create order anyway to avoid blocking payment confirmation
+            console.warn("[orders/create] Idempotency check failed, proceeding to create:", idempotencyErr);
+        }
+        // ─────────────────────────────────────────────────────────────────────────
 
         // Get customer ID from JWT if logged in
         let customerId: number | undefined;
