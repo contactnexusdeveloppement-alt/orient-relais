@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Star, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ function getBadgeColor(tag: string): "green" | "orange" | "stone" | "blue" | "pi
 }
 
 export function ProductCard({ product }: { product: WooProduct }) {
+    const router = useRouter();
     const { isInWishlist, toggleWishlist } = useWishlist();
     const { isAuthenticated } = useAuth();
     const isFavorite = isInWishlist(String(product.id));
@@ -46,6 +48,7 @@ export function ProductCard({ product }: { product: WooProduct }) {
                         src={imageSrc}
                         alt={product.name}
                         fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
                         className="object-contain p-8 transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                 </Link>
@@ -78,7 +81,7 @@ export function ProductCard({ product }: { product: WooProduct }) {
                         e.preventDefault();
                         e.stopPropagation();
                         if (!isAuthenticated) {
-                            window.location.href = "/login";
+                            router.push("/login");
                             return;
                         }
                         toggleWishlist(String(product.id));

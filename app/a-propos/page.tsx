@@ -14,7 +14,7 @@ export default function AboutPage() {
             {/* Hero */}
             <div className="relative h-[60vh] w-full flex items-center justify-center bg-stone-900 text-white overflow-hidden">
                 <Image
-                    src="/hero.png"
+                    src="/hero.webp"
                     alt="Savon d'Alep artisanal"
                     fill
                     className="object-cover opacity-50 scale-105"
@@ -65,7 +65,7 @@ export default function AboutPage() {
                         </p>
                     </div>
                     <div className="flex-1 relative aspect-[4/3] w-full bg-stone-100 rounded-2xl overflow-hidden">
-                        <Image src="/bento-soap.png" alt="Savon d'Alep artisanal" fill className="object-cover" />
+                        <Image src="/bento-soap.webp" alt="Savon d'Alep artisanal" fill className="object-cover" />
                     </div>
                 </div>
 
@@ -121,7 +121,7 @@ export default function AboutPage() {
                         </Link>
                     </div>
                     <div className="flex-1 relative aspect-square w-full max-w-md bg-stone-100 rounded-2xl overflow-hidden">
-                        <Image src="/bento-spices.png" alt="Bienfaits naturels" fill className="object-cover" />
+                        <Image src="/bento-spices.webp" alt="Bienfaits naturels" fill className="object-cover" />
                     </div>
                 </div>
 

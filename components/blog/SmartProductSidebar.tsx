@@ -12,7 +12,7 @@ export function SmartProductSidebar() {
                 <div className="flex flex-col gap-4">
                     <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-stone-50">
                         <Image
-                            src="/aleppo-soap-product.png"
+                            src="/aleppo-soap-product.webp"
                             alt="Savon d'Alep"
                             fill
                             className="object-cover"

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Star, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 interface Review {
     id: number;
@@ -80,8 +81,8 @@ export function ProductReviews({ productId, rating, count }: ProductReviewsProps
             setNewEmail("");
             setNewComment("");
             setNewRating(5);
-        } catch (err: any) {
-            setSubmitError(err.message);
+        } catch (err: unknown) {
+            setSubmitError(err instanceof Error ? err.message : "Une erreur est survenue.");
         } finally {
             setIsSubmitting(false);
         }
@@ -244,7 +245,7 @@ export function ProductReviews({ productId, rating, count }: ProductReviewsProps
                             </div>
                             <div
                                 className="text-stone-600 leading-relaxed prose prose-stone max-w-none text-base"
-                                dangerouslySetInnerHTML={{ __html: review.review }}
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(review.review) }}
                             />
                         </div>
                     ))

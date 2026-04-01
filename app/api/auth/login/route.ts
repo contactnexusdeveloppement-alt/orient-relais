@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import { SignJWT } from "jose";
+import { wooClient } from "@/lib/wc-client";
+import { signToken } from "@/lib/auth";
 
-const client = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WORDPRESS_URL || "https://orient-relais.com",
-    consumerKey: process.env.WC_CONSUMER_KEY || "",
-    consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-    version: "wc/v3",
-});
-
-const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "orient-relais-xK9mP2vL7nQ4wR8tB5cY6fH3jA0eU1dS"
-);
+const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
@@ -71,15 +62,12 @@ export async function POST(request: NextRequest) {
         const customer = customersResponse.data[0];
 
         // Create JWT token
-        const token = await new SignJWT({
+        const token = await signToken({
             customerId: customer.id,
             email: customer.email,
             firstName: customer.first_name,
             lastName: customer.last_name,
-        })
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("7d")
-            .sign(JWT_SECRET);
+        });
 
         // Set cookie
         const res = NextResponse.json({

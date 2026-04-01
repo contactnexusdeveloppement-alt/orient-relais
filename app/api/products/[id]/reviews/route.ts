@@ -19,7 +19,7 @@ export async function GET(
         });
 
         return NextResponse.json(response.data);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error fetching reviews:", error);
         return NextResponse.json({ error: "Failed to fetch reviews" }, { status: 500 });
     }
@@ -50,9 +50,10 @@ export async function POST(
         });
 
         return NextResponse.json(response.data);
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error posting review:", error);
-        const message = error.response?.data?.message || "Failed to post review";
+        const wcErr = error as { response?: { data?: { message?: string } } };
+        const message = wcErr?.response?.data?.message || "Failed to post review";
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }

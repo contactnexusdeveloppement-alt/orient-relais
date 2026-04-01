@@ -35,7 +35,7 @@ export function HomeContent({ featuredProducts, promoProducts, categoryImages = 
                         <StaggerItem className="md:col-span-2 md:row-span-2">
                             <Link href="/categorie/savons-dalep" className="group block h-full relative overflow-hidden rounded-3xl bg-white border border-stone-200 min-h-[300px] hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
                                 <Image
-                                    src="/bento-soap.png"
+                                    src="/bento-soap.webp"
                                     alt="Texture Savon d'Alep"
                                     fill
                                     sizes="(max-width: 768px) 100vw, 50vw"

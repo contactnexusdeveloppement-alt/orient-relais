@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import { jwtVerify } from "jose";
+import { wooClient } from "@/lib/wc-client";
+import { verifyToken } from "@/lib/auth";
 
-const client = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WORDPRESS_URL || "https://orient-relais.com",
-    consumerKey: process.env.WC_CONSUMER_KEY || "",
-    consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-    version: "wc/v3",
-});
-
-const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "orient-relais-jwt-secret-key-change-in-production"
-);
+const client = wooClient;
 
 export async function GET(request: NextRequest) {
     try {
@@ -22,7 +13,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Verify JWT
-        const { payload } = await jwtVerify(token, JWT_SECRET);
+        const { payload } = await verifyToken(token);
         const customerId = payload.customerId as number;
 
         if (!customerId) {

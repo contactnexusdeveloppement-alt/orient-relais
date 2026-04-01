@@ -7,10 +7,13 @@ import { TrustBadges } from "@/components/home/TrustBadges";
 import { StorySection } from "@/components/home/StorySection";
 
 export default async function Home() {
-  const featuredProducts = (await getFeaturedWooProducts()).slice(0, 4);
-  const promoProducts = await getPromoWooProducts();
-  const categories = await fetchWooCategories();
-  const brands = await fetchWooBrands();
+  const [featuredProductsRaw, promoProducts, categories, brands] = await Promise.all([
+    getFeaturedWooProducts(),
+    getPromoWooProducts(),
+    fetchWooCategories(),
+    fetchWooBrands(),
+  ]);
+  const featuredProducts = featuredProductsRaw.slice(0, 4);
 
   // Build a slug -> image URL map for the bento grid
   const categoryImages: Record<string, string> = {};

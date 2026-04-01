@@ -17,9 +17,10 @@ export function HeroSection() {
                     className="relative w-full h-full"
                 >
                     <Image
-                        src="/hero.png"
+                        src="/hero.webp"
                         alt="Savons d'Alep bio et ingrédients naturels authentiques"
                         fill
+                        sizes="100vw"
                         className="object-cover brightness-90"
                         priority
                     />

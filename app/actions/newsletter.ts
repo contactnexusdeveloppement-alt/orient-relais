@@ -1,6 +1,7 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { escapeHtml } from "@/lib/sanitize";
 
 export async function subscribeNewsletter(formData: FormData) {
     try {
@@ -27,7 +28,7 @@ export async function subscribeNewsletter(formData: FormData) {
             subject: `Nouvel abonné Newsletter : ${email}`,
             html: `
                 <h2>Nouvel abonné à la newsletter !</h2>
-                <p><strong>Email :</strong> ${email}</p>
+                <p><strong>Email :</strong> ${escapeHtml(email)}</p>
                 <p>Cet email souhaite recevoir les offres et les -10% de bienvenue.</p>
             `,
         };

@@ -16,14 +16,14 @@ export const fetchWooBrands = unstable_cache(
                     per_page: 50 
                 });
                 if (brandResponse.data && brandResponse.data.length > 0) {
-                    return brandResponse.data.map((b: any) => ({
+                    return brandResponse.data.map((b: Record<string, unknown>) => ({
                         id: b.id,
                         name: b.name,
                         slug: b.slug,
                         description: b.description,
                         count: b.count,
                         // Pluck image from the standard meta structure for brands taxonomy
-                        image: b.image ? (typeof b.image === 'string' ? b.image : b.image.src) : null
+                        image: b.image ? (typeof b.image === 'string' ? b.image : (b.image as Record<string, string>).src) : null
                     })).sort((a: WooBrand, b: WooBrand) => a.name.localeCompare(b.name));
                 }
             } catch (err) {

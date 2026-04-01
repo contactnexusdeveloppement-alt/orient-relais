@@ -1,6 +1,7 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { escapeHtml } from "@/lib/sanitize";
 
 export async function sendContactEmail(formData: FormData) {
     try {
@@ -33,14 +34,14 @@ export async function sendContactEmail(formData: FormData) {
             subject: `Nouveau message - ${sujet || "Contact Site Web"}`,
             html: `
                 <h2>Nouveau message de contact via le site web</h2>
-                <p><strong>Nom :</strong> ${nom}</p>
-                <p><strong>Prénom :</strong> ${prenom || 'Non renseigné'}</p>
-                <p><strong>Email :</strong> ${email}</p>
-                <p><strong>Téléphone :</strong> ${telephone || 'Non renseigné'}</p>
-                <p><strong>Sujet :</strong> ${sujet || 'Non renseigné'}</p>
+                <p><strong>Nom :</strong> ${escapeHtml(nom)}</p>
+                <p><strong>Prénom :</strong> ${escapeHtml(prenom || 'Non renseigné')}</p>
+                <p><strong>Email :</strong> ${escapeHtml(email)}</p>
+                <p><strong>Téléphone :</strong> ${escapeHtml(telephone || 'Non renseigné')}</p>
+                <p><strong>Sujet :</strong> ${escapeHtml(sujet || 'Non renseigné')}</p>
                 <hr />
                 <h3>Message :</h3>
-                <p style="white-space: pre-line">${message}</p>
+                <p style="white-space: pre-line">${escapeHtml(message)}</p>
             `,
         };
 

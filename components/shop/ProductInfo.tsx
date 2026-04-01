@@ -6,7 +6,9 @@ import { Star, ShoppingCart, Heart, Truck, ShieldCheck, Leaf, Minus, Plus } from
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 interface ProductInfoProps {
     product: WooProduct;
@@ -35,6 +37,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const ratingValue = parseFloat(product.average_rating || "0");
 
     const totalPrice = price * quantity;
+    const router = useRouter();
     const { isInWishlist, toggleWishlist } = useWishlist();
     const { isAuthenticated } = useAuth();
     const isFavorite = isInWishlist(String(product.id));
@@ -53,7 +56,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         e.preventDefault();
         e.stopPropagation();
         if (!isAuthenticated) {
-            window.location.href = "/login";
+            router.push("/login");
             return;
         }
         toggleWishlist(String(product.id));
@@ -98,7 +101,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
             {/* Description */}
             <div
                 className="text-stone-600 text-lg leading-relaxed prose prose-stone"
-                dangerouslySetInnerHTML={{ __html: product.short_description || product.description }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.short_description || product.description) }}
             />
 
             {/* Price */}

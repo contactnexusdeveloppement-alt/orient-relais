@@ -909,7 +909,7 @@ export const CATEGORIES = [
         slug: "savons",
         title: "Nos Savons d'Alep Bio",
         description: "Découvrez l'authentique savon d'Alep, ancêtre de tous les savons durs. Saponifié au chaudron selon la méthode traditionnelle depuis des siècles.",
-        image: "/bento-soap.png"
+        image: "/bento-soap.webp"
     },
     {
         slug: "huiles-essentielles",

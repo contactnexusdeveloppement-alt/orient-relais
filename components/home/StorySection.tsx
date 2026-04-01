@@ -14,6 +14,7 @@ export function StorySection() {
                                 src="/images/categories/savons-alep-v2.webp"
                                 alt="Fabrication artisanale de savon d'Alep"
                                 fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 className="object-cover hover:scale-105 transition-transform duration-700"
                             />
                         </div>

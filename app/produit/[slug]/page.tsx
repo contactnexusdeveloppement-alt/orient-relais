@@ -9,14 +9,22 @@ import { ProductCard } from "@/components/shop/ProductCard";
 import { ProductReviews } from "@/components/shop/ProductReviews";
 import { BenefitCard } from "@/components/shop/BenefitCard";
 import { parseBenefits } from "@/lib/benefits";
-import { fetchWooProductBySlug, fetchWooProductsByCategory } from "@/lib/woocommerce";
+import { fetchWooProductBySlug, fetchWooProducts, fetchWooProductsByCategory } from "@/lib/woocommerce";
 import type { Metadata } from "next";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 // Helper to clean HTML descriptions for metadata
 function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, '');
 }
+
+export async function generateStaticParams() {
+    const products = await fetchWooProducts(1, 100);
+    return products.map((p) => ({ slug: p.slug }));
+}
+
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const slug = (await params).slug;
@@ -201,7 +209,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
                     <TabsContent value="description" className="pt-8">
                         <div className="prose prose-stone max-w-none prose-p:leading-relaxed prose-lg prose-headings:font-serif prose-h3:text-2xl prose-h4:text-lg prose-h4:text-primary">
-                            <div dangerouslySetInnerHTML={{ __html: product.description }} />
+                            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }} />
 
                             {/* Certifications (Tags) */}
                             <h4 className="text-sm font-serif font-bold text-stone-900 uppercase tracking-widest mb-6 mt-8">
@@ -236,7 +244,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                                     <h4 className="text-sm font-serif font-bold text-stone-900 uppercase tracking-widest mb-6">
                                         Plus d'informations
                                     </h4>
-                                    <div dangerouslySetInnerHTML={{ __html: detailsMeta.value }} />
+                                    <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(detailsMeta.value) }} />
                                 </div>
                             )}
 
@@ -247,8 +255,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                                         <span>🧪</span> Composition
                                     </h4>
                                     <ul className="!mb-0">
-                                        {ingredientsAttribute.options.map((ing, i) => (
-                                            <li key={i}>{ing}</li>
+                                        {ingredientsAttribute.options.map((ing) => (
+                                            <li key={ing}>{ing}</li>
                                         ))}
                                     </ul>
                                 </div>
@@ -275,7 +283,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     {usageMeta && (
                         <TabsContent value="conseils" className="pt-8">
                             <div className="prose prose-stone max-w-none prose-headings:font-serif prose-h4:text-lg prose-h4:text-primary prose-ol:space-y-2 prose-li:marker:text-primary">
-                                <div dangerouslySetInnerHTML={{ __html: usageMeta.value }} />
+                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(usageMeta.value) }} />
                             </div>
                         </TabsContent>
                     )}
@@ -283,7 +291,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                     {characteristicsMeta && (
                         <TabsContent value="caracteristiques" className="pt-8">
                             <div className="prose prose-stone max-w-none prose-headings:font-serif prose-h4:text-lg prose-h4:text-primary prose-ul:space-y-2 prose-li:marker:text-primary">
-                                <div dangerouslySetInnerHTML={{ __html: characteristicsMeta.value }} />
+                                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(characteristicsMeta.value) }} />
                             </div>
                         </TabsContent>
                     )}

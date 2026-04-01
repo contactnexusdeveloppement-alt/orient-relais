@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
                 relay_zip: body.selectedRelay?.postcode || "",
 
                 // Cart Context (JSON stringified to fit in metadata, limited to ~500 chars usually)
-                items_json: JSON.stringify(items.map((i: any) => ({ id: i.id, q: i.quantity }))),
+                items_json: JSON.stringify(items.map((i: { id: number; quantity: number }) => ({ id: i.id, q: i.quantity }))),
             },
             receipt_email: customerInfo?.email || undefined,
             description: `Commande Orient Relais — ${items.length} article(s)`,

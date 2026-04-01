@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { fetchWooProductsByCategory, fetchWooCategoryBySlug } from "@/lib/woocommerce";
+import { fetchWooProductsByCategory, fetchWooCategoryBySlug, fetchWooCategories } from "@/lib/woocommerce";
 import { CategoryProductGrid } from "@/components/shop/CategoryProductGrid";
 import { CategoryHeroSplit } from "@/components/shop/CategoryHeroSplit";
 import type { Metadata } from "next";
@@ -15,6 +15,17 @@ const SLUG_ALIASES: Record<string, string> = {
 function resolveSlug(slug: string): string {
     return SLUG_ALIASES[slug] || slug;
 }
+
+export async function generateStaticParams() {
+    const categories = await fetchWooCategories();
+    const slugs = categories.map((c) => c.slug);
+    // Also include alias slugs so old URLs still work
+    const aliasKeys = Object.keys(SLUG_ALIASES);
+    const allSlugs = [...new Set([...slugs, ...aliasKeys])];
+    return allSlugs.map((slug) => ({ slug }));
+}
+
+export const revalidate = 300;
 
 // ─── Fallback static images (used if WooCommerce has no image) ─
 const FALLBACK_IMAGES: Record<string, string> = {

@@ -112,7 +112,7 @@ export const fetchWooProducts = (page = 1, perPage = 100) => unstable_cache(
         }
     },
     [`woo-all-products-${page}-${perPage}`],
-    { revalidate: 60 } // Refresh every 60s
+    { revalidate: 300 }
 )(page, perPage);
 
 /**
@@ -130,17 +130,15 @@ export const fetchWooProductBySlug = (slug: string) => unstable_cache(
                 return ensureSlug(response.data[0]);
             }
 
-            // Fallback: if slug search fails, try fetching all and matching
-            const allProducts = await fetchWooProducts(1, 100);
-            const match = allProducts.find(p => p.slug === s);
-            return match || null;
+            // Slug not found — return null instead of loading all products
+            return null;
         } catch (error) {
             console.error(`Error fetching product with slug "${s}":`, error);
             return null;
         }
     },
     [`woo-product-by-slug-${slug}`],
-    { revalidate: 60 }
+    { revalidate: 300 }
 )(slug);
 
 /**
@@ -194,7 +192,7 @@ export const fetchWooProductsByCategory = (categorySlug: string) => unstable_cac
         }
     },
     [`woo-products-by-category-${categorySlug}`],
-    { revalidate: 60 }
+    { revalidate: 300 }
 )(categorySlug);
 
 /**
@@ -227,7 +225,7 @@ export const getFeaturedWooProducts = unstable_cache(
         }
     },
     ["woo-featured-products"],
-    { revalidate: 60 }
+    { revalidate: 120 }
 );
 
 /**
@@ -248,7 +246,7 @@ export const getPromoWooProducts = unstable_cache(
         }
     },
     ["woo-promo-products"],
-    { revalidate: 60 }
+    { revalidate: 120 }
 );
 
 /**
@@ -282,15 +280,14 @@ export const fetchWooCategories = unstable_cache(
             const cats = (response.data as WooCategory[]).filter(
                 (cat) => cat.slug !== "non-classe" && cat.slug !== "uncategorized"
             );
-            // console.log(`Woo API: Fetched ${cats.length} categories`);
-            return cats;
+                    return cats;
         } catch (error) {
             console.error("Error fetching WooCommerce categories:", error);
             return [];
         }
     },
-    ["woo-categories-v2"], // Bump version to force refresh
-    { revalidate: 60 } // Refresh every 60s
+    ["woo-categories-v2"],
+    { revalidate: 600 }
 );
 
 /**
@@ -313,7 +310,7 @@ export const fetchWooCategoryBySlug = (slug: string) => unstable_cache(
         }
     },
     [`woo-category-by-slug-${slug}`],
-    { revalidate: 60 }
+    { revalidate: 600 }
 )(slug);
 
 export default client;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe-server";
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
+import { wooClientWithQSAuth } from "@/lib/wc-client";
+import type Stripe from "stripe";
 
 // Stripe needs the raw body to verify the signature
 export const config = {
@@ -9,15 +10,8 @@ export const config = {
     },
 };
 
-const woo = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://www.orient-relais.com",
-    consumerKey: process.env.WC_CONSUMER_KEY || "",
-    consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-    version: "wc/v3",
-    queryStringAuth: true
-});
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const woo = wooClientWithQSAuth;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(req: NextRequest) {
     if (!webhookSecret) {
@@ -32,14 +26,15 @@ export async function POST(req: NextRequest) {
         let event;
         try {
             event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-        } catch (err: any) {
-            console.error(`Webhook signature verification failed: ${err.message}`);
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : "Unknown error";
+            console.error(`Webhook signature verification failed: ${message}`);
             return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
         }
 
         // We only care about successful payments
         if (event.type === "payment_intent.succeeded") {
-            const paymentIntent = event.data.object as any;
+            const paymentIntent = event.data.object as Stripe.PaymentIntent;
             const pmId = paymentIntent.id;
             const meta = paymentIntent.metadata;
 
@@ -53,10 +48,10 @@ export async function POST(req: NextRequest) {
             }
 
             // Reconstruct the items
-            let parsedItems: any[] = [];
+            let parsedItems: { id: number; q: number }[] = [];
             try {
                 parsedItems = JSON.parse(meta.items_json || "[]");
-            } catch (e) {
+            } catch {
                 console.error("Could not parse items_json from metadata");
             }
 
@@ -125,8 +120,9 @@ export async function POST(req: NextRequest) {
         }
 
         return NextResponse.json({ received: true });
-    } catch (err: any) {
-        console.error(`[Stripe Webhook Error] ${err.message}`);
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Unknown error";
+        console.error(`[Stripe Webhook Error] ${message}`);
         return NextResponse.json({ error: "Webhook handler failed." }, { status: 500 });
     }
 }

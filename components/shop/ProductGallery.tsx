@@ -43,6 +43,7 @@ export function ProductGallery({ images }: ProductGalleryProps) {
                             src={images[selectedImage].src}
                             alt={images[selectedImage].name}
                             fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
                             className="object-contain p-8 transition-transform duration-500 ease-out group-hover:scale-110"
                             priority
                         />
@@ -75,6 +76,7 @@ export function ProductGallery({ images }: ProductGalleryProps) {
                                 src={img.src}
                                 alt={img.name}
                                 fill
+                                sizes="80px"
                                 className="object-contain p-2"
                             />
                         </button>

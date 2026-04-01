@@ -1,32 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import { jwtVerify } from "jose";
+import { wooClient } from "@/lib/wc-client";
+import { getCustomerIdFromRequest } from "@/lib/auth";
 
-const client = new WooCommerceRestApi({
-    url: process.env.NEXT_PUBLIC_WORDPRESS_URL || "https://orient-relais.com",
-    consumerKey: process.env.WC_CONSUMER_KEY || "",
-    consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-    version: "wc/v3",
-});
-
-const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "orient-relais-jwt-secret-key-change-in-production"
-);
-
-async function getCustomerIdFromToken(request: NextRequest): Promise<number | null> {
-    const token = request.cookies.get("auth-token")?.value;
-    if (!token) return null;
-    try {
-        const { payload } = await jwtVerify(token, JWT_SECRET);
-        return payload.customerId as number;
-    } catch {
-        return null;
-    }
-}
+const client = wooClient;
 
 export async function GET(request: NextRequest) {
     try {
-        const customerId = await getCustomerIdFromToken(request);
+        const customerId = await getCustomerIdFromRequest(request);
         if (!customerId) {
             return NextResponse.json({ error: "Non autorisé." }, { status: 401 });
         }

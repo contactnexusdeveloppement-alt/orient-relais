@@ -1,25 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
-import { jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { wooClientWithQSAuth } from "@/lib/wc-client";
+import { getCustomerIdFromRequest } from "@/lib/auth";
 
-// Use www to avoid redirect loops
-const WOO_URL = (() => {
-    const url = process.env.NEXT_PUBLIC_WOOCOMMERCE_URL || "https://orient-relais.com";
-    return url === "https://orient-relais.com" ? "https://www.orient-relais.com" : url;
-})();
-
-const woo = new WooCommerceRestApi({
-    url: WOO_URL,
-    consumerKey: process.env.WC_CONSUMER_KEY || "",
-    consumerSecret: process.env.WC_CONSUMER_SECRET || "",
-    version: "wc/v3",
-    queryStringAuth: true,
-});
-
-const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || "orient-relais-jwt-secret-key-change-in-production"
-);
+const woo = wooClientWithQSAuth;
 
 export async function POST(request: NextRequest) {
     try {
@@ -63,17 +46,7 @@ export async function POST(request: NextRequest) {
         // ─────────────────────────────────────────────────────────────────────────
 
         // Get customer ID from JWT if logged in
-        let customerId: number | undefined;
-        const cookieStore = await cookies();
-        const token = cookieStore.get("auth-token")?.value;
-        if (token) {
-            try {
-                const { payload } = await jwtVerify(token, JWT_SECRET);
-                customerId = payload.customerId as number;
-            } catch {
-                // Continue without customer ID
-            }
-        }
+        const customerId = await getCustomerIdFromRequest(request) ?? undefined;
 
         // Build line items
         const lineItems = items.map((item: { id: number; title: string; quantity: number; price: number }) => ({
