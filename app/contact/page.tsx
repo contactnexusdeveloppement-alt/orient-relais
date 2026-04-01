@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Facebook } from "lucide-react";
 import { sendContactEmail } from "@/app/actions/contact";
 import { toast } from "sonner";
 
@@ -74,6 +74,15 @@ export default function ContactPage() {
                                     <p className="text-stone-600">
                                         48 avenue de Touraine,<br /> 78310 MAUREPAS, France
                                     </p>
+                                </div>
+                            </div>
+                            <div className="flex items-start gap-4 group">
+                                <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-primary shadow-sm transition-all group-hover:scale-110 group-hover:shadow-md group-hover:shadow-primary/20">
+                                    <Facebook className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <span className="block font-bold text-stone-900">Facebook</span>
+                                    <a href="https://www.facebook.com/profile.php?id=61576602865759" target="_blank" rel="noopener noreferrer" className="text-stone-600 hover:text-primary">Orient Relais</a>
                                 </div>
                             </div>
                         </div>

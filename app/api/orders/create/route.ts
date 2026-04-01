@@ -55,10 +55,12 @@ export async function POST(request: NextRequest) {
         }));
 
         // Build shipping lines
+        const shippingMethodId = shippingMethod === "mondialrelay" ? "mondial_relay" : shippingMethod === "clickcollect" ? "local_pickup" : "colissimo";
+        const shippingMethodTitle = shippingMethod === "mondialrelay" ? "Mondial Relay" : shippingMethod === "clickcollect" ? "Click & Collect — Retrait en boutique" : "Colissimo Domicile";
         const shippingLines = [
             {
-                method_id: shippingMethod === "mondialrelay" ? "mondial_relay" : "colissimo",
-                method_title: shippingMethod === "mondialrelay" ? "Mondial Relay" : "Colissimo Domicile",
+                method_id: shippingMethodId,
+                method_title: shippingMethodTitle,
                 total: shippingCost.toFixed(2),
             },
         ];
@@ -82,15 +84,21 @@ export async function POST(request: NextRequest) {
             shipping: {
                 first_name: customerInfo.firstName || "",
                 last_name: customerInfo.lastName || "",
-                address_1: shippingMethod === "mondialrelay" && selectedRelay
-                    ? `${selectedRelay.name} — ${selectedRelay.address}`
-                    : customerInfo.address || "",
-                city: shippingMethod === "mondialrelay" && selectedRelay
-                    ? selectedRelay.city
-                    : customerInfo.city || "",
-                postcode: shippingMethod === "mondialrelay" && selectedRelay
-                    ? selectedRelay.postcode
-                    : customerInfo.zip || "",
+                address_1: shippingMethod === "clickcollect"
+                    ? "Click & Collect — 48 avenue de Touraine"
+                    : shippingMethod === "mondialrelay" && selectedRelay
+                        ? `${selectedRelay.name} — ${selectedRelay.address}`
+                        : customerInfo.address || "",
+                city: shippingMethod === "clickcollect"
+                    ? "Maurepas"
+                    : shippingMethod === "mondialrelay" && selectedRelay
+                        ? selectedRelay.city
+                        : customerInfo.city || "",
+                postcode: shippingMethod === "clickcollect"
+                    ? "78310"
+                    : shippingMethod === "mondialrelay" && selectedRelay
+                        ? selectedRelay.postcode
+                        : customerInfo.zip || "",
                 country: "FR",
             },
             line_items: lineItems,

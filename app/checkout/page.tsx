@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronRight, CreditCard, Lock, MapPin, Truck, User, AlertCircle, Loader2 } from "lucide-react";
+import { ChevronRight, CreditCard, Lock, MapPin, Truck, User, AlertCircle, Loader2, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -122,12 +122,13 @@ export default function CheckoutPage() {
     const [cgvAccepted, setCgvAccepted] = useState(false);
 
     // Shipping method state
-    const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay">("colissimo");
+    const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay" | "clickcollect">("colissimo");
     const [selectedRelay, setSelectedRelay] = useState<RelayPoint | null>(null);
 
     // Colissimo: 6.90€ standard (tarif uniforme en attente de la grille poids exacte)
     // Mondial Relay: 3.90€ - 3 à 5 jours ouvrés
-    const shippingCost = shippingMethod === "mondialrelay" ? 3.90 : 6.90;
+    // Click & Collect: gratuit — retrait au 48 avenue de Touraine, 78310 MAUREPAS
+    const shippingCost = shippingMethod === "mondialrelay" ? 3.90 : shippingMethod === "clickcollect" ? 0 : 6.90;
     const total = subtotal + shippingCost;
 
     const handleRelaySelect = useCallback((point: RelayPoint) => {
@@ -395,6 +396,27 @@ export default function CheckoutPage() {
                                             </div>
                                             <span className="font-bold text-stone-900">3,90 €</span>
                                         </div>
+
+                                        {/* Option 3: Click & Collect */}
+                                        <div
+                                            onClick={() => { setShippingMethod("clickcollect"); setSelectedRelay(null); }}
+                                            className={`flex items-center space-x-4 border rounded-lg p-4 cursor-pointer transition-all ${shippingMethod === "clickcollect"
+                                                ? "border-primary bg-primary/5 ring-1 ring-primary"
+                                                : "border-stone-200 hover:border-stone-300 bg-stone-50"
+                                                }`}
+                                        >
+                                            <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${shippingMethod === "clickcollect" ? "border-primary" : "border-stone-300"
+                                                }`}>
+                                                {shippingMethod === "clickcollect" && (
+                                                    <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                                                )}
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="text-base font-medium text-stone-900">🏪 Click & Collect — Retrait en boutique</p>
+                                                <p className="text-sm text-stone-500">48 avenue de Touraine, 78310 Maurepas</p>
+                                            </div>
+                                            <span className="font-bold text-green-600">Gratuit</span>
+                                        </div>
                                     </div>
                                 </section>
 
@@ -417,6 +439,25 @@ export default function CheckoutPage() {
                                                 </p>
                                             </div>
                                         )}
+                                    </section>
+                                )}
+
+                                {/* Click & Collect Info */}
+                                {shippingMethod === "clickcollect" && (
+                                    <section className="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-300">
+                                        <h3 className="text-lg font-serif font-bold text-stone-900 mb-4 flex items-center gap-2">
+                                            <Store className="h-5 w-5 text-primary" />
+                                            Retrait en boutique
+                                        </h3>
+                                        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                            <p className="text-sm font-bold text-green-800">🏪 Adresse de retrait :</p>
+                                            <p className="text-sm text-green-700 mt-1">
+                                                Orient Relais — 48 avenue de Touraine, 78310 Maurepas
+                                            </p>
+                                            <p className="text-xs text-green-600 mt-2">
+                                                Vous recevrez un email lorsque votre commande sera prête à retirer.
+                                            </p>
+                                        </div>
                                     </section>
                                 )}
 
@@ -535,7 +576,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex justify-between text-stone-600">
                                     <span>Livraison</span>
-                                    <span>{shippingCost.toFixed(2)} €</span>
+                                    <span>{shippingCost === 0 ? <span className="text-green-600 font-medium">Gratuit</span> : `${shippingCost.toFixed(2)} €`}</span>
                                 </div>
                             </div>
 
@@ -596,8 +637,16 @@ export default function CheckoutPage() {
                                         <p className="text-stone-600 pl-5">
                                             {shippingMethod === "colissimo"
                                                 ? "📦 Colissimo — Livraison 24/48h"
-                                                : "📦 Mondial Relay — 3 à 5 jours ouvrés"}
+                                                : shippingMethod === "clickcollect"
+                                                    ? "🏪 Click & Collect — Retrait en boutique"
+                                                    : "📦 Mondial Relay — 3 à 5 jours ouvrés"}
                                         </p>
+                                        {shippingMethod === "clickcollect" && (
+                                            <div className="pl-5 mt-1 text-xs text-stone-500 bg-stone-50 p-2 rounded-md border border-stone-100">
+                                                <p className="font-medium text-stone-700">Orient Relais</p>
+                                                <p>48 avenue de Touraine, 78310 Maurepas</p>
+                                            </div>
+                                        )}
                                         {shippingMethod === "mondialrelay" && selectedRelay && (
                                             <div className="pl-5 mt-1 text-xs text-stone-500 bg-stone-50 p-2 rounded-md border border-stone-100">
                                                 <p className="font-medium text-stone-700">{selectedRelay.name}</p>

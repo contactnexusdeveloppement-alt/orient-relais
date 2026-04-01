@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, Instagram, ArrowRight, Sparkles } from "lucide-react";
+import { Phone, Mail, MapPin, Instagram, Facebook, ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { NewsletterForm } from "./NewsletterForm";
@@ -35,14 +35,12 @@ export function Footer() {
                         </div>
                         {/* Social links */}
                         <div className="flex gap-3">
-                            <Link href="#" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+                            <Link href="https://www.facebook.com/profile.php?id=61576602865759" target="_blank" rel="noopener noreferrer" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+                                <Facebook className="h-5 w-5 text-stone-400 group-hover:text-white transition-colors" />
+                            </Link>
+                            <Link href="https://www.instagram.com/orientrelais/" target="_blank" rel="noopener noreferrer" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
                                 <Instagram className="h-5 w-5 text-stone-400 group-hover:text-white transition-colors" />
                             </Link>
-                            {/* 
-                            <Link href="#" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
-                                <span className="font-bold text-stone-400 group-hover:text-white flex items-center justify-center text-xs transition-colors">Tk</span>
-                            </Link>
-                            */}
                         </div>
                     </div>
 
