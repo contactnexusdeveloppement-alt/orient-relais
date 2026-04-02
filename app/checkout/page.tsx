@@ -125,10 +125,11 @@ export default function CheckoutPage() {
     const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay" | "clickcollect">("colissimo");
     const [selectedRelay, setSelectedRelay] = useState<RelayPoint | null>(null);
 
-    // Colissimo: 6.90€ standard (tarif uniforme en attente de la grille poids exacte)
-    // Mondial Relay: 3.90€ - 3 à 5 jours ouvrés
-    // Click & Collect: gratuit — retrait au 48 avenue de Touraine, 78310 MAUREPAS
-    const shippingCost = shippingMethod === "mondialrelay" ? 3.90 : shippingMethod === "clickcollect" ? 0 : 6.90;
+    // Livraison offerte dès 39€ (Colissimo & Mondial Relay)
+    // Click & Collect: toujours gratuit
+    const FREE_SHIPPING_THRESHOLD = 39;
+    const baseShippingCost = shippingMethod === "mondialrelay" ? 3.90 : shippingMethod === "clickcollect" ? 0 : 6.90;
+    const shippingCost = shippingMethod === "clickcollect" ? 0 : subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : baseShippingCost;
     const total = subtotal + shippingCost;
 
     const handleRelaySelect = useCallback((point: RelayPoint) => {
