@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   keywords: ["savon d'Alep", "bio", "huiles essentielles", "compléments alimentaires", "naturel", "MAUREPAS", "Orient Relais"],
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
-  metadataBase: new URL("https://orient-relais.com"),
+  metadataBase: new URL("https://www.orient-relais.com"),
   alternates: {
     canonical: "/",
   },
@@ -84,8 +84,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 name: "Orient Relais",
-                url: "https://orient-relais.com",
-                logo: "https://orient-relais.com/images/logo-new.png",
+                url: "https://www.orient-relais.com",
+                logo: "https://www.orient-relais.com/images/logo-new.png",
                 description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles, compléments alimentaires naturels.",
                 address: {
                   "@type": "PostalAddress",
@@ -100,17 +100,34 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                   contactType: "customer service",
                   availableLanguage: "French",
                 },
+                sameAs: [
+                  "https://www.facebook.com/profile.php?id=61576602865759",
+                  "https://www.instagram.com/orientrelais/",
+                ],
               },
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 name: "Orient Relais",
-                url: "https://orient-relais.com",
+                url: "https://www.orient-relais.com",
                 potentialAction: {
                   "@type": "SearchAction",
-                  target: "https://orient-relais.com/boutique?search={search_term_string}",
+                  target: "https://www.orient-relais.com/boutique?search={search_term_string}",
                   "query-input": "required name=search_term_string",
                 },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SiteNavigationElement",
+                name: "Navigation principale",
+                hasPart: [
+                  { "@type": "WebPage", name: "Savons d'Alep", url: "https://www.orient-relais.com/categorie/savons-dalep" },
+                  { "@type": "WebPage", name: "Huiles Essentielles", url: "https://www.orient-relais.com/categorie/huiles-essentielles" },
+                  { "@type": "WebPage", name: "Complements Alimentaires", url: "https://www.orient-relais.com/categorie/complements" },
+                  { "@type": "WebPage", name: "Soins et Beaute", url: "https://www.orient-relais.com/categorie/soins-et-beaute" },
+                  { "@type": "WebPage", name: "Coffrets Cadeaux", url: "https://www.orient-relais.com/categorie/coffrets" },
+                  { "@type": "WebPage", name: "Epicerie Orientale", url: "https://www.orient-relais.com/categorie/epicerie-orientale" },
+                ],
               },
             ]),
           }}

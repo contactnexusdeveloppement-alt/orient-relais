@@ -14,7 +14,7 @@ const CATEGORIES = [
     { slug: "coffrets" },
     { slug: "miel" },
     { slug: "accessoires" },
-    // "epicerie-orientale" and "idees-cadeaux" excluded until they have products
+    { slug: "epicerie-orientale" },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

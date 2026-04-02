@@ -72,8 +72,22 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
 
     const products = await fetchWooProductsByCategory(slug);
 
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.orient-relais.com" },
+            { "@type": "ListItem", position: 2, name: "Boutique", item: "https://www.orient-relais.com/boutique" },
+            { "@type": "ListItem", position: 3, name: wooCategory.name, item: `https://www.orient-relais.com/categorie/${slug}` },
+        ],
+    };
+
     return (
         <div className="flex flex-col bg-white">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
             {/* Split Hero Banner — image comes from WooCommerce */}
             <CategoryHeroSplit
                 title={wooCategory.name}

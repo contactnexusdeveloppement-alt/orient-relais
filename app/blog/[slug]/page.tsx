@@ -1,9 +1,35 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock, Calendar, ArrowRight } from "lucide-react";
-import { getArticleBySlug, getRelatedArticles } from "@/data/articles";
+import { getArticleBySlug, getRelatedArticles, ARTICLES } from "@/data/articles";
 import ReactMarkdown from "react-markdown";
+
+export async function generateStaticParams() {
+    return ARTICLES.map((article) => ({ slug: article.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const slug = (await params).slug;
+    const article = getArticleBySlug(slug);
+    if (!article) return { title: "Article introuvable" };
+
+    return {
+        title: `${article.title} | Orient Relais`,
+        description: article.excerpt,
+        openGraph: {
+            title: article.title,
+            description: article.excerpt,
+            type: "article",
+            publishedTime: article.date,
+            images: [{ url: article.image }],
+        },
+        alternates: {
+            canonical: `/blog/${article.slug}`,
+        },
+    };
+}
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
     const slug = (await params).slug;
@@ -15,8 +41,34 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
     const relatedArticles = getRelatedArticles(slug, 2);
 
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: article.title,
+        description: article.excerpt,
+        image: `https://www.orient-relais.com${article.image}`,
+        datePublished: article.date,
+        author: {
+            "@type": "Organization",
+            name: "Orient Relais",
+            url: "https://www.orient-relais.com",
+        },
+        publisher: {
+            "@type": "Organization",
+            name: "Orient Relais",
+            logo: {
+                "@type": "ImageObject",
+                url: "https://www.orient-relais.com/images/Logo_respon.png",
+            },
+        },
+    };
+
     return (
         <div className="container mx-auto px-4 py-8 md:py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             {/* Back Link */}
             <Link href="/blog" className="inline-flex items-center text-sm text-stone-500 hover:text-primary mb-8">
                 <ArrowLeft className="mr-2 h-4 w-4" /> Retour au journal
