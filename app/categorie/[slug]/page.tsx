@@ -40,18 +40,45 @@ const FALLBACK_IMAGES: Record<string, string> = {
     "idees-cadeaux": "/images/categories/coffrets-cadeaux-v2.webp",
 };
 
+// ─── Known categories fallback (used when WooCommerce API is down) ─
+const KNOWN_CATEGORIES: Record<string, { name: string; description: string }> = {
+    "savons-dalep": { name: "Savons d'Alep", description: "Découvrez notre sélection de savons d'Alep authentiques, fabriqués artisanalement selon une tradition millénaire." },
+    "huiles-essentielles": { name: "Huiles Essentielles", description: "Nos huiles essentielles bio certifiées pour votre bien-être au quotidien." },
+    complements: { name: "Compléments", description: "Compléments alimentaires naturels et bio pour renforcer votre santé." },
+    "soins-et-beaute": { name: "Soins et Beauté", description: "Révélez votre beauté naturelle avec nos soins cosmétiques éthiques et biologiques." },
+    coffrets: { name: "Coffrets", description: "Nos coffrets cadeaux composés de produits naturels et bio, parfaits pour offrir." },
+    "epicerie-orientale": { name: "Épicerie Orientale", description: "Découvrez nos produits d'épicerie orientale authentiques et savoureux." },
+    miel: { name: "Miel", description: "Miels naturels et purs, récoltés avec soin pour préserver toutes leurs qualités." },
+    accessoires: { name: "Accessoires", description: "Accessoires naturels pour accompagner vos rituels de soin au quotidien." },
+    "idees-cadeaux": { name: "Idées Cadeaux", description: "Trouvez le cadeau parfait parmi notre sélection de produits naturels." },
+};
+
+// ─── Fetch with retry (OVH shared hosting can be slow) ─
+async function fetchCategoryWithRetry(slug: string, retries = 2) {
+    for (let i = 0; i <= retries; i++) {
+        const result = await fetchWooCategoryBySlug(slug);
+        if (result) return result;
+        if (i < retries) await new Promise(r => setTimeout(r, 1000));
+    }
+    return null;
+}
+
 // ─── Metadata ─────────────────────────────────────────────────
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const slug = resolveSlug((await params).slug);
     const wooCategory = await fetchWooCategoryBySlug(slug);
+    const fallback = KNOWN_CATEGORIES[slug];
 
-    if (!wooCategory) {
+    if (!wooCategory && !fallback) {
         return { title: "Catégorie introuvable | Orient Relais" };
     }
 
+    const name = wooCategory?.name || fallback?.name || slug;
+    const desc = wooCategory?.description || fallback?.description || "";
+
     return {
-        title: `${wooCategory.name} | Orient Relais - Boutique Bio`,
-        description: wooCategory.description || `Découvrez notre sélection de ${wooCategory.name.toLowerCase()} bio et naturels. Livraison offerte dès 39€.`,
+        title: `${name} | Orient Relais - Boutique Bio`,
+        description: desc || `Découvrez notre sélection de ${name.toLowerCase()} bio et naturels. Livraison offerte dès 39€.`,
     };
 }
 
@@ -60,15 +87,20 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     const rawSlug = (await params).slug;
     const slug = resolveSlug(rawSlug);
 
-    // Fetch category info from WooCommerce (with image!)
-    const wooCategory = await fetchWooCategoryBySlug(slug);
+    // Fetch category info from WooCommerce with retry
+    const wooCategory = await fetchCategoryWithRetry(slug);
 
-    if (!wooCategory) {
+    // If API fails but it's a known category, use fallback data instead of 404
+    const knownFallback = KNOWN_CATEGORIES[slug];
+    if (!wooCategory && !knownFallback) {
         notFound();
     }
 
+    const categoryName = wooCategory?.name || knownFallback?.name || slug;
+    const categoryDescription = wooCategory?.description || knownFallback?.description || "";
+
     // Use WooCommerce image if set, otherwise fall back to static
-    const bannerImage = wooCategory.image?.src || FALLBACK_IMAGES[slug] || "/images/categories/savons-alep-v2.webp";
+    const bannerImage = wooCategory?.image?.src || FALLBACK_IMAGES[slug] || "/images/categories/savons-alep-v2.webp";
 
     const products = await fetchWooProductsByCategory(slug);
 
@@ -78,7 +110,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         itemListElement: [
             { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.orient-relais.com" },
             { "@type": "ListItem", position: 2, name: "Boutique", item: "https://www.orient-relais.com/boutique" },
-            { "@type": "ListItem", position: 3, name: wooCategory.name, item: `https://www.orient-relais.com/categorie/${slug}` },
+            { "@type": "ListItem", position: 3, name: categoryName, item: `https://www.orient-relais.com/categorie/${slug}` },
         ],
     };
 
@@ -90,8 +122,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             />
             {/* Split Hero Banner — image comes from WooCommerce */}
             <CategoryHeroSplit
-                title={wooCategory.name}
-                description={wooCategory.description}
+                title={categoryName}
+                description={categoryDescription}
                 image={bannerImage}
             />
 
