@@ -74,6 +74,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        {/* Google Analytics (GA4) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TKE6MX2P5G" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-TKE6MX2P5G');`,
+          }}
+        />
+      </head>
       <body className={`${playfair.variable} ${manrope.variable} antialiased flex flex-col min-h-screen font-sans`}>
         {/* Organization + WebSite JSON-LD for Google */}
         <script
