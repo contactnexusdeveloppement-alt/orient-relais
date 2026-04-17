@@ -1,19 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
+import { loginSchema, firstErrorMessage } from "@/lib/validation";
+import { checkRateLimitAsync, getClientIp } from "@/lib/rate-limit";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password } = await request.json();
-
-        if (!email || !password) {
+        const ip = getClientIp(request);
+        const rl = await checkRateLimitAsync(`login:${ip}`, 5, 15 * 60 * 1000);
+        if (!rl.allowed) {
             return NextResponse.json(
-                { error: "Email et mot de passe requis." },
+                { error: "Trop de tentatives. Réessayez dans quelques minutes." },
+                { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+            );
+        }
+
+        const body = await request.json().catch(() => null);
+        const parsed = loginSchema.safeParse(body);
+        if (!parsed.success) {
+            return NextResponse.json(
+                { error: firstErrorMessage(parsed.error) },
                 { status: 400 }
             );
         }
+        const { email, password } = parsed.data;
 
         // Try to authenticate via WordPress REST API
         const wpResponse = await fetch(

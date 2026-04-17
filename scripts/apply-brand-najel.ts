@@ -33,7 +33,7 @@ async function applyBrandNajel() {
 
         // 1. Check Brand Attribute
         const brandAttrIndex = currentAttributes.findIndex((a: any) => a.name.toLowerCase() === "marque");
-        let newAttributes = [...currentAttributes];
+        const newAttributes = [...currentAttributes];
 
         if (brandAttrIndex === -1) {
             newAttributes.push({
@@ -50,7 +50,7 @@ async function applyBrandNajel() {
 
         // 2. Check Najel Tag
         const hasNajelTag = currentTags.some((t: any) => t.name.toLowerCase() === "najel");
-        let newTags = [...currentTags];
+        const newTags = [...currentTags];
 
         if (!hasNajelTag) {
             newTags.push({ name: "Najel" });

@@ -1,26 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
+import { registerSchema, firstErrorMessage } from "@/lib/validation";
+import { checkRateLimitAsync, getClientIp } from "@/lib/rate-limit";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password, firstName, lastName } = await request.json();
-
-        if (!email || !password || !firstName || !lastName) {
+        const ip = getClientIp(request);
+        const rl = await checkRateLimitAsync(`register:${ip}`, 3, 60 * 60 * 1000);
+        if (!rl.allowed) {
             return NextResponse.json(
-                { error: "Tous les champs sont requis." },
-                { status: 400 }
+                { error: "Trop de tentatives d'inscription. Réessayez plus tard." },
+                { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
             );
         }
 
-        if (password.length < 6) {
+        const body = await request.json().catch(() => null);
+        const parsed = registerSchema.safeParse(body);
+        if (!parsed.success) {
             return NextResponse.json(
-                { error: "Le mot de passe doit contenir au moins 6 caractères." },
+                { error: firstErrorMessage(parsed.error) },
                 { status: 400 }
             );
         }
+        const { email, password, firstName, lastName } = parsed.data;
 
         // Check if customer already exists
         try {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -103,12 +103,27 @@ export default function MonComptePage() {
         }
     }, [isAuthenticated, activeTab]);
 
-    // Fetch wishlist products
+    const fetchWishlistProducts = useCallback(async () => {
+        setWishlistLoading(true);
+        try {
+            const ids = wishlistItems.join(",");
+            const res = await fetch(`/api/products?include=${ids}`);
+            if (res.ok) {
+                const data = await res.json();
+                setWishlistProducts(data.products || data || []);
+            }
+        } catch {
+            console.error("Failed to fetch wishlist products");
+        } finally {
+            setWishlistLoading(false);
+        }
+    }, [wishlistItems]);
+
     useEffect(() => {
         if (activeTab === "wishlist" && wishlistItems.length > 0) {
             fetchWishlistProducts();
         }
-    }, [activeTab, wishlistItems]);
+    }, [activeTab, wishlistItems, fetchWishlistProducts]);
 
     const fetchOrders = async () => {
         setOrdersLoading(true);
@@ -122,22 +137,6 @@ export default function MonComptePage() {
             console.error("Failed to fetch orders");
         } finally {
             setOrdersLoading(false);
-        }
-    };
-
-    const fetchWishlistProducts = async () => {
-        setWishlistLoading(true);
-        try {
-            const ids = wishlistItems.join(",");
-            const res = await fetch(`/api/products?include=${ids}`);
-            if (res.ok) {
-                const data = await res.json();
-                setWishlistProducts(data.products || data || []);
-            }
-        } catch {
-            console.error("Failed to fetch wishlist products");
-        } finally {
-            setWishlistLoading(false);
         }
     };
 
