@@ -57,8 +57,23 @@
 - `npm run lint` : must pass
 - Push branche → ouvrir PR
 
-## Out of scope (à traiter après)
-- Conversion PNG → WebP (perf, 2h)
-- Configuration Upstash Redis pour rate-limit multi-region (prod)
-- Tests automatisés (aucun framework actuellement)
+## Post-audit follow-ups (traités dans la même PR)
+- Migration GA4 vers `next/script`
+- Fix `useEffect` exhaustive-deps dans `app/mon-compte/page.tsx`
+- Compression PNG + WebP siblings (public/images/*)
+- Suite Vitest (tests/sanitize, tests/validation, tests/rate-limit)
+- Rate-limit : Upstash Redis quand `UPSTASH_REDIS_REST_URL` +
+  `UPSTASH_REDIS_REST_TOKEN` sont définis, sinon fallback in-memory
+- Bumps sécu : `next@15.5.15`, `nodemailer@8.0.5`, `picomatch`
+
+## Production env vars à ajouter (optionnel mais recommandé)
+Pour activer le rate-limit distribué (sinon il fonctionne en mémoire) :
+```
+UPSTASH_REDIS_REST_URL=https://<your-db>.upstash.io
+UPSTASH_REDIS_REST_TOKEN=<your-token>
+```
+
+## Out of scope
 - Audit OWASP complet post-fix
+- Tests pour les composants React
+- Lint errors pré-existants dans `scripts/*.js` et `tailwind.config.js`

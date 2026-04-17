@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
 import { registerSchema, firstErrorMessage } from "@/lib/validation";
-import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { checkRateLimitAsync, getClientIp } from "@/lib/rate-limit";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
         const ip = getClientIp(request);
-        const rl = checkRateLimit(`register:${ip}`, 3, 60 * 60 * 1000);
+        const rl = await checkRateLimitAsync(`register:${ip}`, 3, 60 * 60 * 1000);
         if (!rl.allowed) {
             return NextResponse.json(
                 { error: "Trop de tentatives d'inscription. Réessayez plus tard." },
