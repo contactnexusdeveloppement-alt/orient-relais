@@ -1,9 +1,11 @@
 import { NextRequest } from 'next/server';
 import * as https from 'https';
+import * as tls from 'tls';
 
 // We intercept /wp-admin, /wp-login.php, /wp-json, /wp-content, /wp-includes
 const WP_BACKEND_IP = process.env.WP_BACKEND_IP || '51.91.236.255';
 const WP_DOMAIN = process.env.WP_BACKEND_DOMAIN || 'www.orient-relais.com';
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 export async function GET(request: NextRequest) { return handleProxy(request); }
 export async function POST(request: NextRequest) { return handleProxy(request); }
@@ -40,20 +42,22 @@ async function handleProxy(request: NextRequest) {
     delete headers['x-invoke-query'];
 
     return new Promise<Response>((resolve) => {
-        const options = {
+        const options: https.RequestOptions = {
             hostname: WP_BACKEND_IP,
-            port: 443, // Utiliser HTTPS vers OVH pour éviter sa redirection 301 interne
+            port: 443,
             path: pathAndQuery,
             method: request.method,
             headers: headers,
-            servername: WP_DOMAIN, // Vital pour le SNI sur hébergement mutualisé
-            rejectUnauthorized: false // L'IP ne matchera pas le sujet du cert (orient-relais.com)
+            servername: WP_DOMAIN, // SNI for OVH shared hosting
+            rejectUnauthorized: true,
+            // Validate the cert against WP_DOMAIN (the SNI name) instead of the
+            // raw backend IP so the connection fails closed on a tampered cert.
+            checkServerIdentity: (_host, cert) => tls.checkServerIdentity(WP_DOMAIN, cert),
         };
 
         const proxyReq = https.request(options, (proxyRes) => {
-            console.log(`[Proxy] Response from OVH: ${proxyRes.statusCode} for ${pathAndQuery}`);
-            if (proxyRes.statusCode && proxyRes.statusCode >= 300 && proxyRes.statusCode < 400) {
-                console.log(`[Proxy] Redirect Location: ${proxyRes.headers.location}`);
+            if (IS_DEV) {
+                console.log(`[Proxy] ${proxyRes.statusCode} ${pathAndQuery}`);
             }
 
             const responseHeaders = new Headers();
@@ -71,7 +75,7 @@ async function handleProxy(request: NextRequest) {
                             finalValue = finalValue.replace(`http://${WP_BACKEND_IP}`, `https://www.orient-relais.com`);
 
                             // On ne touche plus au slash final car trailingSlash: true est activé dans next.config.ts
-                            console.log(`[Proxy] Rewriting Location: ${value} -> ${finalValue}`);
+                            if (IS_DEV) console.log(`[Proxy] Rewrite Location: ${value} -> ${finalValue}`);
                         }
                         responseHeaders.set(key, finalValue);
                     }
