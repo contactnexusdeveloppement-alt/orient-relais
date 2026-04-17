@@ -1,4 +1,4 @@
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtmlLib from "sanitize-html";
 
 const ALLOWED_TAGS = [
     "p", "br", "b", "i", "em", "strong", "u", "a", "ul", "ol", "li",
@@ -6,20 +6,23 @@ const ALLOWED_TAGS = [
     "tbody", "tr", "td", "th", "img", "blockquote", "hr", "sup", "sub",
 ];
 
-const ALLOWED_ATTR = [
-    "href", "src", "alt", "title", "class", "id", "width", "height",
-    "target", "rel", "colspan", "rowspan",
-];
+const ALLOWED_ATTRS: Record<string, string[]> = {
+    a: ["href", "title", "target", "rel"],
+    img: ["src", "alt", "title", "width", "height"],
+    "*": ["class", "id"],
+    td: ["colspan", "rowspan"],
+    th: ["colspan", "rowspan"],
+};
 
 export function sanitizeHtml(html: string): string {
     if (!html) return "";
-    return DOMPurify.sanitize(html, {
-        ALLOWED_TAGS,
-        ALLOWED_ATTR,
-        ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-        FORBID_TAGS: ["script", "style", "iframe", "object", "embed", "form", "input", "button", "select", "textarea"],
-        FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover", "onfocus", "onblur", "onchange", "onsubmit"],
-        KEEP_CONTENT: true,
+    return sanitizeHtmlLib(html, {
+        allowedTags: ALLOWED_TAGS,
+        allowedAttributes: ALLOWED_ATTRS,
+        allowedSchemes: ["http", "https", "mailto", "tel"],
+        allowedSchemesByTag: { img: ["http", "https"] },
+        allowProtocolRelative: false,
+        disallowedTagsMode: "discard",
     });
 }
 
