@@ -2,11 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
 import { loginSchema, firstErrorMessage } from "@/lib/validation";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
+        const ip = getClientIp(request);
+        const rl = checkRateLimit(`login:${ip}`, 5, 15 * 60 * 1000);
+        if (!rl.allowed) {
+            return NextResponse.json(
+                { error: "Trop de tentatives. Réessayez dans quelques minutes." },
+                { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+            );
+        }
+
         const body = await request.json().catch(() => null);
         const parsed = loginSchema.safeParse(body);
         if (!parsed.success) {
