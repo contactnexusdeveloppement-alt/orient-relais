@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Manrope } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 
@@ -75,16 +76,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Google Analytics (GA4) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TKE6MX2P5G" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TKE6MX2P5G"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-TKE6MX2P5G');`,
-          }}
-        />
+gtag('config', 'G-TKE6MX2P5G');`}
+        </Script>
       </head>
       <body className={`${playfair.variable} ${manrope.variable} antialiased flex flex-col min-h-screen font-sans`}>
         {/* Organization + WebSite JSON-LD for Google */}
