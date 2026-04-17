@@ -64,7 +64,6 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                 // Clear previous widget content
                 containerRef.current.innerHTML = "";
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const $ = window.jQuery as any;
 
                 // Initialize the widget
