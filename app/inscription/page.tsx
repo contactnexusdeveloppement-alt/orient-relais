@@ -33,11 +33,6 @@ export default function InscriptionPage() {
             return;
         }
 
-        if (formData.password.length < 6) {
-            setError("Le mot de passe doit contenir au moins 6 caractères.");
-            return;
-        }
-
         setIsLoading(true);
         const result = await register({
             email: formData.email,
@@ -123,7 +118,7 @@ export default function InscriptionPage() {
                                 required
                                 id="password"
                                 type={showPassword ? "text" : "password"}
-                                placeholder="6 caractères minimum"
+                                placeholder="10+ caractères, 1 maj, 1 chiffre, 1 symbole"
                                 className="pl-10 pr-10"
                                 value={formData.password}
                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}

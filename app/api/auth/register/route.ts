@@ -1,26 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
+import { registerSchema, firstErrorMessage } from "@/lib/validation";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password, firstName, lastName } = await request.json();
-
-        if (!email || !password || !firstName || !lastName) {
+        const body = await request.json().catch(() => null);
+        const parsed = registerSchema.safeParse(body);
+        if (!parsed.success) {
             return NextResponse.json(
-                { error: "Tous les champs sont requis." },
+                { error: firstErrorMessage(parsed.error) },
                 { status: 400 }
             );
         }
-
-        if (password.length < 6) {
-            return NextResponse.json(
-                { error: "Le mot de passe doit contenir au moins 6 caractères." },
-                { status: 400 }
-            );
-        }
+        const { email, password, firstName, lastName } = parsed.data;
 
         // Check if customer already exists
         try {

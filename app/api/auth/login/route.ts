@@ -1,19 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { wooClient } from "@/lib/wc-client";
 import { signToken } from "@/lib/auth";
+import { loginSchema, firstErrorMessage } from "@/lib/validation";
 
 const client = wooClient;
 
 export async function POST(request: NextRequest) {
     try {
-        const { email, password } = await request.json();
-
-        if (!email || !password) {
+        const body = await request.json().catch(() => null);
+        const parsed = loginSchema.safeParse(body);
+        if (!parsed.success) {
             return NextResponse.json(
-                { error: "Email et mot de passe requis." },
+                { error: firstErrorMessage(parsed.error) },
                 { status: 400 }
             );
         }
+        const { email, password } = parsed.data;
 
         // Try to authenticate via WordPress REST API
         const wpResponse = await fetch(
