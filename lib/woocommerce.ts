@@ -58,9 +58,41 @@ async function getCategoryId(slug: string): Promise<number | null> {
 }
 
 /**
+ * Helper: decode HTML entities WordPress/WooCommerce returns in names
+ * (e.g. "Najel &amp; Rhassoul" -> "Najel & Rhassoul"). Kept minimal since
+ * the set of entities WP emits in names is small and well-known.
+ */
+function decodeHtmlEntities(input: string): string {
+    if (!input) return input;
+    return input
+        .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)))
+        .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCharCode(parseInt(code, 16)))
+        .replace(/&amp;/g, "&")
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'")
+        .replace(/&apos;/g, "'")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&laquo;/g, "«")
+        .replace(/&raquo;/g, "»")
+        .replace(/&eacute;/g, "é")
+        .replace(/&egrave;/g, "è")
+        .replace(/&ecirc;/g, "ê")
+        .replace(/&agrave;/g, "à")
+        .replace(/&acirc;/g, "â")
+        .replace(/&ccedil;/g, "ç")
+        .replace(/&ocirc;/g, "ô")
+        .replace(/&ucirc;/g, "û")
+        .replace(/&ugrave;/g, "ù");
+}
+
+/**
  * Helper: generate a slug from a product name if the API returns empty slug.
+ * Also decodes HTML entities in product.name / product.short_description.
  */
 function ensureSlug(product: WooProduct): WooProduct {
+    if (product.name) product.name = decodeHtmlEntities(product.name);
     if (!product.slug && product.name) {
         product.slug = product.name
             .toLowerCase()
@@ -277,10 +309,10 @@ export const fetchWooCategories = unstable_cache(
                 per_page: 100,
                 hide_empty: false,
             });
-            const cats = (response.data as WooCategory[]).filter(
-                (cat) => cat.slug !== "non-classe" && cat.slug !== "uncategorized"
-            );
-                    return cats;
+            const cats = (response.data as WooCategory[])
+                .filter((cat) => cat.slug !== "non-classe" && cat.slug !== "uncategorized")
+                .map((cat) => ({ ...cat, name: decodeHtmlEntities(cat.name) }));
+            return cats;
         } catch (error) {
             console.error("Error fetching WooCommerce categories:", error);
             return [];
@@ -301,7 +333,8 @@ export const fetchWooCategoryBySlug = (slug: string) => unstable_cache(
                 per_page: 1,
             });
             if (response.data.length > 0) {
-                return response.data[0] as WooCategory;
+                const cat = response.data[0] as WooCategory;
+                return { ...cat, name: decodeHtmlEntities(cat.name) };
             }
             return null;
         } catch (error) {
