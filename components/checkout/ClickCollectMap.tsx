@@ -51,7 +51,8 @@ export function ClickCollectMap() {
 
     useEffect(() => {
         let cancelled = false;
-        let mapInstance: { remove: () => void } | null = null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let mapInstance: any = null;
 
         (async () => {
             try {
@@ -98,6 +99,15 @@ export function ClickCollectMap() {
                     .openPopup();
 
                 setIsLoading(false);
+
+                // Leaflet miscalculates tile coverage when the container is
+                // toggled from display:none (or hidden) to block; force a
+                // resize after paint so all tiles load correctly.
+                requestAnimationFrame(() => {
+                    if (!cancelled && mapInstance) {
+                        mapInstance.invalidateSize();
+                    }
+                });
             } catch (err) {
                 console.error("Failed to load Click & Collect map:", err);
                 if (!cancelled) {
@@ -117,26 +127,25 @@ export function ClickCollectMap() {
 
     return (
         <div className="space-y-3">
-            {isLoading && (
-                <div className="flex items-center justify-center py-6 bg-stone-50 rounded-lg border border-stone-200">
-                    <div className="flex items-center gap-3 text-stone-500 text-sm">
-                        <span className="h-4 w-4 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" />
-                        Chargement de la carte...
-                    </div>
-                </div>
-            )}
             {error && (
                 <p className="text-xs text-stone-500 italic">{error}</p>
             )}
-            <div
-                ref={containerRef}
-                className="rounded-lg overflow-hidden border border-stone-200"
-                style={{
-                    height: 320,
-                    display: isLoading || error ? "none" : "block",
-                }}
-                aria-label={`Carte — ${STORE_ADDRESS}`}
-            />
+            <div className="relative">
+                <div
+                    ref={containerRef}
+                    className="rounded-lg overflow-hidden border border-stone-200"
+                    style={{ height: 320, visibility: error ? "hidden" : "visible" }}
+                    aria-label={`Carte — ${STORE_ADDRESS}`}
+                />
+                {isLoading && !error && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-stone-50/80 backdrop-blur-sm rounded-lg border border-stone-200 z-[500]">
+                        <div className="flex items-center gap-3 text-stone-500 text-sm">
+                            <span className="h-4 w-4 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" />
+                            Chargement de la carte...
+                        </div>
+                    </div>
+                )}
+            </div>
             <a
                 href={`https://www.google.com/maps/dir/?api=1&destination=${STORE_LAT},${STORE_LNG}`}
                 target="_blank"
