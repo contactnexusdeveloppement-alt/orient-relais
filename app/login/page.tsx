@@ -10,11 +10,21 @@ import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/AuthContext";
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 
+// Only accept same-origin redirect targets to block open-redirect attacks
+// like /login?redirect=https://evil.example.
+function sanitizeRedirect(value: string | null): string {
+    if (!value) return "/mon-compte";
+    if (!value.startsWith("/") || value.startsWith("//") || value.startsWith("/\\")) {
+        return "/mon-compte";
+    }
+    return value;
+}
+
 export default function LoginPage() {
     const { login } = useAuth();
     const router = useRouter();
     const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirect") || "/mon-compte";
+    const redirect = sanitizeRedirect(searchParams.get("redirect"));
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

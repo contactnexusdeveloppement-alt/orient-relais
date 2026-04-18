@@ -3,6 +3,7 @@ import { fetchWooProductsByCategory, fetchWooCategoryBySlug, fetchWooCategories 
 import { CategoryProductGrid } from "@/components/shop/CategoryProductGrid";
 import { CategoryHeroSplit } from "@/components/shop/CategoryHeroSplit";
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/json-ld";
 
 // ─── Slug aliases (old URLs → real WooCommerce slugs) ─────────
 const SLUG_ALIASES: Record<string, string> = {
@@ -118,7 +119,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         <div className="flex flex-col bg-white">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+                dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
             />
             {/* Split Hero Banner — image comes from WooCommerce */}
             <CategoryHeroSplit

@@ -13,6 +13,7 @@ import { fetchWooProductBySlug, fetchWooProducts, fetchWooProductsByCategory } f
 import type { Metadata } from "next";
 import { WooProduct } from "@/lib/woocommerce-types";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { jsonLdScript } from "@/lib/json-ld";
 
 // Helper to clean HTML descriptions for metadata
 function stripHtml(html: string) {
@@ -159,7 +160,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             {/* JSON-LD Structured Data */}
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
             />
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 text-sm text-stone-500 mb-8 overflow-x-auto whitespace-nowrap px-4 py-3 bg-stone-50/50 rounded-xl border border-stone-100">

@@ -67,7 +67,7 @@ function StripePaymentForm({
                     Paiement sécurisé
                 </h2>
 
-                <div className="mb-6">
+                <div className="mb-6" role="group" aria-label="Formulaire de paiement sécurisé Stripe">
                     <PaymentElement
                         options={{
                             layout: "tabs",

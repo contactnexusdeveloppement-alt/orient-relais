@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, Clock, Calendar, ArrowRight } from "lucide-react";
 import { getArticleBySlug, getRelatedArticles, ARTICLES } from "@/data/articles";
 import ReactMarkdown from "react-markdown";
+import { jsonLdScript } from "@/lib/json-ld";
 
 export async function generateStaticParams() {
     return ARTICLES.map((article) => ({ slug: article.slug }));
@@ -67,7 +68,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <div className="container mx-auto px-4 py-8 md:py-12">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
             />
             {/* Back Link */}
             <Link href="/blog" className="inline-flex items-center text-sm text-stone-500 hover:text-primary mb-8">

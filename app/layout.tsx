@@ -3,6 +3,7 @@ import { Playfair_Display, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ClientLayout } from "@/components/layout/ClientLayout";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -92,7 +93,7 @@ gtag('config', 'G-TKE6MX2P5G');`}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
+            __html: jsonLdScript([
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
