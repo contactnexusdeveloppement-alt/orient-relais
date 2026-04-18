@@ -22,8 +22,11 @@ export function ClientLayout({
             <CartProvider>
                 <WishlistProvider>
                     <ScrollToTop />
+                    <a href="#main-content" className="skip-link">
+                        Aller au contenu principal
+                    </a>
                     <HeaderCentered categories={categories} />
-                    <main className="flex-1">
+                    <main id="main-content" className="flex-1" tabIndex={-1}>
                         {children}
                     </main>
                     <Footer />
