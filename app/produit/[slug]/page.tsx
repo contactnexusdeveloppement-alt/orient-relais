@@ -25,7 +25,13 @@ export async function generateStaticParams() {
     return products.map((p) => ({ slug: p.slug }));
 }
 
-export const revalidate = 300;
+// Note: we intentionally do NOT set `export const revalidate` at the route
+// level. Next.js 15 combined with Vercel's ISR cache serves notFound() page
+// bodies with HTTP 200 when the route is marked as revalidate-static, which
+// Google treats as a soft-404 and penalises. The data layer already caches
+// WooCommerce responses (unstable_cache in lib/woocommerce.ts), so keeping
+// the page itself dynamic still hits the hot path for valid slugs while
+// letting invalid slugs resolve to a real 404.
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const slug = (await params).slug;

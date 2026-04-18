@@ -26,7 +26,9 @@ export async function generateStaticParams() {
     return allSlugs.map((slug) => ({ slug }));
 }
 
-export const revalidate = 300;
+// See app/produit/[slug]/page.tsx for why we do not export `revalidate` here:
+// it would cause notFound() for unknown categories to return HTTP 200.
+// Data caching still happens at the data layer (unstable_cache).
 
 // ─── Fallback static images (used if WooCommerce has no image) ─
 const FALLBACK_IMAGES: Record<string, string> = {
