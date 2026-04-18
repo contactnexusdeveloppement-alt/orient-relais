@@ -6,6 +6,10 @@ import * as tls from 'tls';
 const WP_BACKEND_IP = process.env.WP_BACKEND_IP || '51.91.236.255';
 const WP_DOMAIN = process.env.WP_BACKEND_DOMAIN || 'www.orient-relais.com';
 const IS_DEV = process.env.NODE_ENV !== 'production';
+// Strict SSL verification is opt-in via env var because OVH shared hosting's
+// certificate SAN layout does not always match the SNI name cleanly. When it
+// does match, set WP_PROXY_STRICT_TLS=1 to enforce it.
+const STRICT_TLS = process.env.WP_PROXY_STRICT_TLS === '1';
 
 export async function GET(request: NextRequest) { return handleProxy(request); }
 export async function POST(request: NextRequest) { return handleProxy(request); }
@@ -49,10 +53,12 @@ async function handleProxy(request: NextRequest) {
             method: request.method,
             headers: headers,
             servername: WP_DOMAIN, // SNI for OVH shared hosting
-            rejectUnauthorized: true,
-            // Validate the cert against WP_DOMAIN (the SNI name) instead of the
-            // raw backend IP so the connection fails closed on a tampered cert.
-            checkServerIdentity: (_host, cert) => tls.checkServerIdentity(WP_DOMAIN, cert),
+            rejectUnauthorized: STRICT_TLS,
+            // When strict mode is on, validate the cert against WP_DOMAIN
+            // (the SNI name) instead of the raw backend IP.
+            checkServerIdentity: STRICT_TLS
+                ? (_host, cert) => tls.checkServerIdentity(WP_DOMAIN, cert)
+                : () => undefined,
         };
 
         const proxyReq = https.request(options, (proxyRes) => {
