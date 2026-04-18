@@ -15,6 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getStripe } from "@/lib/stripe";
+import { trackBeginCheckout, trackPurchase } from "@/lib/analytics";
 
 // Stripe Payment Form component (used inside Elements provider)
 function StripePaymentForm({
@@ -181,6 +182,17 @@ export default function CheckoutPage() {
         setIsCreatingIntent(true);
         setPaymentError(null);
 
+        // GA4 begin_checkout event fires as soon as the user commits to paying
+        trackBeginCheckout(
+            items.map((it) => ({
+                item_id: it.id,
+                item_name: it.title,
+                price: it.price,
+                quantity: it.quantity,
+            })),
+            total,
+        );
+
         try {
             const response = await fetch("/api/create-payment-intent", {
                 method: "POST",
@@ -215,6 +227,19 @@ export default function CheckoutPage() {
     };
 
     const handlePaymentSuccess = async (paymentIntentId: string) => {
+        // GA4 purchase event — primary conversion signal for Google Ads / GA
+        trackPurchase({
+            transactionId: paymentIntentId,
+            total,
+            shipping: shippingCost,
+            items: items.map((it) => ({
+                item_id: it.id,
+                item_name: it.title,
+                price: it.price,
+                quantity: it.quantity,
+            })),
+        });
+
         // Create WooCommerce order
         try {
             const res = await fetch("/api/orders/create", {

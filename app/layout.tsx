@@ -61,6 +61,17 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        {/* Preload the hero image so the browser starts fetching it before
+            the Next.js image optimizer request; big LCP win on mobile. */}
+        <link
+          rel="preload"
+          as="image"
+          href="/hero.webp"
+          fetchPriority="high"
+        />
+        {/* Preconnect to the domains we hit on first paint */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-TKE6MX2P5G"
           strategy="afterInteractive"

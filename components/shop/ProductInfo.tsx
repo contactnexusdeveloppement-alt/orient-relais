@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Star, ShoppingCart, Heart, Truck, ShieldCheck, Leaf, Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { WooProduct } from "@/lib/woocommerce-types";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { trackAddToCart, trackViewItem } from "@/lib/analytics";
 
 interface ProductInfoProps {
     product: WooProduct;
@@ -42,6 +43,18 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const { isAuthenticated } = useAuth();
     const isFavorite = isInWishlist(String(product.id));
 
+    // Fire view_item once per product page visit
+    useEffect(() => {
+        trackViewItem({
+            item_id: String(product.id),
+            item_name: product.name,
+            item_category: product.categories?.[0]?.name,
+            item_brand: product.brands?.[0]?.name,
+            price: isNaN(price) ? 0 : price,
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [product.id]);
+
     const handleAddToCart = () => {
         addItem({
             id: String(product.id),
@@ -49,6 +62,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
             price: isNaN(price) ? 0 : price,
             image: product.images[0]?.src || '/images/placeholder.png',
             quantity: quantity,
+        });
+        trackAddToCart({
+            item_id: String(product.id),
+            item_name: product.name,
+            item_category: product.categories?.[0]?.name,
+            item_brand: product.brands?.[0]?.name,
+            price: isNaN(price) ? 0 : price,
+            quantity,
         });
     };
 

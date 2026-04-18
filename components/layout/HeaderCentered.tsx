@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import { CartDrawer } from "@/components/shop/CartDrawer";
 import { SearchAutocomplete } from "@/components/shop/SearchAutocomplete";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { WooCategory } from "@/lib/woocommerce-types";
 
@@ -202,15 +201,10 @@ export function HeaderCentered({ categories }: HeaderCenteredProps) {
                     </div>
                 </div>
 
-                {/* Mobile Menu Overlay */}
-                <AnimatePresence>
-                    {isMenuOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.2 }}
-                            className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl z-50 max-h-[80vh] overflow-y-auto"
+                {/* Mobile Menu Overlay — CSS-only transition, no framer-motion */}
+                {isMenuOpen && (
+                        <div
+                            className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl z-50 max-h-[80vh] overflow-y-auto animate-fade-in"
                         >
                             <div className="p-6 space-y-6">
                                 <div className="relative z-50">
@@ -254,9 +248,8 @@ export function HeaderCentered({ categories }: HeaderCenteredProps) {
                                     </div>
                                 </div>
                             </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                        </div>
+                )}
             </header>
         </div>
     );

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { trackAddToCart } from "@/lib/analytics";
 
 interface AddToCartButtonProps {
     product: WooProduct;
@@ -30,6 +31,14 @@ export function AddToCartButton({ product, variant = "Standard", className, full
             image: imageSrc,
             variant: variant,
             quantity: 1
+        });
+        trackAddToCart({
+            item_id: String(product.id),
+            item_name: product.name,
+            item_category: product.categories?.[0]?.name,
+            item_brand: product.brands?.[0]?.name,
+            price: isNaN(price) ? 0 : price,
+            quantity: 1,
         });
         setAdded(true);
         setTimeout(() => setAdded(false), 1500);
