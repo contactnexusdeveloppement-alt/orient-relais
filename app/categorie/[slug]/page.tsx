@@ -71,7 +71,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const fallback = KNOWN_CATEGORIES[slug];
 
     if (!wooCategory && !fallback) {
-        return { title: "Catégorie introuvable" };
+        // Triggers Next's real 404 response so invalid category slugs do
+        // not become soft-404s indexed by Google.
+        notFound();
     }
 
     const name = wooCategory?.name || fallback?.name || slug;

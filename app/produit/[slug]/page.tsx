@@ -32,7 +32,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const product = await fetchWooProductBySlug(slug);
 
     if (!product) {
-        return { title: "Produit introuvable" };
+        // Triggers Next's 404 flow with a real HTTP 404 status so Google
+        // doesn't treat the page as a soft-404 and deindex nearby URLs.
+        notFound();
     }
 
     const description = (product.short_description

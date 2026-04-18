@@ -35,30 +35,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "Orient Relais",
-    images: [
-      {
-        url: "/images/Logo_respon.png",
-        width: 512,
-        height: 512,
-        alt: "Orient Relais - Boutique Bio",
-      },
-    ],
+    // og:image comes from app/opengraph-image.jpg (file-based Metadata API).
   },
   twitter: {
-    card: "summary",
-    images: ["/images/Logo_respon.png"],
+    // summary_large_image renders the full OpenGraph image on Twitter/X
+    // instead of a tiny 144 px square, which for an e-commerce share matters.
+    card: "summary_large_image",
   },
-  icons: {
-    icon: [
-      { url: "/images/Logo_respon.png" },
-      { url: "/images/Logo_respon.png", sizes: "32x32", type: "image/png" },
-      { url: "/images/Logo_respon.png", sizes: "192x192", type: "image/png" },
-    ],
-    apple: [
-      { url: "/images/Logo_respon.png" },
-    ],
-    shortcut: "/images/Logo_respon.png",
-  },
+  // Icons come from app/icon.png, app/apple-icon.png (file-based convention).
 };
 
 import { fetchWooCategories } from "@/lib/woocommerce";

@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const slug = (await params).slug;
     const article = getArticleBySlug(slug);
-    if (!article) return { title: "Article introuvable" };
+    if (!article) notFound();
 
     return {
         title: article.title,
