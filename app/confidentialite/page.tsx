@@ -1,8 +1,9 @@
 import { Separator } from "@/components/ui/separator";
 
 export const metadata = {
-    title: "Politique de Confidentialité | Orient Relais",
-    description: "Politique de confidentialité et protection des données personnelles du site Orient Relais.",
+    title: "Politique de Confidentialité",
+    description: "Politique de confidentialité et protection des données personnelles du site Orient Relais. Conformité RGPD.",
+    alternates: { canonical: "/confidentialite" },
 };
 
 export default function ConfidentialitePage() {

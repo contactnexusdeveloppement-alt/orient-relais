@@ -71,15 +71,26 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const fallback = KNOWN_CATEGORIES[slug];
 
     if (!wooCategory && !fallback) {
-        return { title: "Catégorie introuvable | Orient Relais" };
+        return { title: "Catégorie introuvable" };
     }
 
     const name = wooCategory?.name || fallback?.name || slug;
-    const desc = wooCategory?.description || fallback?.description || "";
+    const rawDesc = wooCategory?.description || fallback?.description || "";
+    const plainDesc = rawDesc.replace(/<[^>]+>/g, "").trim();
+    const description =
+        plainDesc.slice(0, 155) ||
+        `Découvrez notre sélection de ${name.toLowerCase()} bio et naturels. Livraison offerte dès 39€.`;
 
     return {
-        title: `${name} | Orient Relais - Boutique Bio`,
-        description: desc || `Découvrez notre sélection de ${name.toLowerCase()} bio et naturels. Livraison offerte dès 39€.`,
+        title: `${name} bio — sélection Orient Relais`,
+        description,
+        alternates: { canonical: `/categorie/${slug}` },
+        openGraph: {
+            title: `${name} bio — Orient Relais`,
+            description,
+            url: `https://www.orient-relais.com/categorie/${slug}`,
+            type: "website",
+        },
     };
 }
 
@@ -115,11 +126,27 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
         ],
     };
 
+    const itemListJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: `${categoryName} — Orient Relais`,
+        numberOfItems: products.length,
+        itemListElement: products.slice(0, 30).map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `https://www.orient-relais.com/produit/${p.slug}`,
+            name: p.name,
+        })),
+    };
+
+    // Strip HTML from WooCommerce description so it renders as plain intro text
+    const plainDescription = categoryDescription.replace(/<[^>]+>/g, "").trim();
+
     return (
         <div className="flex flex-col bg-white">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
+                dangerouslySetInnerHTML={{ __html: jsonLdScript([breadcrumbJsonLd, itemListJsonLd]) }}
             />
             {/* Split Hero Banner — image comes from WooCommerce */}
             <CategoryHeroSplit
@@ -129,6 +156,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             />
 
             <div className="container mx-auto px-4 py-8 md:py-16">
+                {plainDescription && (
+                    <section className="max-w-3xl mx-auto mb-10 md:mb-14 text-stone-600 text-base leading-relaxed space-y-3">
+                        <p>{plainDescription}</p>
+                    </section>
+                )}
                 <CategoryProductGrid
                     category={slug}
                     products={products}

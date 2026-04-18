@@ -17,12 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!article) return { title: "Article introuvable" };
 
     return {
-        title: `${article.title} | Orient Relais`,
+        title: article.title,
         description: article.excerpt,
         openGraph: {
             title: article.title,
             description: article.excerpt,
             type: "article",
+            url: `https://www.orient-relais.com/blog/${article.slug}`,
             publishedTime: article.date,
             images: [{ url: article.image }],
         },

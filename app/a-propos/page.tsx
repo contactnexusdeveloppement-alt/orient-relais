@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Heart, Globe, Users, Leaf, ShieldCheck, Award } from "lucide-react";
 
 export const metadata = {
-    title: "À Propos | Orient Relais - Boutique Bio",
-    description: "Découvrez Orient Relais, revendeur spécialisé de produits bio DP Nature et Najel. Savons d'Alep, huiles essentielles et compléments alimentaires naturels.",
+    title: "À propos — boutique bio de savons d'Alep à Maurepas (78)",
+    description: "Orient Relais est une boutique bio basée à Maurepas (Yvelines), spécialisée dans les savons d'Alep authentiques Najel, les huiles essentielles Terra Etica et les compléments alimentaires naturels.",
+    alternates: { canonical: "/a-propos" },
+    openGraph: {
+        title: "À propos d'Orient Relais — notre histoire bio à Maurepas",
+        description: "Revendeur spécialisé de produits bio Najel, DP Nature et Terra Etica. Boutique à Maurepas (78).",
+        url: "https://www.orient-relais.com/a-propos",
+        type: "website",
+    },
 };
 
 export default function AboutPage() {

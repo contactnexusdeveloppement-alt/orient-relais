@@ -8,11 +8,17 @@ import { TrustBadges } from "@/components/home/TrustBadges";
 import { StorySection } from "@/components/home/StorySection";
 
 export const metadata: Metadata = {
-    title: "Orient Relais | Boutique Bio — Savons d'Alep & Produits Naturels",
-    description: "Decouvrez notre selection de savons d'Alep, huiles essentielles, complements alimentaires bio et soins naturels. Livraison en France. Boutique a Maurepas (78).",
+    // Uses the layout's title template's `default` value — no override needed
+    // on the homepage since we don't want "Accueil | Orient Relais".
+    description: "Découvrez notre sélection de savons d'Alep, huiles essentielles, compléments alimentaires bio et soins naturels. Livraison offerte dès 39€. Boutique à Maurepas (78).",
+    alternates: {
+        canonical: "/",
+    },
     openGraph: {
         title: "Orient Relais | Boutique Bio — Savons d'Alep & Produits Naturels",
-        description: "Savons d'Alep, huiles essentielles, complements alimentaires bio et soins naturels. Livraison en France.",
+        description: "Savons d'Alep authentiques, huiles essentielles et compléments alimentaires bio. Livraison offerte dès 39€. Boutique à Maurepas (78).",
+        url: "https://www.orient-relais.com/",
+        type: "website",
     },
 };
 

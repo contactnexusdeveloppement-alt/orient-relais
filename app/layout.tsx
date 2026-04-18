@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
   metadataBase: new URL("https://www.orient-relais.com"),
-  alternates: {
-    canonical: "/",
-  },
+  // Each page declares its own alternates.canonical; we intentionally do not
+  // set a layout-level canonical (otherwise every route would point back to
+  // the homepage and Google would dedupe all our pages away).
   verification: {
     google: "A-Qmi4ToRRQHKQKeC08Keee6qaH-nlLjodb1uL7VHM0",
   },
@@ -126,9 +126,45 @@ gtag('config', 'G-TKE6MX2P5G');`}
                 url: "https://www.orient-relais.com",
                 potentialAction: {
                   "@type": "SearchAction",
-                  target: "https://www.orient-relais.com/boutique?search={search_term_string}",
+                  target: "https://www.orient-relais.com/recherche?q={search_term_string}",
                   "query-input": "required name=search_term_string",
                 },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "@id": "https://www.orient-relais.com/#local-business",
+                name: "Orient Relais",
+                image: "https://www.orient-relais.com/images/Logo_respon.png",
+                url: "https://www.orient-relais.com",
+                telephone: "+33699556977",
+                email: "contact@orient-relais.com",
+                priceRange: "€€",
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: "48 avenue de Touraine",
+                  addressLocality: "Maurepas",
+                  postalCode: "78310",
+                  addressRegion: "Yvelines",
+                  addressCountry: "FR",
+                },
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: 48.75829,
+                  longitude: 1.9287,
+                },
+                openingHoursSpecification: [
+                  {
+                    "@type": "OpeningHoursSpecification",
+                    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                    opens: "09:00",
+                    closes: "18:00",
+                  },
+                ],
+                sameAs: [
+                  "https://www.facebook.com/profile.php?id=61576602865759",
+                  "https://www.instagram.com/orientrelais/",
+                ],
               },
               {
                 "@context": "https://schema.org",

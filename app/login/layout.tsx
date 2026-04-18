@@ -6,7 +6,7 @@ export const metadata: Metadata = {
         follow: false,
         nocache: true,
     },
-    title: "Connexion | Orient Relais",
+    title: "Connexion",
 };
 
 export default function LoginLayout({ children }: { children: React.ReactNode }) {

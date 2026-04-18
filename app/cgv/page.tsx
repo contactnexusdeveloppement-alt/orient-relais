@@ -1,8 +1,9 @@
 import { Separator } from "@/components/ui/separator";
 
 export const metadata = {
-    title: "Conditions Générales de Vente | Orient Relais",
+    title: "Conditions Générales de Vente",
     description: "Conditions générales de vente du site Orient Relais. Informations sur les prix, commandes, livraisons, paiements et droit de rétractation.",
+    alternates: { canonical: "/cgv" },
 };
 
 export default function CGVPage() {

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
         follow: false,
         nocache: true,
     },
-    title: "Inscription | Orient Relais",
+    title: "Inscription",
 };
 
 export default function InscriptionLayout({ children }: { children: React.ReactNode }) {

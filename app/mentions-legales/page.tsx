@@ -2,8 +2,9 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 
 export const metadata = {
-    title: "Mentions Légales | Orient Relais",
-    description: "Mentions légales du site Orient Relais – Informations sur l'éditeur, l'hébergeur et les droits de propriété intellectuelle.",
+    title: "Mentions Légales",
+    description: "Mentions légales du site Orient Relais — éditeur, hébergeur, SIRET et droits de propriété intellectuelle.",
+    alternates: { canonical: "/mentions-legales" },
 };
 
 export default function MentionsLegalesPage() {

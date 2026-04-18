@@ -32,18 +32,27 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const product = await fetchWooProductBySlug(slug);
 
     if (!product) {
-        return { title: "Produit introuvable | Orient Relais" };
+        return { title: "Produit introuvable" };
     }
 
-    const description = product.short_description ? stripHtml(product.short_description) : stripHtml(product.description).slice(0, 160);
+    const description = (product.short_description
+        ? stripHtml(product.short_description)
+        : stripHtml(product.description).slice(0, 160)
+    ).trim();
 
     return {
-        title: `${product.name} | Orient Relais`,
-        description: description,
+        title: product.name,
+        description,
         openGraph: {
             title: product.name,
-            description: description,
-            images: product.images.map(img => ({ url: img.src, width: 800, height: 800, alt: img.alt || product.name })),
+            description,
+            url: `https://www.orient-relais.com/produit/${product.slug}`,
+            images: product.images.map((img) => ({
+                url: img.src,
+                width: 800,
+                height: 800,
+                alt: img.alt || product.name,
+            })),
             type: "website",
         },
         alternates: {
@@ -79,6 +88,16 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     const characteristicsMeta = product.meta_data.find(m => m.key === "Characteristics" || m.key === "Caractéristiques");
     const detailsMeta = product.meta_data.find(m => m.key === "Details");
 
+    // Resolve the real product brand: prefer the product_brand taxonomy,
+    // fall back to the "Marque" attribute, else leave undefined (schema.org
+    // Brand is optional and lying by saying "Orient Relais" would hurt SEO
+    // because Google uses brand to cluster products across the web).
+    const brandFromTaxonomy = product.brands?.[0]?.name?.trim();
+    const brandFromAttribute = product.attributes
+        .find((a) => a.name?.toLowerCase() === "marque" || a.name?.toLowerCase() === "brand")
+        ?.options?.[0]?.trim();
+    const brandName = brandFromTaxonomy || brandFromAttribute;
+
     // Build JSON-LD structured data for Google (Product + Merchant Listing)
     const jsonLd: Record<string, unknown> = {
         "@context": "https://schema.org",
@@ -87,13 +106,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         image: product.images.map(i => i.src),
         description: stripHtml(product.description).slice(0, 200),
         sku: product.sku || `OR-${product.id}`,
-        brand: {
-            "@type": "Brand",
-            name: "Orient Relais",
-        },
+        ...(brandName
+            ? {
+                brand: {
+                    "@type": "Brand",
+                    name: brandName,
+                },
+            }
+            : {}),
         offers: {
             "@type": "Offer",
-            url: `https://orient-relais.com/produit/${product.slug}`,
+            url: `https://www.orient-relais.com/produit/${product.slug}`,
             priceCurrency: "EUR",
             price: product.price,
             priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],

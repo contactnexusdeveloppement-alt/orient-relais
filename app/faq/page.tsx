@@ -7,6 +7,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const FAQ_SECTIONS = [
     {
@@ -83,9 +84,30 @@ const FAQ_SECTIONS = [
     }
 ];
 
+// Build the FAQPage JSON-LD payload from the sections above. Google rich
+// results support up to ~10 Q&A entries with reasonable length.
+const FAQ_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_SECTIONS.flatMap((section) =>
+        section.questions.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: item.a,
+            },
+        }))
+    ),
+};
+
 export default function FAQPage() {
     return (
         <div className="container mx-auto px-4 py-12">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: jsonLdScript(FAQ_JSON_LD) }}
+            />
             {/* Header */}
             <div className="text-center max-w-2xl mx-auto mb-16">
                 <span className="text-sm font-bold uppercase tracking-widest text-primary">Aide</span>

@@ -6,7 +6,7 @@ export const metadata: Metadata = {
         follow: false,
         nocache: true,
     },
-    title: "Commande | Orient Relais",
+    title: "Commande",
 };
 
 export default function CheckoutLayout({ children }: { children: React.ReactNode }) {

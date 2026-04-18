@@ -6,7 +6,7 @@ export const metadata: Metadata = {
         follow: false,
         nocache: true,
     },
-    title: "Mot de passe oublie | Orient Relais",
+    title: "Mot de passe oublié",
 };
 
 export default function MotDePasseOublieLayout({ children }: { children: React.ReactNode }) {

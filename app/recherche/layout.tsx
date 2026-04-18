@@ -6,7 +6,7 @@ export const metadata: Metadata = {
         follow: false,
         nocache: true,
     },
-    title: "Recherche | Orient Relais",
+    title: "Recherche",
 };
 
 export default function RechercheLayout({ children }: { children: React.ReactNode }) {
