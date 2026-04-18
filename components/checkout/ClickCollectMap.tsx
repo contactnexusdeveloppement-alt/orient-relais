@@ -51,7 +51,6 @@ export function ClickCollectMap() {
 
     useEffect(() => {
         let cancelled = false;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let mapInstance: any = null;
 
         (async () => {
@@ -62,7 +61,6 @@ export function ClickCollectMap() {
                 }
                 if (cancelled || !containerRef.current) return;
 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const L = window.L as any;
 
                 containerRef.current.innerHTML = "";
