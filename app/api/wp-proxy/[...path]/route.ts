@@ -6,10 +6,21 @@ import * as tls from 'tls';
 const WP_BACKEND_IP = process.env.WP_BACKEND_IP || '51.91.236.255';
 const WP_DOMAIN = process.env.WP_BACKEND_DOMAIN || 'www.orient-relais.com';
 const IS_DEV = process.env.NODE_ENV !== 'production';
-// Strict SSL verification is opt-in via env var because OVH shared hosting's
-// certificate SAN layout does not always match the SNI name cleanly. When it
-// does match, set WP_PROXY_STRICT_TLS=1 to enforce it.
+// Strict TLS verification for the OVH backend.
+//
+// OVH mutualise presents a cluster-wide cert (CN=cluster129.hosting.ovh.net)
+// rather than a cert for www.orient-relais.com, so validating against
+// WP_DOMAIN always fails. The right middle-ground is to validate against the
+// OVH cluster hostname: the cert is issued by a real CA and OVH routes the
+// right virtual host via SNI, so checking the cluster identity is a
+// meaningful improvement over rejectUnauthorized:false.
+//
+// Set WP_PROXY_STRICT_TLS=1 on Vercel to enable. Override the expected cert
+// hostname via WP_PROXY_STRICT_TLS_HOSTNAME if OVH ever migrates clusters
+// (look at `openssl s_client -connect <IP>:443 -servername <domain>` Subject).
 const STRICT_TLS = process.env.WP_PROXY_STRICT_TLS === '1';
+const STRICT_TLS_HOSTNAME =
+    process.env.WP_PROXY_STRICT_TLS_HOSTNAME || 'cluster129.hosting.ovh.net';
 
 export async function GET(request: NextRequest) { return handleProxy(request); }
 export async function POST(request: NextRequest) { return handleProxy(request); }
@@ -54,10 +65,11 @@ async function handleProxy(request: NextRequest) {
             headers: headers,
             servername: WP_DOMAIN, // SNI for OVH shared hosting
             rejectUnauthorized: STRICT_TLS,
-            // When strict mode is on, validate the cert against WP_DOMAIN
-            // (the SNI name) instead of the raw backend IP.
+            // When strict mode is on, validate the peer cert against the OVH
+            // cluster hostname (the actual cert subject for mutualise hosting)
+            // instead of the raw backend IP.
             checkServerIdentity: STRICT_TLS
-                ? (_host, cert) => tls.checkServerIdentity(WP_DOMAIN, cert)
+                ? (_host, cert) => tls.checkServerIdentity(STRICT_TLS_HOSTNAME, cert)
                 : () => undefined,
         };
 
