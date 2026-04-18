@@ -5,7 +5,7 @@ import { ProductFilters } from "@/components/shop/ProductFilters";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, Sparkles } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { WooProduct } from "@/lib/woocommerce-types";
 
 interface CategoryProductGridProps {
@@ -64,6 +64,9 @@ export function CategoryProductGrid({ category, products, productCount }: Catego
                     <SheetContent side="left" className="w-[320px] sm:w-[400px] overflow-y-auto">
                         <SheetHeader>
                             <SheetTitle className="font-serif text-xl">Filtrer les produits</SheetTitle>
+                            <SheetDescription className="sr-only">
+                                Affinez la liste par prix, catégorie, marque ou contenance.
+                            </SheetDescription>
                         </SheetHeader>
                         <div className="mt-6">
                             <ProductFilters

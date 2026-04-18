@@ -143,12 +143,13 @@ export function MondialRelayWidget({ postcode, onSelect }: MondialRelayWidgetPro
                     </div>
                 </div>
             )}
-            <div
-                ref={containerRef}
-                id="mr-widget-container"
-                className="rounded-lg overflow-hidden border border-stone-200"
-                style={{ minHeight: isLoading ? 0 : 400 }}
-            />
+            <div className="rounded-lg border border-stone-200 overflow-x-auto overflow-y-hidden max-w-full">
+                <div
+                    ref={containerRef}
+                    id="mr-widget-container"
+                    style={{ minHeight: isLoading ? 0 : 400, minWidth: 320 }}
+                />
+            </div>
             <input type="hidden" id="mr-selected-point" />
             {selectedPoint && (
                 <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm">

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Minus, Plus, ShoppingBag, Trash2, Sparkles, ArrowRight, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
@@ -37,6 +37,9 @@ export function CartDrawer() {
                             ({cartCount} articles)
                         </span>
                     </SheetTitle>
+                    <SheetDescription className="sr-only">
+                        Récapitulatif des articles ajoutés à votre panier avant le paiement.
+                    </SheetDescription>
                 </SheetHeader>
 
                 {/* Free Shipping Progress */}
