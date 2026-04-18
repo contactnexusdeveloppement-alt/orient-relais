@@ -52,6 +52,7 @@ export function HeaderCentered({ categories }: HeaderCenteredProps) {
     }));
 
     const navLinks = [
+        { href: "/marques", label: "MARQUES" },
         { href: "/a-propos", label: "NOTRE HISTOIRE" },
         { href: "/blog", label: "LE JOURNAL" },
         { href: "/contact", label: "CONTACT" },
