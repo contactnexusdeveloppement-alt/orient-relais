@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { MondialRelayWidget, RelayPoint } from "@/components/checkout/MondialRelayWidget";
+import { ClickCollectMap } from "@/components/checkout/ClickCollectMap";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
@@ -450,7 +451,7 @@ export default function CheckoutPage() {
                                             <Store className="h-5 w-5 text-primary" />
                                             Retrait en boutique
                                         </h3>
-                                        <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                        <div className="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
                                             <p className="text-sm font-bold text-green-800">🏪 Adresse de retrait :</p>
                                             <p className="text-sm text-green-700 mt-1">
                                                 Orient Relais — 48 avenue de Touraine, 78310 Maurepas
@@ -459,6 +460,7 @@ export default function CheckoutPage() {
                                                 Vous recevrez un email lorsque votre commande sera prête à retirer.
                                             </p>
                                         </div>
+                                        <ClickCollectMap />
                                     </section>
                                 )}
 
