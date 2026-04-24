@@ -45,10 +45,10 @@ const FALLBACK_IMAGES: Record<string, string> = {
 
 // ─── Known categories fallback (used when WooCommerce API is down) ─
 const KNOWN_CATEGORIES: Record<string, { name: string; description: string }> = {
-    "savons-dalep": { name: "Savons d'Alep", description: "Découvrez notre sélection de savons d'Alep authentiques, fabriqués artisanalement selon une tradition millénaire." },
-    "huiles-essentielles": { name: "Huiles Essentielles", description: "Nos huiles essentielles bio certifiées pour votre bien-être au quotidien." },
-    complements: { name: "Compléments", description: "Compléments alimentaires naturels et bio pour renforcer votre santé." },
-    "soins-et-beaute": { name: "Soins et Beauté", description: "Révélez votre beauté naturelle avec nos soins cosmétiques éthiques et biologiques." },
+    "savons-dalep": { name: "Savons d'Alep", description: "Découvrez notre sélection de savons d'Alep bio authentiques, fabriqués artisanalement selon une tradition millénaire. Huile d'olive et huile de baie de laurier, saponifiés au chaudron." },
+    "huiles-essentielles": { name: "Huiles Essentielles", description: "Nos huiles essentielles bio certifiées, pressées à froid et 100 % pures, pour votre bien-être au quotidien et votre aromathérapie familiale." },
+    complements: { name: "Compléments", description: "Compléments alimentaires bio et compléments ayurvédiques (moringa, ashwagandha, curcuma, spiruline) pour soutenir votre santé naturellement." },
+    "soins-et-beaute": { name: "Soins et Beauté", description: "Révélez votre beauté naturelle avec nos cosmétiques bio et soins éthiques — crèmes visage, huiles végétales, gommages, baumes." },
     coffrets: { name: "Coffrets", description: "Nos coffrets cadeaux composés de produits naturels et bio, parfaits pour offrir." },
     "epicerie-orientale": { name: "Épicerie Orientale", description: "Découvrez nos produits d'épicerie orientale authentiques et savoureux." },
     miel: { name: "Miel", description: "Miels naturels et purs, récoltés avec soin pour préserver toutes leurs qualités." },
