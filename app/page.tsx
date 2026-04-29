@@ -10,13 +10,13 @@ import { StorySection } from "@/components/home/StorySection";
 export const metadata: Metadata = {
     // Uses the layout's title template's `default` value — no override needed
     // on the homepage since we don't want "Accueil | Orient Relais".
-    description: "Découvrez notre sélection de savons d'Alep, huiles essentielles, compléments alimentaires bio et soins naturels. Livraison offerte dès 39€. Boutique à Maurepas (78).",
+    description: "Boutique bio à Maurepas (Yvelines, 78) et en ligne : savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Livraison offerte dès 39 € en France ou Click & Collect gratuit en boutique.",
     alternates: {
         canonical: "/",
     },
     openGraph: {
-        title: "Orient Relais | Boutique Bio — Savons d'Alep & Produits Naturels",
-        description: "Savons d'Alep authentiques, huiles essentielles et compléments alimentaires bio. Livraison offerte dès 39€. Boutique à Maurepas (78).",
+        title: "Orient Relais — Boutique Bio à Maurepas (Yvelines) | Savons d'Alep & Cosmétiques Naturels",
+        description: "Savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques bio et compléments ayurvédiques. Livraison France offerte dès 39 € ou retrait gratuit à Maurepas (Yvelines).",
         url: "https://www.orient-relais.com/",
         type: "website",
     },
@@ -43,6 +43,19 @@ export default async function Home() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Local SEO bar — indexable HTML for "Maurepas Yvelines Click & Collect" queries */}
+      <section
+        aria-label="Informations livraison et retrait"
+        className="bg-stone-900 text-stone-100 py-3 px-4 text-center text-sm md:text-base"
+      >
+        <p className="container mx-auto">
+          <strong>Boutique bio à Maurepas (Yvelines, 78310)</strong> ·
+          {" "}🏪 Click & Collect gratuit en boutique ·
+          {" "}📦 Livraison offerte dès 39 € en France métropolitaine ·
+          {" "}<a href="/contact" className="underline hover:text-primary">48 avenue de Touraine</a>
+        </p>
+      </section>
 
       {/* Brand Carousel */}
       <BrandCarousel brands={brands} />

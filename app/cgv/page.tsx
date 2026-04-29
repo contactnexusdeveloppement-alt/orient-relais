@@ -125,7 +125,7 @@ export default function CGVPage() {
                     <p className="text-stone-600 leading-relaxed">
                         Conformément aux articles L.612-1 et suivants du Code de la consommation, en cas de litige
                         non résolu, le consommateur peut recourir gratuitement au service de médiation. Nous vous
-                        invitons à nous contacter au préalable à l'adresse Contact@orient-relais.com pour tenter de
+                        invitons à nous contacter au préalable à l'adresse contact@orient-relais.com pour tenter de
                         résoudre le différend à l'amiable.
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-2">
@@ -154,9 +154,9 @@ export default function CGVPage() {
                     <p className="text-stone-600 leading-relaxed">
                         Pour toute question relative à votre commande :<br />
                         <strong>Orient Relais</strong> — HARB GEORGES<br />
-                        Email : Contact@orient-relais.com<br />
+                        Email : contact@orient-relais.com<br />
                         Téléphone : 06 99 55 69 77 (Lun-Ven, 9h-18h)<br />
-                        48 avenue de Touraine, 78310 MAUREPAS, France
+                        48 avenue de Touraine, 78310 Maurepas, France
                     </p>
                 </section>
             </div>

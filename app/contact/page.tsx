@@ -30,14 +30,32 @@ export default function ContactPage() {
 
     return (
         <div className="container mx-auto px-4 py-16">
-            <div className="max-w-2xl mx-auto text-center mb-16">
+            <div className="max-w-2xl mx-auto text-center mb-12">
                 <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10 mb-4">
                     <Mail className="h-4 w-4" /> Contactez-nous
                 </span>
-                <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mt-2 mb-4">À votre écoute</h1>
+                <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mt-2 mb-4">
+                    Contact &amp; Click &amp; Collect — Boutique Bio à Maurepas (Yvelines)
+                </h1>
                 <p className="text-stone-600 text-lg">
-                    Une question sur un produit ? Un conseil personnalisé ? <br />
-                    Notre équipe vous répond sous 24h ouvrées.
+                    Une question sur un produit ? Un conseil personnalisé ?<br />
+                    Notre équipe vous répond sous 24 h ouvrées.
+                </p>
+            </div>
+
+            {/* Click & Collect indexable banner */}
+            <div className="max-w-3xl mx-auto mb-12 bg-gradient-to-r from-amber-50 to-stone-50 border border-primary/20 rounded-2xl p-6 md:p-8 text-center">
+                <h2 className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-3">
+                    Click &amp; Collect gratuit à Maurepas
+                </h2>
+                <p className="text-stone-700 leading-relaxed mb-4">
+                    Commandez en ligne, retirez votre colis sous 24 h dans notre boutique
+                    bio du <strong>48 avenue de Touraine, 78310 Maurepas (Yvelines)</strong> —
+                    sans frais de livraison, du lundi au vendredi de 9 h à 18 h.
+                    Une question avant de venir ? Appelez-nous au 06 99 55 69 77.
+                </p>
+                <p className="text-sm text-stone-500">
+                    Couverture livraison : France métropolitaine, Belgique, Luxembourg via Colissimo et Mondial Relay.
                 </p>
             </div>
 
@@ -53,7 +71,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <span className="block font-bold text-stone-900">Email</span>
-                                    <a href="mailto:Contact@orient-relais.com" className="text-stone-600 hover:text-primary">Contact@orient-relais.com</a>
+                                    <a href="mailto:contact@orient-relais.com" className="text-stone-600 hover:text-primary">contact@orient-relais.com</a>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4 group">
@@ -72,7 +90,7 @@ export default function ContactPage() {
                                 <div>
                                     <span className="block font-bold text-stone-900">Adresse</span>
                                     <p className="text-stone-600">
-                                        48 avenue de Touraine,<br /> 78310 MAUREPAS, France
+                                        48 avenue de Touraine,<br /> 78310 Maurepas, France
                                     </p>
                                 </div>
                             </div>

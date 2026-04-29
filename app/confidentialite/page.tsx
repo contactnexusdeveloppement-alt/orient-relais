@@ -19,8 +19,8 @@ export default function ConfidentialitePage() {
                         Le responsable du traitement de vos données personnelles est :<br />
                         <strong>HARB GEORGES</strong> (Orient Relais)<br />
                         Entrepreneur individuel — SIRET 924 298 540 00015<br />
-                        48 avenue de Touraine, 78310 MAUREPAS, France<br />
-                        Email : Contact@orient-relais.com
+                        48 avenue de Touraine, 78310 Maurepas, France<br />
+                        Email : contact@orient-relais.com
                     </p>
                 </section>
 
@@ -146,7 +146,7 @@ export default function ConfidentialitePage() {
                         <li><strong>Droit à la portabilité</strong> — recevoir vos données dans un format structuré</li>
                     </ul>
                     <p className="text-stone-600 leading-relaxed mt-4">
-                        Pour exercer ces droits, contactez-nous à : <strong>Contact@orient-relais.com</strong>
+                        Pour exercer ces droits, contactez-nous à : <strong>contact@orient-relais.com</strong>
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-2">
                         Vous disposez également du droit d'introduire une réclamation auprès de la{" "}

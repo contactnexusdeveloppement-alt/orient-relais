@@ -43,26 +43,51 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
     const relatedArticles = getRelatedArticles(slug, 2);
 
+    // Approximate word count for `wordCount` schema field (Google rich result signal)
+    const wordCount = article.content
+        .replace(/<[^>]+>/g, " ")
+        .split(/\s+/)
+        .filter(Boolean).length;
+
+    const articleUrl = `https://www.orient-relais.com/blog/${article.slug}`;
+
     const jsonLd = {
         "@context": "https://schema.org",
-        "@type": "Article",
+        "@type": "BlogPosting",
+        "@id": articleUrl,
+        mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": articleUrl,
+        },
         headline: article.title,
         description: article.excerpt,
-        image: `https://www.orient-relais.com${article.image}`,
+        image: {
+            "@type": "ImageObject",
+            url: `https://www.orient-relais.com${article.image}`,
+            width: 1200,
+            height: 630,
+        },
         datePublished: article.date,
+        dateModified: article.date,
+        articleSection: article.category,
+        wordCount,
+        inLanguage: "fr-FR",
+        keywords: [
+            "savon d'Alep bio",
+            "huiles essentielles bio",
+            "cosmétiques bio",
+            "compléments ayurvédiques",
+            "Maurepas",
+            "Yvelines",
+            article.category,
+        ],
         author: {
             "@type": "Organization",
+            "@id": "https://www.orient-relais.com/#business",
             name: "Orient Relais",
             url: "https://www.orient-relais.com",
         },
-        publisher: {
-            "@type": "Organization",
-            name: "Orient Relais",
-            logo: {
-                "@type": "ImageObject",
-                url: "https://www.orient-relais.com/images/Logo_respon.png",
-            },
-        },
+        publisher: { "@id": "https://www.orient-relais.com/#business" },
     };
 
     return (

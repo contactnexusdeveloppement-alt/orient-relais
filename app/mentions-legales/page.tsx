@@ -30,12 +30,12 @@ export default function MentionsLegalesPage() {
                     <p className="text-stone-600 leading-relaxed mt-4">
                         <strong>Siège social :</strong><br />
                         48 avenue de Touraine<br />
-                        78310 MAUREPAS, France
+                        78310 Maurepas, France
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-4">
                         <strong>Contact :</strong><br />
                         Téléphone : 06 99 55 69 77<br />
-                        Email : Contact@orient-relais.com
+                        Email : contact@orient-relais.com
                     </p>
                 </section>
 
@@ -105,7 +105,7 @@ export default function MentionsLegalesPage() {
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-4">
                         Pour exercer ces droits ou pour toute question relative à vos données personnelles,
-                        vous pouvez nous contacter à l'adresse : Contact@orient-relais.com
+                        vous pouvez nous contacter à l'adresse : contact@orient-relais.com
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-4">
                         <Link href="/confidentialite" className="text-primary hover:underline">

@@ -83,13 +83,13 @@ export function Footer() {
                                 <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                                     <Mail className="h-4 w-4 text-primary" />
                                 </div>
-                                <a href="mailto:Contact@orient-relais.com" className="hover:text-primary transition-colors">Contact@orient-relais.com</a>
+                                <a href="mailto:contact@orient-relais.com" className="hover:text-primary transition-colors">contact@orient-relais.com</a>
                             </li>
                             <li className="flex items-start gap-3 group">
                                 <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                                     <MapPin className="h-4 w-4 text-primary" />
                                 </div>
-                                <span>48 avenue de Touraine,<br />78310 MAUREPAS, France</span>
+                                <span>48 avenue de Touraine,<br />78310 Maurepas, France</span>
                             </li>
                         </ul>
                     </div>

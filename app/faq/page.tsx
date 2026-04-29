@@ -74,7 +74,7 @@ const FAQ_SECTIONS = [
             },
             {
                 q: "Comment contacter le service client ?",
-                a: "Par email à Contact@orient-relais.com ou par téléphone au 06 99 55 69 77. Nous répondons sous 24h ouvrées."
+                a: "Par email à contact@orient-relais.com ou par téléphone au 06 99 55 69 77. Nous répondons sous 24h ouvrées."
             },
             {
                 q: "Que faire si mon produit est endommagé ?",

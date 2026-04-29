@@ -17,11 +17,11 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Orient Relais - Boutique Bio | Savons d'Alep & Produits Naturels",
-    template: "%s | Orient Relais"
+    default: "Orient Relais — Boutique Bio à Maurepas (Yvelines) | Savons d'Alep, Huiles Essentielles, Cosmétiques Bio",
+    template: "%s | Orient Relais — Boutique Bio Maurepas",
   },
   description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles Terra Etica, compléments alimentaires naturels. Livraison offerte dès 39€.",
-  keywords: ["savon d'Alep", "bio", "huiles essentielles", "compléments alimentaires", "naturel", "MAUREPAS", "Orient Relais"],
+  keywords: ["savon d'Alep bio", "cosmétiques bio", "huiles essentielles bio", "compléments ayurvédiques", "boutique bio Maurepas", "boutique bio Yvelines", "herboristerie 78310", "Orient Relais"],
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
   metadataBase: new URL("https://www.orient-relais.com"),
@@ -90,51 +90,36 @@ gtag('config', 'G-TKE6MX2P5G');`}
           dangerouslySetInnerHTML={{
             __html: jsonLdScript([
               {
+                // Single merged business entity: Store + HealthAndBeautyBusiness
+                // is the most precise schema.org pair for a brick-and-mortar
+                // organic shop. Subsumes the previous duplicate Organization
+                // + LocalBusiness blocks.
                 "@context": "https://schema.org",
-                "@type": "Organization",
+                "@type": ["Store", "HealthAndBeautyBusiness"],
+                "@id": "https://www.orient-relais.com/#business",
                 name: "Orient Relais",
+                alternateName: "Orient Relais — Boutique Bio Maurepas",
+                slogan: "L'Orient naturel, livré chez vous",
+                description: "Boutique bio à Maurepas (Yvelines) et en ligne, spécialisée en savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Click & Collect gratuit en boutique.",
                 url: "https://www.orient-relais.com",
-                logo: "https://www.orient-relais.com/images/logo-new.png",
-                description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles, compléments alimentaires naturels.",
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: "48 avenue de Touraine",
-                  addressLocality: "MAUREPAS",
-                  postalCode: "78310",
-                  addressCountry: "FR",
-                },
-                contactPoint: {
-                  "@type": "ContactPoint",
-                  telephone: "+33699556977",
-                  contactType: "customer service",
-                  availableLanguage: "French",
-                },
-                sameAs: [
-                  "https://www.facebook.com/profile.php?id=61576602865759",
-                  "https://www.instagram.com/orientrelais/",
-                ],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                name: "Orient Relais",
-                url: "https://www.orient-relais.com",
-                potentialAction: {
-                  "@type": "SearchAction",
-                  target: "https://www.orient-relais.com/recherche?q={search_term_string}",
-                  "query-input": "required name=search_term_string",
-                },
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "LocalBusiness",
-                "@id": "https://www.orient-relais.com/#local-business",
-                name: "Orient Relais",
                 image: "https://www.orient-relais.com/images/Logo_respon.png",
-                url: "https://www.orient-relais.com",
+                logo: "https://www.orient-relais.com/images/logo-new.png",
                 telephone: "+33699556977",
                 email: "contact@orient-relais.com",
                 priceRange: "€€",
+                currenciesAccepted: "EUR",
+                paymentAccepted: "Cash, Credit Card, Apple Pay, Google Pay",
+                foundingDate: "2024",
+                knowsAbout: [
+                  "Savon d'Alep bio",
+                  "Huiles essentielles bio",
+                  "Cosmétiques bio",
+                  "Compléments ayurvédiques",
+                  "Herboristerie",
+                  "Aromathérapie",
+                  "Najel",
+                  "Terra Etica",
+                ],
                 address: {
                   "@type": "PostalAddress",
                   streetAddress: "48 avenue de Touraine",
@@ -145,8 +130,21 @@ gtag('config', 'G-TKE6MX2P5G');`}
                 },
                 geo: {
                   "@type": "GeoCoordinates",
-                  latitude: 48.75829,
-                  longitude: 1.9287,
+                  latitude: 48.7642,
+                  longitude: 1.9393,
+                },
+                hasMap: "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas",
+                areaServed: [
+                  { "@type": "AdministrativeArea", name: "Yvelines" },
+                  { "@type": "AdministrativeArea", name: "Île-de-France" },
+                  { "@type": "Country", name: "France" },
+                ],
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+33699556977",
+                  contactType: "customer service",
+                  email: "contact@orient-relais.com",
+                  availableLanguage: ["French"],
                 },
                 openingHoursSpecification: [
                   {
@@ -156,10 +154,27 @@ gtag('config', 'G-TKE6MX2P5G');`}
                     closes: "18:00",
                   },
                 ],
+                availableDeliveryMethod: [
+                  "https://purl.org/goodrelations/v1#DeliveryModeMail",
+                  "https://purl.org/goodrelations/v1#DeliveryModePickUp",
+                ],
                 sameAs: [
                   "https://www.facebook.com/profile.php?id=61576602865759",
                   "https://www.instagram.com/orientrelais/",
                 ],
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "@id": "https://www.orient-relais.com/#website",
+                name: "Orient Relais",
+                url: "https://www.orient-relais.com",
+                publisher: { "@id": "https://www.orient-relais.com/#business" },
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: "https://www.orient-relais.com/recherche?q={search_term_string}",
+                  "query-input": "required name=search_term_string",
+                },
               },
               {
                 "@context": "https://schema.org",

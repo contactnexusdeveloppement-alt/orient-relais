@@ -4,12 +4,12 @@ import { jsonLdScript } from "@/lib/json-ld";
 import { Sparkles, ShoppingBag } from "lucide-react";
 
 export const metadata = {
-    title: "Boutique Bio — Tous nos savons d'Alep, huiles & compléments",
-    description: "Découvrez tous nos produits bio : savons d'Alep authentiques, huiles essentielles 100% pures, compléments alimentaires naturels, coffrets cadeaux. Livraison offerte dès 39€.",
+    title: "Boutique Bio en Ligne — Savons d'Alep, Huiles Essentielles, Cosmétiques Bio",
+    description: "Boutique bio en ligne et à Maurepas (Yvelines) : savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels, compléments ayurvédiques. Livraison offerte dès 39€ ou Click & Collect gratuit en boutique.",
     alternates: { canonical: "/boutique" },
     openGraph: {
-        title: "Boutique Bio — Tous nos savons d'Alep, huiles & compléments",
-        description: "Savons d'Alep, huiles essentielles, compléments et coffrets bio. Livraison offerte dès 39€.",
+        title: "Boutique Bio en Ligne — Orient Relais Maurepas Yvelines",
+        description: "Savons d'Alep, huiles essentielles, cosmétiques bio. Livraison France ou retrait gratuit à Maurepas (Yvelines).",
         url: "https://www.orient-relais.com/boutique",
         type: "website",
     },

@@ -28,6 +28,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticPages: MetadataRoute.Sitemap = [
         { url: BASE_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },
         { url: `${BASE_URL}/boutique`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
+        { url: `${BASE_URL}/savon-alep-yvelines`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
+        { url: `${BASE_URL}/boutique-bio-maurepas`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
         { url: `${BASE_URL}/marques`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
         { url: `${BASE_URL}/a-propos`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
         { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },

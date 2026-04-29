@@ -179,7 +179,7 @@ export default function AboutPage() {
                         <div className="flex flex-col md:flex-row justify-center gap-8 text-stone-200 mb-8">
                             <div className="bg-stone-800/50 p-4 rounded-xl border border-stone-700">
                                 <span className="block text-xs text-primary mb-1 uppercase tracking-wider font-bold">Adresse</span>
-                                <span className="font-medium">48 avenue de Touraine<br />78310 MAUREPAS</span>
+                                <span className="font-medium">48 avenue de Touraine<br />78310 Maurepas</span>
                             </div>
                             <div className="bg-stone-800/50 p-4 rounded-xl border border-stone-700">
                                 <span className="block text-xs text-primary mb-1 uppercase tracking-wider font-bold">Téléphone</span>
@@ -187,7 +187,7 @@ export default function AboutPage() {
                             </div>
                             <div className="bg-stone-800/50 p-4 rounded-xl border border-stone-700">
                                 <span className="block text-xs text-primary mb-1 uppercase tracking-wider font-bold">Email</span>
-                                <span className="font-medium">Contact@orient-relais.com</span>
+                                <span className="font-medium">contact@orient-relais.com</span>
                             </div>
                         </div>
                         <Link href="/contact">
