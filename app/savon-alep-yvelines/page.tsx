@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Sparkles, Truck, MapPin, Phone, Clock, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { jsonLdScript } from "@/lib/json-ld";
+import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
 
 export const metadata: Metadata = {
     title: "Savon d'Alep Bio dans les Yvelines (78) — Livraison Express & Click & Collect Maurepas",
@@ -191,6 +192,20 @@ export default function SavonAlepYvelinesPage() {
                     (20 min). Vous pouvez commander en ligne et retirer votre colis sous 24 h ouvrées,
                     gratuitement, du lundi au vendredi de 9 h à 18 h. Téléphone : 06 99 55 69 77.
                 </p>
+            </section>
+
+            <section aria-labelledby="map-title-yvelines" className="mb-16">
+                <h2 id="map-title-yvelines" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
+                    Notre boutique à Maurepas (78310)
+                </h2>
+                <p className="text-stone-600 mb-6 max-w-2xl">
+                    Située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
+                    accessible en 10 min depuis Saint-Quentin-en-Yvelines et en 20 min depuis Versailles.
+                </p>
+                <GoogleMapEmbed
+                    height={400}
+                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                />
             </section>
 
             <section className="bg-stone-50 rounded-2xl p-8 md:p-12 text-center mb-16">

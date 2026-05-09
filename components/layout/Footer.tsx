@@ -1,9 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, Instagram, Facebook, ArrowRight, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Phone, Mail, MapPin, Instagram, Facebook, Star } from "lucide-react";
 import { NewsletterForm } from "./NewsletterForm";
+
+// Resolve the GBP review URL using the same priority chain as the
+// GoogleReviewCTA component. We can't import the component here (Footer is
+// a layout-level concern and we don't want to bring `Star` styles twice).
+const GBP_PLACE_ID = process.env.NEXT_PUBLIC_GBP_PLACE_ID;
+const GBP_CID = process.env.NEXT_PUBLIC_GBP_CID;
+const REVIEW_URL = GBP_PLACE_ID
+    ? `https://search.google.com/local/writereview?placeid=${GBP_PLACE_ID}`
+    : GBP_CID
+        ? `https://www.google.com/maps?cid=${GBP_CID}`
+        : "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
 
 export function Footer() {
     return (
@@ -35,12 +44,15 @@ export function Footer() {
                         </div>
                         {/* Social links */}
                         <div className="flex gap-3">
-                            <Link href="https://www.facebook.com/profile.php?id=61576602865759" target="_blank" rel="noopener noreferrer" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+                            <Link href="https://www.facebook.com/profile.php?id=61576602865759" target="_blank" rel="noopener noreferrer" aria-label="Page Facebook Orient Relais" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
                                 <Facebook className="h-5 w-5 text-stone-400 group-hover:text-white transition-colors" />
                             </Link>
-                            <Link href="https://www.instagram.com/orientrelais/" target="_blank" rel="noopener noreferrer" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+                            <Link href="https://www.instagram.com/orientrelais/" target="_blank" rel="noopener noreferrer" aria-label="Compte Instagram Orient Relais" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
                                 <Instagram className="h-5 w-5 text-stone-400 group-hover:text-white transition-colors" />
                             </Link>
+                            <a href={REVIEW_URL} target="_blank" rel="noopener noreferrer" aria-label="Laisser un avis Google sur Orient Relais" className="h-11 w-11 rounded-xl bg-stone-800/80 border border-stone-700 flex items-center justify-center hover:bg-primary hover:border-primary hover:shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+                                <Star className="h-5 w-5 text-stone-400 group-hover:text-amber-300 group-hover:fill-amber-300 transition-colors" />
+                            </a>
                         </div>
                     </div>
 

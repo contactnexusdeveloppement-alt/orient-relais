@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { GoogleReviewCTA } from "@/components/local/GoogleReviewCTA";
 
 function SuccessContent() {
     const searchParams = useSearchParams();
@@ -14,7 +15,7 @@ function SuccessContent() {
         : `OR-${Math.floor(Math.random() * 100000)}`);
 
     return (
-        <div className="min-h-screen bg-stone-50 flex flex-col items-center justify-center p-4">
+        <div className="min-h-screen bg-stone-50 flex flex-col items-center justify-center gap-6 p-4 py-12">
             <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl w-full max-w-lg text-center animate-in zoom-in-95 duration-500">
                 <div className="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle2 className="h-10 w-10 text-green-600" />
@@ -61,6 +62,16 @@ function SuccessContent() {
                     </Button>
                 </div>
             </div>
+
+            {/* Review CTA — shown right after a successful purchase, when
+                customer satisfaction is at its peak. This is the single
+                highest-conversion moment to ask for a Google review. */}
+            <GoogleReviewCTA
+                variant="full"
+                className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300"
+                title="Merci pour votre commande !"
+                body="Si votre passage chez Orient Relais s'est bien passé, prenez 30 secondes pour laisser un avis sur Google. Ça nous aide énormément à faire connaître la boutique."
+            />
         </div>
     );
 }

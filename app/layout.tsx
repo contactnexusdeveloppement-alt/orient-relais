@@ -5,6 +5,30 @@ import "./globals.css";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 import { jsonLdScript } from "@/lib/json-ld";
 
+// =============================================================================
+// Google Business Profile identifiers
+// =============================================================================
+// These read from build-time env vars so we can roll out the schema additions
+// (sameAs + hasMap) without code changes once the client provides the values.
+//
+// Required env vars on Vercel:
+//   - NEXT_PUBLIC_GBP_PLACE_ID  (e.g. "ChIJ...AAAA")
+//   - NEXT_PUBLIC_GBP_CID       (numeric, from the GBP share URL)
+//
+// While both are unset we serve the same query-based hasMap URL we had before
+// — no regression, just a graceful "lights up" the moment the values land.
+const GBP_PLACE_ID = process.env.NEXT_PUBLIC_GBP_PLACE_ID;
+const GBP_CID = process.env.NEXT_PUBLIC_GBP_CID;
+
+const GBP_PROFILE_URL = GBP_CID
+    ? `https://www.google.com/maps?cid=${GBP_CID}`
+    : GBP_PLACE_ID
+        ? `https://www.google.com/maps/place/?q=place_id:${GBP_PLACE_ID}`
+        : null;
+
+const HAS_MAP_URL = GBP_PROFILE_URL
+    ?? "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas";
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
@@ -133,7 +157,7 @@ gtag('config', 'G-TKE6MX2P5G');`}
                   latitude: 48.7642,
                   longitude: 1.9393,
                 },
-                hasMap: "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas",
+                hasMap: HAS_MAP_URL,
                 areaServed: [
                   { "@type": "AdministrativeArea", name: "Yvelines" },
                   { "@type": "AdministrativeArea", name: "Île-de-France" },
@@ -161,6 +185,9 @@ gtag('config', 'G-TKE6MX2P5G');`}
                 sameAs: [
                   "https://www.facebook.com/profile.php?id=61576602865759",
                   "https://www.instagram.com/orientrelais/",
+                  // Google Business Profile URL is added only once we have the
+                  // Place ID / CID — keeps Google from seeing a broken link.
+                  ...(GBP_PROFILE_URL ? [GBP_PROFILE_URL] : []),
                 ],
               },
               {

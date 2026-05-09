@@ -1,8 +1,20 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Sparkles, Truck, MapPin, Phone, Clock, ShoppingBag, Leaf, ShieldCheck } from "lucide-react";
+import { Truck, MapPin, Phone, Clock, ShoppingBag, Leaf, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { jsonLdScript } from "@/lib/json-ld";
+import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
+
+// Resolve the Maps URL that the schema's `hasMap` field will point to.
+// Same fallback chain as the layout's central business entity, so both
+// schemas agree on the canonical Map URL once env vars land.
+const GBP_PLACE_ID = process.env.NEXT_PUBLIC_GBP_PLACE_ID;
+const GBP_CID = process.env.NEXT_PUBLIC_GBP_CID;
+const HAS_MAP_URL = GBP_CID
+    ? `https://www.google.com/maps?cid=${GBP_CID}`
+    : GBP_PLACE_ID
+        ? `https://www.google.com/maps/place/?q=place_id:${GBP_PLACE_ID}`
+        : "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas";
 
 export const metadata: Metadata = {
     title: "Boutique Bio à Maurepas (78310) — Savons d'Alep, Cosmétiques & Compléments Bio",
@@ -48,7 +60,7 @@ const placeJsonLd = {
         addressCountry: "FR",
     },
     geo: { "@type": "GeoCoordinates", latitude: 48.7642, longitude: 1.9393 },
-    hasMap: "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas",
+    hasMap: HAS_MAP_URL,
     openingHoursSpecification: [
         {
             "@type": "OpeningHoursSpecification",
@@ -184,6 +196,20 @@ export default function BoutiqueBioMaurepasPage() {
                         <ShoppingBag className="h-4 w-4" /> Voir le catalogue
                     </Link>
                 </div>
+            </section>
+
+            <section aria-labelledby="map-title" className="mb-16">
+                <h2 id="map-title" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
+                    Nous trouver à Maurepas
+                </h2>
+                <p className="text-stone-600 mb-6 max-w-2xl">
+                    Boutique située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
+                    à 5 minutes de la sortie A12 Maurepas centre. Parking gratuit à proximité.
+                </p>
+                <GoogleMapEmbed
+                    height={400}
+                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                />
             </section>
 
             <section className="prose prose-stone max-w-3xl mb-16">

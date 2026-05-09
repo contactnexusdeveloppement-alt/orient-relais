@@ -15,6 +15,7 @@ import {
     AlertCircle, CheckCircle, Loader2, ShoppingBag, X
 } from "lucide-react";
 import { WooProduct } from "@/lib/woocommerce-types";
+import { GoogleReviewCTA } from "@/components/local/GoogleReviewCTA";
 
 type Tab = "orders" | "info" | "wishlist";
 
@@ -243,7 +244,15 @@ export default function MonComptePage() {
                     {/* Orders Tab */}
                     {activeTab === "orders" && (
                         <div className="space-y-4">
-                            <h2 className="font-serif text-xl font-bold text-stone-900">Mes commandes</h2>
+                            <div className="flex items-center justify-between gap-4 flex-wrap">
+                                <h2 className="font-serif text-xl font-bold text-stone-900">Mes commandes</h2>
+                                {/* Compact review CTA — visible once the user has at least
+                                    one delivered order, so we only ask for a review when
+                                    they actually have something to review. */}
+                                {orders.some((o) => o.status === "completed") && (
+                                    <GoogleReviewCTA variant="compact" />
+                                )}
+                            </div>
 
                             {ordersLoading ? (
                                 <div className="flex justify-center py-12">

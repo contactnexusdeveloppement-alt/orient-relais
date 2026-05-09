@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Mail, MapPin, Phone, Facebook } from "lucide-react";
 import { sendContactEmail } from "@/app/actions/contact";
 import { toast } from "sonner";
+import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
 
 export default function ContactPage() {
     const [isPending, setIsPending] = useState(false);
@@ -176,6 +177,23 @@ export default function ContactPage() {
                     </form>
                 </div>
             </div>
+
+            {/* Google Maps embed — full-width below the contact grid */}
+            <section
+                aria-labelledby="contact-map-title"
+                className="max-w-5xl mx-auto mt-16"
+            >
+                <h2 id="contact-map-title" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-3 text-center">
+                    Nous trouver
+                </h2>
+                <p className="text-stone-600 text-center mb-6 max-w-2xl mx-auto">
+                    48 avenue de Touraine, 78310 Maurepas — à 5 min de la sortie A12 Maurepas centre.
+                </p>
+                <GoogleMapEmbed
+                    height={420}
+                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                />
+            </section>
         </div>
     );
 }

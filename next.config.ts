@@ -44,7 +44,7 @@ const nextConfig: NextConfig = {
             "img-src 'self' data: blob: https://www.orient-relais.com https://orient-relais.com https://*.stripe.com https://www.google-analytics.com https://www.googletagmanager.com https://widget.mondialrelay.com https://*.tile.openstreetmap.org https://unpkg.com",
             "font-src 'self' https://fonts.gstatic.com",
             "connect-src 'self' https://api.stripe.com https://www.orient-relais.com https://www.google-analytics.com https://analytics.google.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://widget.mondialrelay.com https://nominatim.openstreetmap.org https://*.tile.openstreetmap.org",
-            "frame-src https://js.stripe.com https://widget.mondialrelay.com",
+            "frame-src https://js.stripe.com https://widget.mondialrelay.com https://www.google.com",
             "object-src 'none'",
             "base-uri 'self'",
           ].join('; '),
