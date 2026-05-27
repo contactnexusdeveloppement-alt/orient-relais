@@ -14,9 +14,17 @@ import { WooCategory } from "@/lib/woocommerce-types";
 
 interface HeaderCenteredProps {
     categories: WooCategory[];
+    /**
+     * Optional promo banner rendered between the dark green top bar and the
+     * white header. Typed as ReactNode so a server component (e.g.
+     * FeteMeresBanner with its server-side date gate) can be passed down
+     * untouched — the date check stays SSR even though this component is
+     * "use client".
+     */
+    promoBanner?: React.ReactNode;
 }
 
-export function HeaderCentered({ categories }: HeaderCenteredProps) {
+export function HeaderCentered({ categories, promoBanner }: HeaderCenteredProps) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isProductsMenuOpen, setIsProductsMenuOpen] = useState(false);
@@ -64,6 +72,11 @@ export function HeaderCentered({ categories }: HeaderCenteredProps) {
             <div className="bg-[#0F2822] text-white py-2 text-center text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">
                 <span>LIVRAISON OFFERTE DÈS 39€ EN FRANCE</span>
             </div>
+
+            {/* Slot pour bannière promo SSR (Fête des Mères, etc.). Le composant
+                passé via prop garde son rendu serveur — il n'est PAS exécuté
+                ici, juste rendu à sa position. */}
+            {promoBanner}
 
             <header
                 className={cn(

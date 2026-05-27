@@ -6,7 +6,6 @@ import { BrandCarousel } from "@/components/home/BrandCarousel";
 import { HomeContent } from "@/components/home/HomeContent";
 import { TrustBadges } from "@/components/home/TrustBadges";
 import { StorySection } from "@/components/home/StorySection";
-import { FeteMeresBanner } from "@/components/promo/FeteMeresBanner";
 import { jsonLdScript } from "@/lib/json-ld";
 
 /**
@@ -97,9 +96,6 @@ export default async function Home() {
       />
       {/* Hero Section */}
       <HeroSection />
-
-      {/* Bannière promo Fête des Mères — auto-affichée du 25 au 31 mai 2026 (Europe/Paris) */}
-      <FeteMeresBanner />
 
       {/* Local SEO bar — indexable HTML for "Maurepas Yvelines Click & Collect" queries */}
       <section
