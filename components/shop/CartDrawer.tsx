@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { useCart } from "@/context/CartContext";
 
-export function CartDrawer() {
+export function CartDrawer({ cartNotice }: { cartNotice?: React.ReactNode }) {
     const { items, removeItem, updateQuantity, cartCount, subtotal, isDrawerOpen, setIsDrawerOpen } = useCart();
 
     const freeShippingThreshold = 39;
@@ -124,6 +124,9 @@ export function CartDrawer() {
                 {/* Footer Actions */}
                 {items.length > 0 && (
                     <div className="p-6 border-t border-primary/10 bg-gradient-to-t from-stone-50 to-white space-y-4 shadow-[0_-8px_20px_-5px_rgba(0,0,0,0.05)]">
+                        {/* Avertissement réappro (server-rendered, date-gated). Null
+                            hors fenêtre → rien ne s'affiche. */}
+                        {cartNotice}
                         <div className="space-y-3">
                             <div className="flex justify-between text-lg font-bold text-stone-900">
                                 <span>Sous-total</span>

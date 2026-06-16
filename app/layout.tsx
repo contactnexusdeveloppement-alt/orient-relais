@@ -3,7 +3,8 @@ import { Playfair_Display, Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ClientLayout } from "@/components/layout/ClientLayout";
-import { FeteMeresBanner } from "@/components/promo/FeteMeresBanner";
+import { PromoBanner } from "@/components/promo/PromoBanner";
+import { ReapproNotice } from "@/components/promo/ReapproNotice";
 import { jsonLdScript } from "@/lib/json-ld";
 
 // =============================================================================
@@ -222,7 +223,8 @@ gtag('config', 'G-TKE6MX2P5G');`}
         />
         <ClientLayout
           categories={categories}
-          promoBanner={<FeteMeresBanner />}
+          promoBanner={<PromoBanner />}
+          cartNotice={<ReapproNotice />}
         >
           {children}
         </ClientLayout>
