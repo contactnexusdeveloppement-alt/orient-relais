@@ -19,7 +19,10 @@ export default function AboutPage() {
     return (
         <div className="pb-16">
             {/* Hero */}
-            <div className="relative h-[60vh] w-full flex items-center justify-center bg-stone-900 text-white overflow-hidden">
+            {/* min-h + py au lieu d'une hauteur dure : avec h-[60vh] +
+                overflow-hidden, le titre centré se faisait rogner sur les
+                écrans peu hauts. */}
+            <div className="relative min-h-[60vh] w-full flex items-center justify-center bg-stone-900 text-white overflow-hidden py-20">
                 <Image
                     src="/hero.webp"
                     alt="Savon d'Alep artisanal"

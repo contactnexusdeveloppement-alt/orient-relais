@@ -10,7 +10,11 @@ import { Button } from "@/components/ui/button";
 // (scale/glow) are purely decorative and do not block layout.
 export function HeroSection() {
     return (
-        <section className="relative h-[85vh] w-full overflow-hidden bg-stone-100 flex items-center justify-center">
+        // min-h au lieu de h : sur une fenêtre très peu haute, le contenu
+        // centré (badge + H1 + CTA) se faisait rogner par overflow-hidden.
+        // min-h laisse la section grandir ; hauteur initiale identique,
+        // aucun impact LCP/CLS.
+        <section className="relative min-h-[85vh] w-full overflow-hidden bg-stone-100 flex items-center justify-center py-16">
             {/* Background Image: priority + no motion so LCP lands fast */}
             <div className="absolute inset-0 z-0">
                 <Image

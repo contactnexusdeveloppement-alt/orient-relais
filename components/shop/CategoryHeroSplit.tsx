@@ -9,9 +9,15 @@ interface CategoryHeroSplitProps {
 
 export function CategoryHeroSplit({ title, description, image }: CategoryHeroSplitProps) {
     return (
-        <div className="w-full flex flex-col lg:flex-row min-h-[50vh] lg:h-[60vh]">
-            {/* Image Side (Left on Desktop, Top on Mobile) */}
-            <div className="relative w-full lg:w-1/2 h-[40vh] lg:h-full overflow-hidden group">
+        // min-h (jamais de hauteur dure) : avec lg:h-[60vh], sur un écran peu
+        // haut le titre centré débordait par le haut et passait SOUS le
+        // header sticky (z-50) — le mot était coupé. Avec min-h, la section
+        // grandit avec son contenu.
+        <div className="w-full flex flex-col lg:flex-row min-h-[50vh] lg:min-h-[60vh]">
+            {/* Image Side (Left on Desktop, Top on Mobile) — lg:h-auto :
+                l'étirement flex (align-items:stretch) cale la hauteur sur la
+                colonne texte ; l'Image fill couvre la boîte étirée. */}
+            <div className="relative w-full lg:w-1/2 h-[40vh] lg:h-auto overflow-hidden group">
                 <Image
                     src={image}
                     alt={title}
@@ -25,7 +31,9 @@ export function CategoryHeroSplit({ title, description, image }: CategoryHeroSpl
             </div>
 
             {/* Content Side (Right on Desktop, Bottom on Mobile) */}
-            <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center items-center text-center p-8 md:p-16 lg:p-24">
+            {/* Padding vertical raisonnable (l'ancien lg:p-24 = 96px haut+bas
+                aggravait le débordement sur écrans peu hauts). */}
+            <div className="w-full lg:w-1/2 bg-white flex flex-col justify-center items-center text-center p-8 md:p-12 lg:px-20 lg:py-16">
                 <div className="max-w-xl">
                     <span className="inline-block mb-6 px-3 py-1 border border-primary/20 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
                         Collection Exclusive
