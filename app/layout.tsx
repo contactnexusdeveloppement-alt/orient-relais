@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Manrope } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { ClientLayout } from "@/components/layout/ClientLayout";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { PromoBanner } from "@/components/promo/PromoBanner";
 import { ReapproNotice } from "@/components/promo/ReapproNotice";
 import { jsonLdScript } from "@/lib/json-ld";
@@ -95,19 +95,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           href="/hero.webp"
           fetchPriority="high"
         />
-        {/* Preconnect to the domains we hit on first paint */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-TKE6MX2P5G"
-          strategy="afterInteractive"
-        />
-        <Script id="ga4-init" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-TKE6MX2P5G');`}
-        </Script>
+        {/* GA4 n'est PLUS chargé ici : conformité CNIL — le chargement est
+            conditionné au consentement via le composant GoogleAnalytics
+            (monté dans le body). Les preconnect googletagmanager et
+            google-analytics ont été retirés avec : inutiles tant que le
+            consentement n'est pas donné. */}
       </head>
       <body className={`${playfair.variable} ${manrope.variable} antialiased flex flex-col min-h-screen font-sans`}>
         {/* Organization + WebSite JSON-LD for Google */}
@@ -228,6 +220,8 @@ gtag('config', 'G-TKE6MX2P5G');`}
         >
           {children}
         </ClientLayout>
+        {/* GA4 — chargé uniquement après consentement cookies (CNIL) */}
+        <GoogleAnalytics />
       </body>
     </html>
   );

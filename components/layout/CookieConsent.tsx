@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CONSENT_GRANTED_EVENT } from "@/components/analytics/GoogleAnalytics";
 
 export function CookieConsent() {
     const [isVisible, setIsVisible] = useState(false);
@@ -20,10 +21,16 @@ export function CookieConsent() {
 
     const handleAccept = () => {
         localStorage.setItem("cookieConsent", "true");
+        // Signale au composant GoogleAnalytics de charger gtag.js à chaud —
+        // avant ce consentement, AUCUN script analytics n'est présent sur la
+        // page (exigence CNIL : pas de traceur avant accord explicite).
+        window.dispatchEvent(new Event(CONSENT_GRANTED_EVENT));
         setIsVisible(false);
     };
 
     const handleDecline = () => {
+        // Refus réellement effectif : GoogleAnalytics ne se montera jamais,
+        // gtag.js n'est pas chargé, aucun cookie _ga n'est déposé.
         localStorage.setItem("cookieConsent", "false");
         setIsVisible(false);
     };
@@ -40,9 +47,12 @@ export function CookieConsent() {
                 <div className="flex-1 text-center md:text-left">
                     <h3 className="text-lg font-serif font-bold text-white mb-2">Respect de votre vie privée</h3>
                     <p className="text-sm text-stone-400 leading-relaxed max-w-2xl">
-                        Nous utilisons des cookies pour améliorer votre expérience, analyser le trafic et personnaliser le contenu.
-                        En cliquant sur "Accepter", vous consentez à l'utilisation de tous les cookies.
-                        Vous pouvez refuser ou modifier vos préférences à tout moment.
+                        Nous utilisons des cookies de mesure d&apos;audience (Google Analytics) pour améliorer votre expérience.
+                        Aucun cookie de suivi n&apos;est déposé tant que vous n&apos;avez pas accepté.
+                        Refuser n&apos;affecte pas votre navigation.{" "}
+                        <Link href="/confidentialite" className="underline hover:text-white transition-colors">
+                            En savoir plus
+                        </Link>
                     </p>
                 </div>
                 <div className="flex gap-3 shrink-0">

@@ -1,6 +1,8 @@
 // Lightweight GA4 Enhanced Ecommerce helper.
-// Only fires when window.gtag is available (after the ClientLayout cookie
-// consent gate + gtag script load). Every helper is a no-op on the server.
+// Only fires when window.gtag is available — gtag.js is loaded exclusively
+// by components/analytics/GoogleAnalytics.tsx, and only after the visitor
+// accepts the cookie banner (CNIL requirement). Every helper is therefore a
+// silent no-op on the server AND for visitors who declined analytics.
 
 type GtagItem = {
     item_id: string;
