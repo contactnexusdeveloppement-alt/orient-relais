@@ -29,7 +29,10 @@ export function CartDrawer({ cartNotice }: { cartNotice?: React.ReactNode }) {
                     <span className="sr-only">Panier</span>
                 </Button>
             </SheetTrigger>
-            <SheetContent className="w-[380px] sm:w-[480px] flex flex-col p-0">
+            {/* w-full sur mobile (les 380px fixes débordaient sous 380px de
+                large) ; gap-0 : le gap-4 par défaut du Sheet mangeait ~48px
+                de hauteur utile entre les 4 sections du drawer. */}
+            <SheetContent className="w-full gap-0 sm:w-[480px] sm:max-w-[480px] flex flex-col p-0">
                 <SheetHeader className="px-6 pt-6 pb-2">
                     <SheetTitle className="font-serif text-2xl font-bold flex items-center justify-between">
                         <span>Mon Panier</span>
@@ -59,7 +62,11 @@ export function CartDrawer({ cartNotice }: { cartNotice?: React.ReactNode }) {
                     <Progress value={progress} className="h-2 bg-stone-200 [&>div]:bg-gradient-to-r [&>div]:from-primary [&>div]:to-amber-400" />
                 </div>
 
-                <ScrollArea className="flex-1 px-6">
+                {/* min-h-0 : sans lui, un enfant flex-1 en colonne ne rétrécit
+                    jamais sous la hauteur de son contenu (min-height:auto) —
+                    avec plusieurs articles, la liste poussait le pied du
+                    drawer (bande de paiement) hors de l'écran. */}
+                <ScrollArea className="flex-1 min-h-0 px-6">
                     <div className="flex flex-col gap-6 py-6">
                         {items.map((item) => (
                             <div key={`${item.id}-${item.variant}`} className="flex gap-4">
@@ -121,9 +128,11 @@ export function CartDrawer({ cartNotice }: { cartNotice?: React.ReactNode }) {
                     </div>
                 </ScrollArea>
 
-                {/* Footer Actions */}
+                {/* Footer Actions — padding compact sur mobile + safe-area
+                    iOS (home indicator) pour que le CTA paiement reste
+                    entièrement visible et cliquable. */}
                 {items.length > 0 && (
-                    <div className="p-6 border-t border-primary/10 bg-gradient-to-t from-stone-50 to-white space-y-4 shadow-[0_-8px_20px_-5px_rgba(0,0,0,0.05)]">
+                    <div className="p-4 sm:p-6 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-6 border-t border-primary/10 bg-gradient-to-t from-stone-50 to-white space-y-3 shadow-[0_-8px_20px_-5px_rgba(0,0,0,0.05)]">
                         {/* Avertissement réappro (server-rendered, date-gated). Null
                             hors fenêtre → rien ne s'affiche. */}
                         {cartNotice}

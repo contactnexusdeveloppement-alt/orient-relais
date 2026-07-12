@@ -48,7 +48,7 @@ export function CategoryProductGridHorizontal({ category, products, productCount
                             )}
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[320px] overflow-y-auto">
+                    <SheetContent side="left" className="w-full max-w-[320px] overflow-y-auto">
                         <SheetHeader>
                             <SheetTitle className="font-serif text-xl">Filtrer les produits</SheetTitle>
                             <SheetDescription className="sr-only">

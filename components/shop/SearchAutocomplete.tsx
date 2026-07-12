@@ -120,7 +120,7 @@ export function SearchAutocomplete({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl shadow-stone-900/10 border border-stone-100 overflow-hidden z-50 max-h-[70vh] flex flex-col"
+                        className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl shadow-stone-900/10 border border-stone-100 overflow-hidden z-50 max-h-[70dvh] flex flex-col"
                     >
                         <div className="overflow-y-auto w-full custom-scrollbar flex-1">
                             {results.length > 0 ? (

@@ -222,7 +222,7 @@ export function HeaderCentered({ categories, promoBanner, cartNotice }: HeaderCe
                 {/* Mobile Menu Overlay — CSS-only transition, no framer-motion */}
                 {isMenuOpen && (
                         <div
-                            className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl z-50 max-h-[80vh] overflow-y-auto animate-fade-in"
+                            className="lg:hidden absolute top-full left-0 w-full bg-white border-t border-stone-100 shadow-xl z-50 max-h-[80dvh] overflow-y-auto animate-fade-in"
                         >
                             <div className="p-6 space-y-6">
                                 <div className="relative z-50">
