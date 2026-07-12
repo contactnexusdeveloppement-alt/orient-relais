@@ -11,7 +11,9 @@ export default function NotFound() {
 
                 {/* Decorative Element */}
                 <div className="relative mb-8">
-                    <span className="text-[180px] font-serif font-bold bg-gradient-to-b from-primary/30 to-stone-100 bg-clip-text text-transparent select-none">404</span>
+                    {/* 110px sur mobile : à 180px, "404" (~300px de large)
+                        débordait des écrans de 320px. */}
+                    <span className="text-[110px] sm:text-[180px] font-serif font-bold bg-gradient-to-b from-primary/30 to-stone-100 bg-clip-text text-transparent select-none">404</span>
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="h-28 w-28 rounded-2xl bg-gradient-to-br from-primary/20 to-amber-100 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/20">
                             <span className="text-6xl">🧼</span>

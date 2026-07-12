@@ -298,13 +298,16 @@ export default function CheckoutPage() {
                     {/* Left Column: Form Steps */}
                     <div className="flex-1 space-y-8">
                         {/* Breadcrumb / Steps Visual */}
-                        <div className="flex items-center justify-center sm:justify-start text-sm font-medium text-stone-400 mb-8 bg-stone-100 rounded-full px-4 py-2 w-fit">
+                        {/* flex-wrap + max-w-full : sans ça, les 4 étapes +
+                            chevrons (~400px) débordaient de l'écran sous
+                            ~380px de large et créaient un scroll horizontal. */}
+                        <div className="flex flex-wrap items-center justify-center sm:justify-start text-xs sm:text-sm font-medium text-stone-400 mb-8 bg-stone-100 rounded-full px-4 py-2 w-fit max-w-full">
                             <span className={`transition-colors ${step >= 1 ? "text-primary font-bold" : ""}`}>Panier</span>
-                            <ChevronRight className="h-4 w-4 mx-2" />
+                            <ChevronRight className="h-4 w-4 mx-1 sm:mx-2 shrink-0" />
                             <span className={`transition-colors ${step >= 2 ? "text-primary font-bold" : ""}`}>Information</span>
-                            <ChevronRight className="h-4 w-4 mx-2" />
+                            <ChevronRight className="h-4 w-4 mx-1 sm:mx-2 shrink-0" />
                             <span className={`transition-colors ${step >= 3 ? "text-primary font-bold" : ""}`}>Livraison</span>
-                            <ChevronRight className="h-4 w-4 mx-2" />
+                            <ChevronRight className="h-4 w-4 mx-1 sm:mx-2 shrink-0" />
                             <span className={`transition-colors ${step >= 4 ? "text-primary font-bold" : ""}`}>Paiement</span>
                         </div>
 
