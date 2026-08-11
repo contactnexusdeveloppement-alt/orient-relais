@@ -40,7 +40,7 @@ const FAQ_SECTIONS = [
             },
             {
                 q: "La livraison est-elle gratuite ?",
-                a: "Oui, la livraison est offerte dès 39€ d'achat en France métropolitaine avec Mondial Relay. En dessous, les frais sont de 3,90€ à 6,90€ selon le poids."
+                a: "Oui, la livraison est offerte dès 39€ d'achat en France métropolitaine avec Mondial Relay. En dessous, les frais sont de 4,90€ (Mondial Relay) à 7,90€ (Colissimo)."
             },
             {
                 q: "Livrez-vous à l'international ?",

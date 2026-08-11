@@ -140,7 +140,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 "@type": "OfferShippingDetails",
                 shippingRate: {
                     "@type": "MonetaryAmount",
-                    value: "3.90",
+                    // Cheapest paid option (Mondial Relay) — free above 39 €.
+                    value: "4.90",
                     currency: "EUR",
                 },
                 shippingDestination: {

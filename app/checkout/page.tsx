@@ -83,9 +83,16 @@ function StripePaymentForm({
                     </div>
                 )}
 
-                <div className="flex items-center gap-2 text-xs text-stone-500 mt-4">
-                    <Lock className="h-3.5 w-3.5" />
-                    <span>Paiement 100% sécurisé par Stripe. Vos données sont chiffrées.</span>
+                {/* Badge Stripe renforcé — "Stripe" dans son bleu officiel
+                    (#635BFF) : visible comme demandé par le client, sans
+                    sortir d'une couleur de marque légitime. */}
+                <div className="flex items-center justify-center gap-2.5 mt-4 p-3 rounded-xl bg-stone-50 border border-stone-200">
+                    <Lock className="h-4 w-4 text-[#635BFF]" aria-hidden="true" />
+                    <span className="text-sm text-stone-700">
+                        Paiement 100&nbsp;% sécurisé par{" "}
+                        <span className="font-bold text-base text-[#635BFF]">Stripe</span>
+                        {" "}— vos données sont chiffrées.
+                    </span>
                 </div>
             </section>
 
@@ -130,7 +137,9 @@ export default function CheckoutPage() {
     // Livraison offerte dès 39€ (Colissimo & Mondial Relay)
     // Click & Collect: toujours gratuit
     const FREE_SHIPPING_THRESHOLD = 39;
-    const baseShippingCost = shippingMethod === "mondialrelay" ? 3.90 : shippingMethod === "clickcollect" ? 0 : 6.90;
+    // Tarifs contrat Georges (juillet 2026) : Mondial Relay 4,90 €,
+    // Colissimo 7,90 €. Click & Collect toujours gratuit.
+    const baseShippingCost = shippingMethod === "mondialrelay" ? 4.90 : shippingMethod === "clickcollect" ? 0 : 7.90;
     const shippingCost = shippingMethod === "clickcollect" ? 0 : subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : baseShippingCost;
     const total = subtotal + shippingCost;
 
@@ -403,7 +412,7 @@ export default function CheckoutPage() {
                                                 <p className="text-base font-medium text-stone-900">🏠 Colissimo Domicile</p>
                                                 <p className="text-sm text-stone-500">Livraison à domicile en 24/48h</p>
                                             </div>
-                                            <span className="font-bold text-stone-900">6,90 €</span>
+                                            <span className="font-bold text-stone-900">7,90 €</span>
                                         </div>
 
                                         {/* Option 2: Mondial Relay */}
@@ -424,7 +433,7 @@ export default function CheckoutPage() {
                                                 <p className="text-base font-medium text-stone-900">📦 Mondial Relay — Point Relais</p>
                                                 <p className="text-sm text-stone-500">Retrait en Point Relais — 3 à 5 jours ouvrés</p>
                                             </div>
-                                            <span className="font-bold text-stone-900">3,90 €</span>
+                                            <span className="font-bold text-stone-900">4,90 €</span>
                                         </div>
 
                                         {/* Option 3: Click & Collect */}
@@ -688,9 +697,13 @@ export default function CheckoutPage() {
                                 </>
                             )}
 
-                            <div className="mt-6 bg-gradient-to-r from-primary/5 to-amber-50 p-3 rounded-xl text-xs text-stone-600 flex gap-2 border border-primary/10">
-                                <Lock className="h-4 w-4 flex-shrink-0 text-primary" />
-                                <p>Transactions sécurisées et cryptées SSL. Vos données sont protégées.</p>
+                            <div className="mt-6 bg-gradient-to-r from-primary/5 to-amber-50 p-3 rounded-xl text-xs text-stone-600 flex items-center gap-2 border border-primary/10">
+                                <Lock className="h-4 w-4 flex-shrink-0 text-[#635BFF]" />
+                                <p>
+                                    Paiement sécurisé par{" "}
+                                    <span className="font-bold text-sm text-[#635BFF]">Stripe</span>
+                                    {" "}— transactions chiffrées SSL.
+                                </p>
                             </div>
                         </div>
                     </div>
