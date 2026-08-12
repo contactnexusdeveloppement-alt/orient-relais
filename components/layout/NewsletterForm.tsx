@@ -22,8 +22,12 @@ export function NewsletterForm() {
         if (result?.error) {
             toast.error(result.error);
         } else {
+            // Pas de promesse de code promo ici : l'ancien texte annonçait un
+            // "-10 % envoyé prochainement" qu'aucun système ne générait
+            // (promesse non tenue → retirée à la demande du client, qui
+            // s'appuie sur l'offre réelle : cadeau dès 39 € d'achat).
             toast.success("Merci ! Vous êtes bien inscrit(e) à notre newsletter.", {
-                description: "Votre code promo de -10% vous sera envoyé prochainement."
+                description: "Vous recevrez nos conseils bien-être et nos offres en avant-première."
             });
             (event.target as HTMLFormElement).reset();
         }
@@ -33,7 +37,7 @@ export function NewsletterForm() {
         <div className="p-5 rounded-2xl bg-gradient-to-br from-stone-800/80 to-stone-800/40 border border-stone-700/50">
             <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium text-primary">-10% sur la 1ère commande</span>
+                <span className="text-sm font-medium text-primary">🎁 Un cadeau offert dès 39 € d&apos;achat</span>
             </div>
             <p className="text-sm text-stone-400 mb-4">
                 Recevez nos conseils bien-être et offres exclusives.

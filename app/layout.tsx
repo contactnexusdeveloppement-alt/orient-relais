@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     template: "%s | Orient Relais — Boutique Bio Maurepas",
   },
   description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles Terra Etica, compléments alimentaires naturels. Livraison offerte dès 39€.",
-  keywords: ["savon d'Alep bio", "cosmétiques bio", "huiles essentielles bio", "compléments ayurvédiques", "boutique bio Maurepas", "boutique bio Yvelines", "herboristerie 78310", "Orient Relais"],
+  keywords: ["savon d'Alep bio", "cosmétiques bio", "cosmétiques bio en ligne", "huiles essentielles bio", "compléments ayurvédiques", "compléments alimentaires bio", "miel bio", "boutique bio Maurepas", "boutique bio Yvelines", "herboristerie 78310", "Orient Relais"],
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
   metadataBase: new URL("https://www.orient-relais.com"),
