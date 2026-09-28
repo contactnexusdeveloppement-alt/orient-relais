@@ -161,12 +161,9 @@ export default function CheckoutPage() {
         phone: ""
     });
 
-    // Redirect if not authenticated
-    useEffect(() => {
-        if (!authLoading && !isAuthenticated) {
-            router.push("/login?redirect=/checkout");
-        }
-    }, [authLoading, isAuthenticated, router]);
+    // Pas de compte obligatoire : un visiteur commande directement en
+    // renseignant ses coordonnées (commande invité dans WooCommerce).
+    // Un client connecté garde le pré-remplissage et l'historique de compte.
 
     // Pre-fill form with user data
     useEffect(() => {
@@ -277,8 +274,6 @@ export default function CheckoutPage() {
         );
     }
 
-    if (!isAuthenticated) return null;
-
     if (items.length === 0 && !clientSecret) {
         return (
             <div className="container mx-auto py-24 text-center">
@@ -314,6 +309,14 @@ export default function CheckoutPage() {
                         {/* Step 1: Information & Address */}
                         {step <= 2 && (
                             <form onSubmit={handleNext} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                {!isAuthenticated && (
+                                    <p className="text-sm text-stone-600 bg-white border border-stone-200 rounded-xl px-4 py-3">
+                                        Pas besoin de compte pour commander.{" "}
+                                        <Link href="/login?redirect=/checkout" className="text-primary font-medium hover:underline">
+                                            Déjà client ? Se connecter
+                                        </Link>
+                                    </p>
+                                )}
                                 {/* Identification */}
                                 <section className="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm">
                                     <h2 className="text-xl font-serif font-bold text-stone-900 mb-6 flex items-center gap-2">

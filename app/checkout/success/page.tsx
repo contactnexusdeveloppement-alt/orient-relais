@@ -6,8 +6,10 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { GoogleReviewCTA } from "@/components/local/GoogleReviewCTA";
+import { useAuth } from "@/context/AuthContext";
 
 function SuccessContent() {
+    const { isAuthenticated } = useAuth();
     const searchParams = useSearchParams();
     const paymentIntentId = searchParams.get("payment_intent");
     const orderNumber = searchParams.get("order") || (paymentIntentId
@@ -50,16 +52,28 @@ function SuccessContent() {
                 </div>
 
                 <div className="space-y-3">
-                    <Button asChild className="w-full h-12 text-lg font-bold">
-                        <Link href="/mon-compte">
-                            Suivre ma commande
-                        </Link>
-                    </Button>
-                    <Button asChild variant="outline" className="w-full">
-                        <Link href="/boutique">
-                            Continuer mes achats
-                        </Link>
-                    </Button>
+                    {/* Commande invité : pas d'espace client, le suivi arrive
+                        par email — on ne propose donc pas "Mon compte". */}
+                    {isAuthenticated ? (
+                        <>
+                            <Button asChild className="w-full h-12 text-lg font-bold">
+                                <Link href="/mon-compte">
+                                    Suivre ma commande
+                                </Link>
+                            </Button>
+                            <Button asChild variant="outline" className="w-full">
+                                <Link href="/boutique">
+                                    Continuer mes achats
+                                </Link>
+                            </Button>
+                        </>
+                    ) : (
+                        <Button asChild className="w-full h-12 text-lg font-bold">
+                            <Link href="/boutique">
+                                Continuer mes achats
+                            </Link>
+                        </Button>
+                    )}
                 </div>
             </div>
 
