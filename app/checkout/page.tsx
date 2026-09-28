@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { getStripe } from "@/lib/stripe";
 import { trackBeginCheckout, trackPurchase } from "@/lib/analytics";
+import { computeShippingCents, toCents, type ShippingMethod } from "@/lib/shipping";
 
 // Stripe Payment Form component (used inside Elements provider)
 function StripePaymentForm({
@@ -131,17 +132,19 @@ export default function CheckoutPage() {
     const [cgvAccepted, setCgvAccepted] = useState(false);
 
     // Shipping method state
-    const [shippingMethod, setShippingMethod] = useState<"colissimo" | "mondialrelay" | "clickcollect">("colissimo");
+    const [shippingMethod, setShippingMethod] = useState<ShippingMethod>("colissimo");
     const [selectedRelay, setSelectedRelay] = useState<RelayPoint | null>(null);
 
-    // Livraison offerte dès 39€ (Colissimo & Mondial Relay)
-    // Click & Collect: toujours gratuit
-    const FREE_SHIPPING_THRESHOLD = 39;
-    // Tarifs contrat Georges (juillet 2026) : Mondial Relay 4,90 €,
-    // Colissimo 7,90 €. Click & Collect toujours gratuit.
-    const baseShippingCost = shippingMethod === "mondialrelay" ? 4.90 : shippingMethod === "clickcollect" ? 0 : 7.90;
-    const shippingCost = shippingMethod === "clickcollect" ? 0 : subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : baseShippingCost;
+    // Mêmes règles que l'API de paiement (lib/shipping) : l'affichage ne
+    // peut plus diverger du montant réellement débité.
+    const shippingCost = computeShippingCents(shippingMethod, toCents(subtotal)) / 100;
     const total = subtotal + shippingCost;
+
+    // Montant calculé par le serveur avec les prix WooCommerce du moment.
+    // Il fait foi sur l'étape paiement (un prix a pu changer depuis l'ajout
+    // au panier).
+    const [chargedTotal, setChargedTotal] = useState<number | null>(null);
+    const payableTotal = step === 4 && chargedTotal !== null ? chargedTotal : total;
 
     const handleRelaySelect = useCallback((point: RelayPoint) => {
         setSelectedRelay(point);
@@ -206,14 +209,12 @@ export default function CheckoutPage() {
             const response = await fetch("/api/create-payment-intent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
+                // Plus de prix ni de frais de port envoyés : le serveur les
+                // recalcule lui-même (anti-manipulation du montant).
                 body: JSON.stringify({
-                    items: items.map(item => ({
-                        id: item.id,
-                        title: item.title,
-                        price: item.price,
-                        quantity: item.quantity,
-                    })),
-                    shippingCost: Math.round(shippingCost * 100),
+                    items: items.map(item => ({ id: item.id, quantity: item.quantity })),
+                    shippingMethod,
+                    selectedRelay: shippingMethod === "mondialrelay" ? selectedRelay : null,
                     customerInfo: formData,
                 }),
             });
@@ -225,6 +226,7 @@ export default function CheckoutPage() {
             }
 
             setClientSecret(data.clientSecret);
+            setChargedTotal(typeof data.amount === "number" ? data.amount / 100 : null);
             setStep(4);
             window.scrollTo(0, 0);
         } catch (err: unknown) {
@@ -239,7 +241,7 @@ export default function CheckoutPage() {
         // GA4 purchase event — primary conversion signal for Google Ads / GA
         trackPurchase({
             transactionId: paymentIntentId,
-            total,
+            total: chargedTotal ?? total,
             shipping: shippingCost,
             items: items.map((it) => ({
                 item_id: it.id,
@@ -249,24 +251,13 @@ export default function CheckoutPage() {
             })),
         });
 
-        // Create WooCommerce order
+        // Create WooCommerce order — le serveur relit tout (articles,
+        // livraison, client) dans le paiement Stripe vérifié.
         try {
             const res = await fetch("/api/orders/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    paymentIntentId,
-                    items: items.map(item => ({
-                        id: item.id,
-                        title: item.title,
-                        quantity: item.quantity,
-                        price: item.price,
-                    })),
-                    customerInfo: formData,
-                    shippingMethod,
-                    shippingCost,
-                    selectedRelay,
-                }),
+                body: JSON.stringify({ paymentIntentId }),
             });
             const data = await res.json();
             clearCart();
@@ -572,7 +563,7 @@ export default function CheckoutPage() {
                                 }}
                             >
                                 <StripePaymentForm
-                                    amount={total}
+                                    amount={payableTotal}
                                     onSuccess={handlePaymentSuccess}
                                     onBack={() => setStep(3)}
                                 />
@@ -626,9 +617,14 @@ export default function CheckoutPage() {
                                 <span className="font-bold text-lg text-stone-900">Total</span>
                                 <div className="text-right">
                                     <span className="text-xs text-stone-500 block mb-0.5">TVA incluse</span>
-                                    <span className="font-bold text-2xl text-primary">{total.toFixed(2)} €</span>
+                                    <span className="font-bold text-2xl text-primary">{payableTotal.toFixed(2)} €</span>
                                 </div>
                             </div>
+                            {Math.abs(payableTotal - total) > 0.009 && (
+                                <p className="mt-2 text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-2">
+                                    Le prix d&apos;un article a été mis à jour depuis son ajout au panier. Le montant ci-dessus est celui qui sera débité.
+                                </p>
+                            )}
 
                             {/* Dynamic info: shows progressively as user fills in checkout */}
                             {step >= 2 && (formData.firstName || formData.lastName || formData.email) && (
