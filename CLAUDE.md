@@ -5,27 +5,50 @@
 - Interlocuteur : Georges Harb (gérant). On le tutoie.
 - Site : https://www.orient-relais.com
 
-## Périmètre : forfait ou devis (règle Ned, à appliquer AVANT de coder)
-Le forfait de maintenance couvre uniquement les changements mineurs. Tout le reste
-passe par un devis validé par le client avant de commencer.
+## Contrat (devis DEV-2026-003 signé le 13/05/2026, CGV incluses)
+- Refonte livrée : 1 490 € HT, facturée 500 € HT après une remise de lancement de
+  66,4 %. Art. 5.1 : cette remise est ponctuelle et ne sert **jamais** de tarif de
+  référence pour les prestations futures.
+- **Forfait Mensuel Essentiel : 25 € HT / 30 € TTC par mois**, prélevé par Stripe le 21.
+  Engagement de 12 mois à partir du 21/05/2026 (jusqu'au 20/05/2027).
+- Inclus : hébergement Vercel, maintenance technique et corrective, mises à jour de
+  sécurité, sauvegardes hebdomadaires, support email sous 24 h ouvrées, et
+  **1 seule modification mineure par mois** (texte, image ou ajout d'un produit simple).
+- Exclus (art. 4) : nom de domaine (géré par le client), toute évolution
+  fonctionnelle ou visuelle significative (devis complémentaire), modules payants tiers.
+- La garantie de 30 jours après livraison (art. 7) a expiré. Corriger un bug de notre
+  code relève de la maintenance technique : c'est inclus et ça ne consomme pas la
+  modification du mois.
 
-Pour chaque demande de Georges : la classer d'abord. Si elle sort du forfait, ou en
+## Périmètre : forfait ou devis (à appliquer AVANT de coder)
+Pour chaque demande de Georges, la classer d'abord. Si elle sort du forfait, ou en
 cas de doute, ne pas coder : décrire la demande, estimer le temps et le signaler à
 Adam / Théo pour chiffrage.
 
-| Forfait (mineur) | Devis (hors forfait) |
+| Inclus dans le forfait | Devis (hors forfait) |
 |---|---|
-| Correction de texte, prix, image, bannière promo | Nouvelle page ou nouvelle section de contenu |
-| Mots-clés, title, meta description | Nouvelle fonctionnalité (checkout, comptes, fidélité, transporteur…) |
-| Petit ajustement visuel d'une page existante | Refonte design d'une page ou d'une section |
-| Mises à jour de sécurité et dépendances | Rédaction : articles de blog, fiches produits, textes SEO |
-| Correction d'un bug de notre code (garantie, toujours gratuit) | Intégration d'un service tiers (emailing, ERP, avis…) |
-| | Audit ou stratégie SEO, campagnes |
+| 1 modification mineure par mois : un texte, une image, un produit simple, une liste de mots-clés | Toute modification mineure au-delà de la 1re du mois |
+| Correction d'un bug de notre code | Nouvelle page ou nouvelle section de contenu |
+| Mises à jour de sécurité et de dépendances | Nouvelle fonctionnalité (checkout, comptes, bannières, transporteur…) |
+| Hébergement, sauvegardes, support email | Refonte visuelle d'une page ou d'une section |
+| | Rédaction : articles de blog, fiches produits, textes SEO |
+| | Intégration d'un service tiers, audit ou stratégie SEO |
 
-- Repère : une demande qui dépasse 1 h de travail passe en devis (seuil à ajuster
-  selon le contrat).
+- Une modification mineure, c'est un seul sujet et environ 1 h de travail au maximum.
+- La période du forfait va du 21 au 20 du mois suivant.
 - Le catalogue (produits, prix, stocks, catégories) est géré par le client dans
-  WooCommerce. La saisie de produits à sa place est hors forfait.
+  WooCommerce depuis la formation au back-office.
+
+## Registre des modifications mineures
+Mettre à jour à chaque intervention demandée par le client.
+
+Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'historique git.
+
+| Période | Inclus (1) | Au-delà / hors forfait (non facturé sauf mention) |
+|---|---|---|
+| 21/05 – 20/06 | Bannière Fête des Mères (27/05) | Système de bannières de campagne + avis de réappro (16/06, évolution) |
+| 21/07 – 20/08 | Tarifs livraison + badge Stripe (11/08) | Mots-clés newsletter (12/08), mots-clés Paris (13/08) |
+| 21/09 – 20/10 | Mots-clés Alep / Yvelines / cadeaux (28/09) | Commande sans compte (28/09, évolution) ; mots-clés huiles (05/10) ; section SEO page Yvelines (05/10, annoncée comme offerte) |
 
 ## Stack
 - Next.js 15 (App Router, TypeScript, Tailwind) en front headless, sur Vercel.
