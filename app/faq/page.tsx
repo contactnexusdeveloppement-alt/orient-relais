@@ -19,7 +19,7 @@ const FAQ_SECTIONS = [
             },
             {
                 q: "Que signifie le pourcentage de laurier d'un savon d'Alep ?",
-                a: "Il indique la part d'huile de baie de laurier dans le savon, le reste étant de l'huile d'olive. Plus il est élevé, plus le savon est purifiant : un taux bas, comme notre savon liquide à 5 %, convient à un usage quotidien, un taux élevé, comme notre savon traditionnel à 40 %, plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien."
+                a: "Il indique la part d'huile de baie de laurier dans le savon, le reste étant de l'huile d'olive. Plus il est élevé, plus le savon est purifiant : un taux bas, comme notre savon liquide à 5 %, convient à un usage quotidien, un taux élevé, comme notre savon traditionnel à 40 %, plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien."
             },
             {
                 q: "Combien de temps dure un savon d'Alep ?",

@@ -69,7 +69,7 @@ const YVELINES_FAQ = [
     },
     {
         q: "Quel pourcentage de laurier choisir pour un savon d'Alep ?",
-        a: "Plus le taux d'huile de baie de laurier est élevé, plus le savon est purifiant. Un taux bas, comme notre savon d'Alep liquide à 5 %, convient à un usage quotidien et aux peaux sensibles. Un taux élevé, comme notre savon traditionnel à 40 %, convient plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien.",
+        a: "Plus le taux d'huile de baie de laurier est élevé, plus le savon est purifiant. Un taux bas, comme notre savon d'Alep liquide à 5 %, convient à un usage quotidien et aux peaux sensibles. Un taux élevé, comme notre savon traditionnel à 40 %, convient plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien.",
     },
     {
         q: "Le savon d'Alep est-il bio ?",
@@ -209,11 +209,11 @@ export default function SavonAlepYvelinesPage() {
                 </p>
                 <ul>
                     <li>
-                        <Link href="/produit/savon-dalep-traditionnel-40-laurier"><strong>Savon d&apos;Alep traditionnel 40 % laurier</strong></Link>
+                        <Link href="/produit/savon-dalep-traditionnel-40-laurier"><strong>Savon d&apos;Alep traditionnel 40 % laurier</strong></Link>
                         {" "}: le plus riche en huile de baie de laurier, apprécié des peaux grasses.
                     </li>
                     <li>
-                        <Link href="/produit/savon-dalep-liquide-5-laurier"><strong>Savon d&apos;Alep liquide 5 % laurier</strong></Link>
+                        <Link href="/produit/savon-dalep-liquide-5-laurier"><strong>Savon d&apos;Alep liquide 5 % laurier</strong></Link>
                         {" "}: doux et pratique pour les mains et la douche, pour toute la famille.
                     </li>
                     <li>

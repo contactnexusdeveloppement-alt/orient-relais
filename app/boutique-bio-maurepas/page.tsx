@@ -211,7 +211,7 @@ export default function BoutiqueBioMaurepasPage() {
                     <li>
                         <strong><Link href="/categorie/savons-dalep">Savons d&apos;Alep</Link></strong>
                         {" "}— Najel, saponifiés au chaudron et séchés à l&apos;air libre. Du savon
-                        liquide à 5 % de laurier (usage quotidien) au savon traditionnel à 40 % (peaux grasses).
+                        liquide à 5 % de laurier (usage quotidien) au savon traditionnel à 40 % (peaux grasses).
                     </li>
                     <li>
                         <strong><Link href="/categorie/huiles-essentielles">Huiles essentielles bio</Link></strong>

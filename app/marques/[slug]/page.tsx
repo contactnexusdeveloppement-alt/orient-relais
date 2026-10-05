@@ -15,7 +15,7 @@ const BRAND_STORIES: Record<string, { tagline: string; story: string }> = {
     najel: {
         tagline: "Savons d'Alep saponifiés au chaudron selon la méthode traditionnelle d'Alep",
         story:
-            "Najel est une maison spécialisée dans le savon d'Alep. Ses pains, saponifiés au chaudron puis séchés à l'air libre, associent huile d'olive et huile de baie de laurier. Chez Orient Relais, vous trouverez le savon d'Alep traditionnel à 40 % de laurier, le savon liquide à 5 %, des savons parfumés et enrichis, ainsi que des cosmétiques Najel, dont plusieurs certifiés Cosmos Organic.",
+            "Najel est une maison spécialisée dans le savon d'Alep. Ses pains, saponifiés au chaudron puis séchés à l'air libre, associent huile d'olive et huile de baie de laurier. Chez Orient Relais, vous trouverez le savon d'Alep traditionnel à 40 % de laurier, le savon liquide à 5 %, des savons parfumés et enrichis, ainsi que des cosmétiques Najel, dont plusieurs certifiés Cosmos Organic.",
     },
     "terra-etica": {
         tagline: "Huiles essentielles, dont une gamme bio",
