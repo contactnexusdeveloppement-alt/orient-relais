@@ -4,11 +4,6 @@ const WP_BACKEND = process.env.WP_BACKEND_URL || "https://orient-relais.com";
 
 const nextConfig: NextConfig = {
   trailingSlash: false,
-  // Robots d'indexation qui reçoivent les métadonnées AVANT le flux HTML. Sans
-  // ça, le notFound() de generateMetadata part après les en-têtes : une URL
-  // invalide répond HTTP 200 + noindex (« soft 404 » dans Search Console).
-  // = liste par défaut de Next + Googlebot + robots des moteurs IA.
-  htmlLimitedBots: /Googlebot|Google-InspectionTool|[\w-]+-Google|Google-[\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight|GPTBot|OAI-SearchBot|ChatGPT-User|ClaudeBot|Claude-SearchBot|PerplexityBot/i,
   env: {
     NEXT_PUBLIC_WOOCOMMERCE_URL: "https://www.orient-relais.com",
     NEXT_PUBLIC_WORDPRESS_URL: "https://www.orient-relais.com",
