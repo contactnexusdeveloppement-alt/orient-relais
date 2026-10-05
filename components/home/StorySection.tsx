@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export function StorySection() {
     return (
-        <section className="py-16 md:py-24 bg-[#Fdfbf7]">
+        <section className="py-16 md:py-24 bg-[#Fdfbf7] overflow-x-clip">
             <div className="container mx-auto px-4 md:px-8">
                 <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
                     {/* Image Side */}
@@ -36,8 +36,8 @@ export function StorySection() {
                         </p>
                         <p className="text-stone-600 font-manrope leading-relaxed">
                             Chez Orient Relais, nous nous engageons à vous offrir ce trésor de la nature dans sa forme la plus pure.
-                            Nos produits sont certifiés biologiques et respectent une éthique rigoureuse, pour le bien-être de votre peau
-                            et de l'environnement.
+                            Nous sélectionnons des produits naturels, dont de nombreuses références certifiées bio, pour le
+                            bien-être de votre peau et le respect de l'environnement.
                         </p>
                         <div className="pt-4">
                             <Link href="/a-propos">
