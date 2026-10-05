@@ -92,6 +92,11 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   une commande test.
 - Catégorie « Huiles végétales » : à créer dans WooCommerce par le client ; le
   contenu SEO associé est sur devis.
+- URL invalide (/produit, /categorie, /marques) : HTTP 200 avec une page 404 et
+  `noindex`, donc jamais indexée. Cause : le `app/loading.tsx` racine fait partir la
+  page en flux avant le notFound(). `htmlLimitedBots` a été testé le 05/10 : sans
+  effet. Seule vraie correction : retirer ce loading.tsx (on perd l'indicateur de
+  chargement). Impact faible, laissé tel quel.
 
 ## Contenus : règles (DGCCRF)
 - Bio : seuls les produits dont le nom porte « bio » / « Cosmos Organic » sont
