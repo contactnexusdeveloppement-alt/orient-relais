@@ -84,3 +84,15 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
 - Catégorie « Huiles végétales » à créer dans WooCommerce (par le client), puis
   l'ajouter côté code (sitemap, `KNOWN_CATEGORIES`).
 - Une URL invalide renvoie un code HTTP 200 (corps 404 + noindex) au lieu d'un 404.
+- Accueil mobile : 8 px de défilement horizontal (dégradé décoratif `w-[600px]`),
+  déjà présent en prod avant le 05/10.
+- Fiche Google (Business Profile) : donner l'accès à Georges pour qu'il réponde à ses
+  avis (livraison des accès prévue au devis, hors registre). Fiche : CID
+  11005396459811211730.
+
+## Avis clients : règles
+- Jamais d'avis ou de témoignages rédigés par nous : faux avis = pratique commerciale
+  trompeuse (art. L121-4 Code de la consommation). Les témoignages inventés de
+  l'accueil ont été retirés le 05/10/2026.
+- Demandes d'avis toujours neutres : Google interdit de solliciter des avis positifs
+  de façon sélective (« si vous êtes satisfait… ») et d'offrir une contrepartie.
