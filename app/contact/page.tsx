@@ -56,7 +56,7 @@ export default function ContactPage() {
                     Une question avant de venir ? Appelez-nous au 06 99 55 69 77.
                 </p>
                 <p className="text-sm text-stone-500">
-                    Couverture livraison : France métropolitaine, Belgique, Luxembourg via Colissimo et Mondial Relay.
+                    Couverture livraison : France métropolitaine via Colissimo et Mondial Relay.
                 </p>
             </div>
 
@@ -122,7 +122,7 @@ export default function ContactPage() {
                             <details className="bg-white border border-stone-200 rounded-xl p-4 cursor-pointer group hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 transition-all">
                                 <summary className="font-medium text-stone-900 group-hover:text-primary transition-colors">Vos produits sont-ils certifiés Bio ?</summary>
                                 <p className="text-sm text-stone-600 mt-3 pl-4 border-l-2 border-primary/30">
-                                    Absolument. Nos savons et huiles sont certifiés par Ecocert et proviennent de l'agriculture biologique.
+                                    Une partie de nos produits est certifiée bio (agriculture biologique, Cosmos Organic) : dans ce cas, la mention bio figure dans le nom du produit.
                                 </p>
                             </details>
                             <details className="bg-white border border-stone-200 rounded-xl p-4 cursor-pointer group hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 transition-all">

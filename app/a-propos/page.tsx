@@ -9,7 +9,7 @@ export const metadata = {
     alternates: { canonical: "/a-propos" },
     openGraph: {
         title: "À propos d'Orient Relais — notre histoire bio à Maurepas",
-        description: "Revendeur spécialisé de produits bio Najel, DP Nature et Terra Etica. Boutique à Maurepas (78).",
+        description: "Revendeur spécialisé de produits naturels et bio : Najel, Terra Etica, Ayur-vana. Boutique à Maurepas (78).",
         url: "https://www.orient-relais.com/a-propos",
         type: "website",
     },
@@ -37,7 +37,7 @@ export default function AboutPage() {
                     </span>
                     <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">Qui sommes-nous ?</h1>
                     <p className="text-xl md:text-2xl font-light text-stone-200">
-                        Revendeur spécialisé des produits DP Nature et Najel
+                        Revendeur spécialisé des produits Najel, Terra Etica et Ayur-vana
                     </p>
                 </div>
             </div>
@@ -88,8 +88,8 @@ export default function AboutPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <ValueCard
                             icon={Leaf}
-                            title="VEGAN"
-                            text="Tous nos produits conviennent aux Végans et sont respectueux des animaux."
+                            title="BIO"
+                            text="Une large part de notre sélection est certifiée bio : la mention figure dans le nom de chaque produit concerné."
                         />
                         <ValueCard
                             icon={ShieldCheck}
@@ -99,7 +99,7 @@ export default function AboutPage() {
                         <ValueCard
                             icon={Award}
                             title="ARTISANAT"
-                            text="Tradition ancestrale et fabrication artisanale, sans aucun ingrédient chimique."
+                            text="Des savons d'Alep saponifiés au chaudron et séchés à l'air libre, selon la méthode traditionnelle."
                         />
                     </div>
                 </div>
@@ -110,19 +110,17 @@ export default function AboutPage() {
                         <span className="text-primary font-bold uppercase tracking-widest text-sm">Un savon aux multiples vertus</span>
                         <h2 className="font-serif text-4xl font-bold text-stone-900">Les bienfaits du savon d'Alep</h2>
                         <p className="text-stone-600 leading-relaxed text-lg">
-                            Produit naturel fait d'huiles végétales, le savon d'Alep cumule la douceur pour la peau
-                            et une intransigeance à l'égard des bactéries. Avec un pourcentage variable d'huile de baie
-                            de laurier, nous vous proposons des produits de qualité supérieure aux propriétés antiseptiques avérées.
+                            Fait d'huiles végétales, le savon d'Alep associe la douceur de l'huile d'olive au pouvoir
+                            purifiant de l'huile de baie de laurier. Selon son pourcentage de laurier, il convient à un usage
+                            quotidien pour toute la famille ou aux peaux grasses.
                         </p>
                         <ul className="grid grid-cols-2 gap-3 text-stone-700">
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Eczéma</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Psoriasis</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Maladies de peaux</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Mycoses</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Dermatite et acné</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Antiseptique</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Nettoie et purifie</li>
-                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Hydrate et nourrit</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Nettoie en douceur</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Purifie la peau</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Visage, corps et cheveux</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Pour toute la famille</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Huile d&apos;olive et laurier</li>
+                            <li className="flex items-center gap-2"><span className="text-primary">✓</span> Un pain dure des mois</li>
                         </ul>
                         <Link href="/categorie/savons-dalep">
                             <Button className="h-12 px-8 mt-4">
@@ -140,10 +138,10 @@ export default function AboutPage() {
                     <div className="relative bg-gradient-to-br from-amber-50/50 to-stone-50 p-8 rounded-3xl space-y-4 border border-primary/10 overflow-hidden group hover:shadow-xl hover:shadow-primary/10 transition-all duration-500">
                         {/* Corner accent */}
                         <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-                        <h3 className="font-serif text-2xl font-bold text-stone-900">Huiles essentielles 100% pures</h3>
+                        <h3 className="font-serif text-2xl font-bold text-stone-900">Huiles essentielles</h3>
                         <p className="text-stone-600 leading-relaxed">
-                            Explorez notre sélection d'huiles essentielles naturelles et biologiques, extraites avec soin
-                            pour préserver toutes leurs propriétés thérapeutiques.
+                            Explorez notre sélection d'huiles essentielles, dont une gamme bio Terra Etica, pour
+                            l'aromathérapie au quotidien.
                         </p>
                         <Link href="/categorie/huiles-essentielles" className="text-primary font-bold hover:text-amber-600 inline-flex items-center gap-2 transition-colors group-hover:gap-3">
                             Voir les huiles essentielles <span className="transition-transform group-hover:translate-x-1">→</span>
@@ -154,8 +152,8 @@ export default function AboutPage() {
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-20 bg-primary/30 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity" />
                         <h3 className="font-serif text-2xl font-bold text-white">Compléments alimentaires naturels</h3>
                         <p className="text-stone-300 leading-relaxed">
-                            Découvrez notre sélection pour renforcer votre bien-être. Spiruline, gelée royale, nigelle,
-                            vitamines... Chaque produit est sélectionné avec soin.
+                            Plantes de la tradition ayurvédique, huile de nigelle, fer et vitamines... Chaque produit
+                            est sélectionné avec soin, dont de nombreuses références bio.
                         </p>
                         <Link href="/categorie/complements" className="text-primary font-bold hover:text-amber-300 inline-flex items-center gap-2 transition-colors group-hover:gap-3">
                             Voir les compléments <span className="transition-transform group-hover:translate-x-1">→</span>

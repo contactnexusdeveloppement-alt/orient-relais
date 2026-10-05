@@ -62,7 +62,7 @@ export const fetchWooBrands = unstable_cache(
             // Fallback 2: Visual defaults so the carousel isn't blank during launch
             return [
                 { id: 1, name: "Ayur-vana", slug: "ayur-vana" },
-                { id: 2, name: "Florame", slug: "florame" },
+                { id: 2, name: "Graine Sauvage", slug: "graine-sauvage" },
                 { id: 3, name: "Terra Etica", slug: "terra-etica" },
                 { id: 4, name: "Najel", slug: "najel" }
             ];

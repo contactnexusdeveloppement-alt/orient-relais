@@ -75,11 +75,11 @@ export default async function BoutiquePage() {
                         <p>
                             Basé dans les Yvelines (78), Orient Relais vous propose une gamme de produits bio pour votre bien-être.
                             Savons d'Alep authentiques fabriqués selon la méthode traditionnelle ancestrale,
-                            huiles essentielles 100% pures Terra Etica, compléments alimentaires naturels et coffrets cadeaux soigneusement composés.
+                            huiles essentielles dont une gamme bio Terra Etica, compléments alimentaires naturels et coffrets cadeaux soigneusement composés.
                         </p>
                         <p>
-                            Tous nos produits sont sélectionnés avec soin auprès de marques de confiance comme DP Nature et Najel.
-                            Certifiés bio, sans ingrédients chimiques, respectueux des animaux et de l'environnement.
+                            Nos produits sont sélectionnés avec soin auprès de marques de confiance comme Najel, Terra Etica et Ayur-vana,
+                            avec une large part de références certifiées bio.
                             <span className="text-primary font-medium"> Livraison offerte dès 39€</span> en France métropolitaine avec Mondial Relay.
                         </p>
                     </div>

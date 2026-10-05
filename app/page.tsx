@@ -30,15 +30,15 @@ import { jsonLdScript } from "@/lib/json-ld";
 const HOMEPAGE_FAQ = [
     {
         q: "Qu'est-ce qu'Orient Relais ?",
-        a: "Orient Relais est une boutique bio basée à Maurepas (78310, Yvelines) spécialisée dans les savons d'Alep authentiques Najel, les huiles essentielles bio Terra Etica et Florame, les cosmétiques naturels et les compléments ayurvédiques. Vente en ligne et retrait gratuit en boutique.",
+        a: "Orient Relais est une boutique bio basée à Maurepas (78310, Yvelines) spécialisée dans les savons d'Alep authentiques Najel, les huiles essentielles (dont une gamme bio Terra Etica), les cosmétiques naturels et les compléments ayurvédiques. Vente en ligne et retrait gratuit en boutique.",
     },
     {
         q: "Les produits Orient Relais sont-ils certifiés bio ?",
-        a: "Oui, la quasi-totalité de notre catalogue est certifiée par Ecocert ou un organisme équivalent (AB, Cosmos Organic, Nature et Progrès). Les savons d'Alep sont fabriqués selon la méthode traditionnelle syrienne sans additifs ni conservateurs. Pour chaque produit, la certification figure sur la fiche.",
+        a: "Une partie de notre catalogue est certifiée bio (agriculture biologique, Cosmos Organic) : dans ce cas, la mention bio figure dans le nom du produit. Les autres références sont des produits naturels choisis pour leur composition. Nos savons d'Alep sont fabriqués selon la méthode traditionnelle d'Alep.",
     },
     {
         q: "Quels sont les délais de livraison ?",
-        a: "Les commandes sont expédiées sous 24 h ouvrées. Comptez 24 à 48 h pour Colissimo et 2 à 5 jours pour Mondial Relay en France métropolitaine. Livraison offerte dès 39 € d'achat. Nous livrons aussi en Belgique et au Luxembourg.",
+        a: "Les commandes sont expédiées sous 24 h ouvrées. Comptez 24 à 48 h pour Colissimo et 2 à 5 jours pour Mondial Relay en France métropolitaine. Livraison offerte dès 39 € d'achat.",
     },
     {
         q: "Le Click & Collect en boutique est-il gratuit ?",

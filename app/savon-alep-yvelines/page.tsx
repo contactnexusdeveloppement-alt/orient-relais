@@ -6,14 +6,14 @@ import { jsonLdScript } from "@/lib/json-ld";
 import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
 
 export const metadata: Metadata = {
-    title: "Savon d'Alep Bio dans les Yvelines (78) — Livraison Express & Click & Collect Maurepas",
+    title: "Savon d'Alep et savon d'Alep bio dans les Yvelines (78) — Click & Collect Maurepas",
     description:
-        "Achetez du savon d'Alep bio authentique Najel dans les Yvelines : livraison sous 24-48 h en région parisienne ou retrait gratuit à notre boutique de Maurepas (78310). Sélection de savons saponifiés au chaudron.",
+        "Savons d'Alep authentiques Najel, dont une référence certifiée bio, dans les Yvelines : livraison sous 24-48 h en Île-de-France ou retrait gratuit dans notre boutique de Maurepas (78310).",
     alternates: { canonical: "/savon-alep-yvelines" },
     openGraph: {
-        title: "Savon d'Alep Bio Yvelines — Orient Relais Maurepas",
+        title: "Savon d'Alep Yvelines — Orient Relais Maurepas",
         description:
-            "Boutique bio à Maurepas (78310) spécialisée en savons d'Alep authentiques Najel. Livraison rapide en Yvelines + Île-de-France.",
+            "Boutique bio à Maurepas (78310) spécialisée en savons d'Alep authentiques Najel. Livraison rapide en Yvelines et en Île-de-France.",
         url: "https://www.orient-relais.com/savon-alep-yvelines",
         type: "website",
     },
@@ -32,7 +32,7 @@ const placeJsonLd = {
     "@context": "https://schema.org",
     "@type": ["Store", "HealthAndBeautyBusiness"],
     "@id": "https://www.orient-relais.com/savon-alep-yvelines#place",
-    name: "Orient Relais — Savons d'Alep Bio Yvelines",
+    name: "Orient Relais — Savons d'Alep Yvelines",
     description:
         "Boutique bio dans les Yvelines (Maurepas, 78310) spécialisée en savons d'Alep authentiques saponifiés au chaudron.",
     url: "https://www.orient-relais.com/savon-alep-yvelines",
@@ -58,43 +58,37 @@ const placeJsonLd = {
     ],
 };
 
+// FAQ affichée sur la page ET reprise en données structurées : Google exige
+// que le contenu FAQPage soit visible. Pas d'allégation santé (cosmétique) ni
+// de mention bio non vérifiée : seuls les produits dont le nom porte « bio »
+// sont certifiés.
+const YVELINES_FAQ = [
+    {
+        q: "Où acheter un savon d'Alep bio dans les Yvelines ?",
+        a: "Chez Orient Relais, boutique bio au 48 avenue de Touraine à Maurepas (78310). Nous proposons les savons d'Alep de la maison Najel, dont un savon d'Alep à la rose de Damas certifié bio. Achat en ligne avec livraison en France, ou retrait gratuit en Click & Collect du lundi au vendredi, de 9 h à 18 h.",
+    },
+    {
+        q: "Quel pourcentage de laurier choisir pour un savon d'Alep ?",
+        a: "Plus le taux d'huile de baie de laurier est élevé, plus le savon est purifiant. Un taux bas, comme notre savon d'Alep liquide à 5 %, convient à un usage quotidien et aux peaux sensibles. Un taux élevé, comme notre savon traditionnel à 40 %, convient plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien.",
+    },
+    {
+        q: "Le savon d'Alep est-il bio ?",
+        a: "Pas forcément : un savon d'Alep n'est bio que s'il est certifié. La recette traditionnelle ne contient que de l'huile d'olive, de l'huile de baie de laurier, de la soude et de l'eau. Dans notre sélection, les savons certifiés bio portent la mention dans leur nom, comme le savon d'Alep à la rose de Damas bio.",
+    },
+    {
+        q: "Quels sont les délais de livraison en Île-de-France ?",
+        a: "Comptez 24 à 48 h ouvrées pour une livraison Colissimo en Île-de-France, et 2 à 5 jours en Mondial Relay. La livraison est offerte dès 39 € d'achat en France métropolitaine. Pour les habitants des Yvelines, le Click & Collect gratuit à notre boutique de Maurepas est souvent le plus simple.",
+    },
+] as const;
+
 const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Où acheter un savon d'Alep bio dans les Yvelines ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Orient Relais, boutique bio basée au 48 avenue de Touraine à Maurepas (78310), propose une sélection de savons d'Alep authentiques Najel. Achat en ligne avec livraison France ou retrait gratuit Click & Collect en boutique du lundi au vendredi 9 h–18 h.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Quel pourcentage de laurier choisir pour un savon d'Alep ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Pour une peau normale, partez sur 5 % à 12 % d'huile de baie de laurier. Pour une peau atopique ou sujette à l'eczéma, le 20 % est l'option recommandée. Pour les peaux grasses ou les zones en crise (acné, psoriasis), montez à 30 % ou 40 % en usage localisé. Notre guide détaillé est dans le journal Orient Relais.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Le savon d'Alep est-il vraiment bio ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Le savon d'Alep traditionnel est composé uniquement d'huile d'olive, d'huile de baie de laurier, de soude et d'eau. Aucun additif, aucun conservateur, aucun parfum de synthèse. Les savons que nous distribuons sont saponifiés au chaudron en Syrie selon la méthode ancestrale et séchés 9 mois à l'air libre.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Quels sont les délais de livraison en Île-de-France ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Comptez 24 à 48 h ouvrées pour une livraison Colissimo en Île-de-France, et 2 à 5 jours en Mondial Relay. La livraison est offerte dès 39 € d'achat en France métropolitaine. Pour les habitants des Yvelines, le Click & Collect gratuit à notre boutique de Maurepas est l'option la plus rapide.",
-            },
-        },
-    ],
+    mainEntity: YVELINES_FAQ.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+    })),
 };
 
 // Produits réellement en vente (slugs WooCommerce vérifiés le 05/10/2026).
@@ -160,17 +154,17 @@ export default function SavonAlepYvelinesPage() {
                     <Sparkles className="h-4 w-4" /> Savon d&apos;Alep dans les Yvelines (78)
                 </span>
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mb-4">
-                    Savons d&apos;Alep Bio Authentiques dans les Yvelines
+                    Savons d&apos;Alep authentiques dans les Yvelines
                 </h1>
                 <p className="text-stone-600 text-lg leading-relaxed">
-                    Vous cherchez à acheter un véritable <strong>savon d&apos;Alep bio</strong>
-                    {" "}près de chez vous dans les <strong>Yvelines</strong> (78) ? Orient Relais est
-                    votre boutique spécialisée à Maurepas (78310), à deux pas de
-                    Saint-Quentin-en-Yvelines, Élancourt, Plaisir, Trappes et Versailles. Nous
-                    distribuons une sélection rigoureuse de savons d&apos;Alep saponifiés au
-                    chaudron par <strong>Najel</strong>, l&apos;un des derniers producteurs
-                    syriens à respecter la recette ancestrale et le séchage 9 mois à l&apos;air
-                    libre. Livraison rapide en Île-de-France ou retrait gratuit en boutique.
+                    Vous cherchez un véritable <strong>savon d&apos;Alep</strong> près de chez vous
+                    dans les <strong>Yvelines</strong> (78) ? Orient Relais est votre boutique
+                    spécialisée à Maurepas (78310), à deux pas de Saint-Quentin-en-Yvelines,
+                    Élancourt, Plaisir, Trappes et Versailles. Nous distribuons les savons
+                    d&apos;Alep de la maison <strong>Najel</strong>, saponifiés au chaudron et séchés
+                    à l&apos;air libre selon la recette traditionnelle, dont un
+                    {" "}<strong>savon d&apos;Alep bio</strong> certifié. Livraison rapide en
+                    Île-de-France ou retrait gratuit en boutique.
                 </p>
             </header>
 
@@ -193,41 +187,48 @@ export default function SavonAlepYvelinesPage() {
                     <Sparkles className="h-6 w-6 text-primary mb-3" />
                     <h2 className="font-serif text-xl font-bold mb-2">Najel saponifié au chaudron</h2>
                     <p className="text-sm text-stone-600">
-                        100 % bio, 9 mois de séchage, fabrication artisanale syrienne traditionnelle.
+                        Saponifié au chaudron puis séché longuement à l&apos;air libre, selon la méthode traditionnelle d&apos;Alep.
                     </p>
                 </div>
             </section>
 
             <section className="prose prose-stone max-w-3xl mb-16">
-                <h2>Pourquoi le savon d&apos;Alep est-il un best-seller dans les Yvelines ?</h2>
+                <h2>Pourquoi choisir le savon d&apos;Alep dans les Yvelines ?</h2>
                 <p>
-                    Les Yvelines comptent parmi les départements franciliens les plus sensibles à
-                    la cosmétique naturelle. Avec une population active fortement urbanisée (Saint-Quentin-en-Yvelines,
-                    Versailles, Vélizy, Trappes) mais en quête de produits sains et de fabrication respectueuse,
-                    le savon d&apos;Alep coche toutes les cases : <strong>bio</strong>, <strong>vegan</strong>,
-                    {" "}<strong>fabrication artisanale</strong>, et surtout efficacité reconnue sur les
-                    peaux sensibles. À Maurepas, à Élancourt ou à Plaisir, de plus en plus de familles
-                    troquent leurs gels douches industriels contre un pain de savon d&apos;Alep qui dure
-                    3 à 4 mois.
+                    Le savon d&apos;Alep traditionnel ne contient que quatre ingrédients : de
+                    l&apos;huile d&apos;olive, de l&apos;huile de baie de laurier, de la soude et de
+                    l&apos;eau. Il s&apos;utilise sur le visage, le corps et les cheveux, convient à
+                    toute la famille, et un pain posé sur un porte-savon aéré dure plusieurs mois.
+                    Que vous habitiez Maurepas, Élancourt, Plaisir ou Saint-Quentin-en-Yvelines,
+                    vous pouvez venir le découvrir en boutique avant de choisir.
                 </p>
                 <h2>Notre sélection de savons d&apos;Alep distribués dans le 78</h2>
                 <p>
-                    Nous proposons les principaux pourcentages d&apos;huile de baie de laurier de la marque
-                    {" "}<Link href="/marques/najel">Najel</Link>, plus quelques références enrichies (rose de
-                    Damas, miel, lait de chèvre, jasmin) :
+                    Toute notre sélection vient de la maison{" "}
+                    <Link href="/marques/najel">Najel</Link>, spécialiste du savon d&apos;Alep :
                 </p>
                 <ul>
-                    <li><strong>Savon d&apos;Alep 5 % et 12 % laurier</strong> — quotidien famille, peaux normales</li>
-                    <li><strong>Savon d&apos;Alep 20 % laurier</strong> — peaux atopiques, eczéma léger, bébé 6 mois+ (avec accord pédiatre)</li>
-                    <li><strong>Savon d&apos;Alep 40 % laurier</strong> — usage localisé sur poussées d&apos;eczéma, peaux grasses, acné</li>
-                    <li><strong>Savons enrichis</strong> rose, miel, lait de chèvre — soins doux pour le visage</li>
+                    <li>
+                        <Link href="/produit/savon-dalep-traditionnel-40-laurier"><strong>Savon d&apos;Alep traditionnel 40 % laurier</strong></Link>
+                        {" "}: le plus riche en huile de baie de laurier, apprécié des peaux grasses.
+                    </li>
+                    <li>
+                        <Link href="/produit/savon-dalep-liquide-5-laurier"><strong>Savon d&apos;Alep liquide 5 % laurier</strong></Link>
+                        {" "}: doux et pratique pour les mains et la douche, pour toute la famille.
+                    </li>
+                    <li>
+                        <strong>Savons d&apos;Alep parfumés et enrichis</strong> : rose de Damas (dont une
+                        {" "}<Link href="/produit/savon-dalep-a-la-rose-de-damas-bio">version certifiée bio</Link>),
+                        jasmin, miel, lait de chèvre, argan et rhassoul, encens, boue de la mer Morte,
+                        ambre et oud.
+                    </li>
                 </ul>
                 <p>
-                    Toutes ces références sont disponibles dans notre catégorie {" "}
-                    <Link href="/categorie/savons-dalep">Savons d&apos;Alep</Link> avec descriptions
-                    détaillées, INCI complète et conseils d&apos;usage. Pour aller plus loin, notre
-                    guide <Link href="/blog/savon-alep-eczema-guide">savon d&apos;Alep et eczéma</Link>
-                    {" "}explique en 2 500 mots quel pourcentage choisir selon votre type de peau.
+                    Toutes ces références sont disponibles dans notre catégorie{" "}
+                    <Link href="/categorie/savons-dalep">Savons d&apos;Alep</Link>, avec leur
+                    description et leurs conseils d&apos;utilisation. Pour comprendre les différents
+                    taux de laurier, lisez{" "}
+                    <Link href="/blog/savon-alep-eczema-guide">notre guide pour bien choisir son savon d&apos;Alep</Link>.
                 </p>
                 <h2>Boutique physique à Maurepas (78310) — Click &amp; Collect</h2>
                 <p>
@@ -279,12 +280,32 @@ export default function SavonAlepYvelinesPage() {
                 />
             </section>
 
+            <section aria-labelledby="faq-title-yvelines" className="max-w-3xl mb-16">
+                <h2 id="faq-title-yvelines" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-6">
+                    Questions fréquentes
+                </h2>
+                <div className="space-y-3">
+                    {YVELINES_FAQ.map(({ q, a }) => (
+                        <details
+                            key={q}
+                            className="group bg-white border border-stone-200 rounded-2xl px-5 py-4 hover:border-primary/30 transition-all open:border-primary/40"
+                        >
+                            <summary className="cursor-pointer list-none flex items-center justify-between gap-4 font-serif text-base md:text-lg font-semibold text-stone-900 group-open:text-primary transition-colors">
+                                <span>{q}</span>
+                                <span aria-hidden="true" className="text-primary transition-transform duration-200 group-open:rotate-180">⌄</span>
+                            </summary>
+                            <p className="mt-3 text-stone-600 leading-relaxed">{a}</p>
+                        </details>
+                    ))}
+                </div>
+            </section>
+
             <section className="bg-stone-50 rounded-2xl p-8 md:p-12 text-center mb-16">
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
                     Prêt à découvrir nos savons d&apos;Alep ?
                 </h2>
                 <p className="text-stone-600 mb-6 max-w-2xl mx-auto">
-                    Retrouvez l&apos;ensemble de notre catalogue de savons d&apos;Alep bio Najel,
+                    Retrouvez l&apos;ensemble de notre catalogue de savons d&apos;Alep Najel,
                     avec livraison rapide dans toute la France et retrait gratuit en boutique pour
                     les habitants des Yvelines.
                 </p>

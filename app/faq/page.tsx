@@ -14,12 +14,12 @@ const FAQ_SECTIONS = [
         title: "Produits",
         questions: [
             {
-                q: "Vos produits sont-ils vraiment Bio ?",
-                a: "Oui, tous nos produits sont certifiés bio ou fabriqués à partir d'ingrédients naturels. Nous travaillons avec des marques de confiance comme DP Nature, Najel et Terra Etica qui garantissent des produits sans ingrédients chimiques."
+                q: "Vos produits sont-ils bio ?",
+                a: "Une partie de notre catalogue est certifiée bio (agriculture biologique, Cosmos Organic) : la mention bio figure alors dans le nom du produit. Les autres références sont des produits naturels, choisis auprès de marques comme Najel, Terra Etica ou Ayur-vana pour la transparence de leur composition."
             },
             {
-                q: "Quelle est la différence entre les savons à 20% et 40% de laurier ?",
-                a: "Le pourcentage indique la concentration en huile de baie de laurier. Plus le pourcentage est élevé, plus le savon est purifiant et recommandé pour les peaux à problèmes (eczéma, psoriasis). Le 20% convient aux peaux normales, le 40% aux peaux grasses ou à problèmes."
+                q: "Que signifie le pourcentage de laurier d'un savon d'Alep ?",
+                a: "Il indique la part d'huile de baie de laurier dans le savon, le reste étant de l'huile d'olive. Plus il est élevé, plus le savon est purifiant : un taux bas, comme notre savon liquide à 5 %, convient à un usage quotidien, un taux élevé, comme notre savon traditionnel à 40 %, plutôt aux peaux grasses. En cas de problème de peau, demandez conseil à votre médecin ou à votre pharmacien."
             },
             {
                 q: "Combien de temps dure un savon d'Alep ?",
@@ -44,7 +44,7 @@ const FAQ_SECTIONS = [
             },
             {
                 q: "Livrez-vous à l'international ?",
-                a: "Nous livrons actuellement en France métropolitaine, Belgique et Luxembourg. Pour d'autres destinations, contactez-nous."
+                a: "Nous livrons en France métropolitaine. Pour d'autres destinations, contactez-nous."
             },
             {
                 q: "Comment suivre ma commande ?",

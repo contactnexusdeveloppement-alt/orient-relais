@@ -80,51 +80,40 @@ const placeJsonLd = {
     ],
 };
 
+// FAQ affichée sur la page ET reprise en données structurées (Google exige que
+// le contenu FAQPage soit visible). Chaque réponse doit rester vérifiable :
+// catalogue réel, pas de livraison promise hors de France (le checkout est FR).
+const MAUREPAS_FAQ = [
+    {
+        q: "Où se trouve la boutique Orient Relais à Maurepas ?",
+        a: "Notre boutique bio est située au 48 avenue de Touraine, 78310 Maurepas (Yvelines), à deux pas de Coignières et de Saint-Quentin-en-Yvelines. Ouverte du lundi au vendredi de 9 h à 18 h.",
+    },
+    {
+        q: "Quels produits trouve-t-on chez Orient Relais ?",
+        a: "Environ 80 références : savons d'Alep authentiques Najel, huiles essentielles (dont une gamme bio Terra Etica), cosmétiques naturels dont plusieurs certifiés Cosmos Organic, compléments ayurvédiques Ayur-vana, huile de nigelle, miel, épicerie orientale et accessoires pour le bain. Les produits certifiés bio portent la mention dans leur nom.",
+    },
+    {
+        q: "Le Click & Collect est-il gratuit ?",
+        a: "Oui, le retrait Click & Collect en boutique à Maurepas est entièrement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées au 48 avenue de Touraine.",
+    },
+    {
+        q: "Livrez-vous en dehors des Yvelines ?",
+        a: "Oui, nous livrons partout en France métropolitaine via Colissimo (24-48 h) et Mondial Relay (2-5 jours). Livraison offerte à partir de 39 € d'achat.",
+    },
+    {
+        q: "Comment accéder à la boutique en transports ?",
+        a: "Depuis Paris : train jusqu'à La Verrière (lignes N ou U), puis bus. En voiture, la boutique est à quelques minutes de la N10. Depuis Saint-Quentin-en-Yvelines : environ 10 min en voiture.",
+    },
+] as const;
+
 const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: [
-        {
-            "@type": "Question",
-            name: "Où se trouve la boutique Orient Relais à Maurepas ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Notre boutique bio est située au 48 avenue de Touraine, 78310 Maurepas (Yvelines), à deux pas de Coignières et de Saint-Quentin-en-Yvelines. Ouverte du lundi au vendredi de 9 h à 18 h.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Quels produits trouve-t-on chez Orient Relais ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Notre catalogue compte plus de 65 références bio sélectionnées : savons d'Alep authentiques Najel (5 %, 12 %, 20 %, 40 % de laurier), huiles essentielles bio Terra Etica et Florame, cosmétiques naturels, compléments ayurvédiques (Ayur-vana), épicerie orientale, miel et accessoires zéro déchet.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Le Click & Collect est-il gratuit ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Oui, le retrait Click & Collect en boutique à Maurepas est entièrement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées au 48 avenue de Touraine.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Livrez-vous en dehors des Yvelines ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Oui, nous livrons partout en France métropolitaine via Colissimo (24-48 h) et Mondial Relay (2-5 jours). Livraison offerte à partir de 39 € d'achat. Nous livrons également en Belgique et au Luxembourg sur demande.",
-            },
-        },
-        {
-            "@type": "Question",
-            name: "Comment accéder à la boutique en transports ?",
-            acceptedAnswer: {
-                "@type": "Answer",
-                text: "Depuis Paris : RER C jusqu'à La Verrière puis bus, ou voiture par l'A12 sortie Maurepas centre (35 min depuis Paris en heures creuses). Parking gratuit à proximité. Depuis Saint-Quentin-en-Yvelines : 10 min en voiture.",
-            },
-        },
-    ],
+    mainEntity: MAUREPAS_FAQ.map(({ q, a }) => ({
+        "@type": "Question",
+        name: q,
+        acceptedAnswer: { "@type": "Answer", text: a },
+    })),
 };
 
 export default function BoutiqueBioMaurepasPage() {
@@ -204,7 +193,7 @@ export default function BoutiqueBioMaurepasPage() {
                 </h2>
                 <p className="text-stone-600 mb-6 max-w-2xl">
                     Boutique située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
-                    à 5 minutes de la sortie A12 Maurepas centre. Parking gratuit à proximité.
+                    à quelques minutes de la N10.
                 </p>
                 <GoogleMapEmbed
                     height={400}
@@ -221,43 +210,63 @@ export default function BoutiqueBioMaurepasPage() {
                 <ul>
                     <li>
                         <strong><Link href="/categorie/savons-dalep">Savons d&apos;Alep</Link></strong>
-                        {" "}— Najel, saponifiés au chaudron, séchage 9 mois. Du 5 % laurier
-                        (quotidien famille) au 40 % laurier (peaux à problèmes).
+                        {" "}— Najel, saponifiés au chaudron et séchés à l&apos;air libre. Du savon
+                        liquide à 5 % de laurier (usage quotidien) au savon traditionnel à 40 % (peaux grasses).
                     </li>
                     <li>
                         <strong><Link href="/categorie/huiles-essentielles">Huiles essentielles bio</Link></strong>
-                        {" "}— marques Terra Etica et Florame. 100 % pures, certifiées AB, traçabilité complète.
+                        {" "}— dont une gamme bio Terra Etica (thym, ravintsara, niaouli, cyprès…).
                     </li>
                     <li>
-                        <strong><Link href="/categorie/soins-et-beaute">Cosmétiques bio</Link></strong>
-                        {" "}— soins visage, baumes, gommages, huiles végétales naturelles.
+                        <strong><Link href="/categorie/soins-et-beaute">Cosmétiques naturels et bio</Link></strong>
+                        {" "}— soins visage, baumes, gommages, huiles végétales, dont plusieurs références certifiées Cosmos Organic.
                     </li>
                     <li>
                         <strong><Link href="/categorie/complements">Compléments ayurvédiques</Link></strong>
-                        {" "}— ashwagandha, triphala, moringa, curcuma. Marque Ayur-vana, gélules végétales bio.
+                        {" "}— moringa, curcuma, guduchi, shilajit… Marque Ayur-vana, dont de nombreuses références bio.
                     </li>
                 </ul>
-                <h2>Pourquoi nos voisins du 78 nous choisissent</h2>
+                <h2>Une boutique de proximité pour tout le 78</h2>
                 <p>
-                    Nos clients viennent principalement de <strong>Maurepas</strong>, <strong>Coignières</strong>,
+                    Que vous habitiez <strong>Maurepas</strong>, <strong>Coignières</strong>,
                     {" "}<strong>Élancourt</strong>, <strong>Saint-Quentin-en-Yvelines</strong>, <strong>Plaisir</strong>,
-                    {" "}<strong>La Verrière</strong> et <strong>Trappes</strong>. Trois raisons reviennent
-                    systématiquement dans leurs retours :
+                    {" "}<strong>La Verrière</strong> ou <strong>Trappes</strong>, la boutique est à quelques
+                    minutes de chez vous. Ce que nous vous proposons :
                 </p>
                 <ol>
-                    <li>Une sélection rigoureuse — chaque marque est choisie pour sa transparence sur ses ingrédients et son mode de fabrication.</li>
-                    <li>Le conseil personnalisé en boutique — nous prenons le temps d&apos;expliquer quel pourcentage de laurier choisir, quelle huile essentielle convient à votre situation.</li>
-                    <li>Le Click &amp; Collect gratuit — pas de frais de port quand on habite à 5 km.</li>
+                    <li>Une sélection resserrée : chaque marque est choisie pour sa transparence sur ses ingrédients et son mode de fabrication.</li>
+                    <li>Du conseil en boutique : quel pourcentage de laurier choisir, quelle huile essentielle pour quel usage.</li>
+                    <li>Le Click &amp; Collect gratuit : pas de frais de port quand on habite à côté.</li>
                 </ol>
                 <h2>Marques distribuées</h2>
                 <p>
-                    Nous sommes revendeurs officiels de plusieurs marques bio de référence :
-                    {" "}<Link href="/marques/najel">Najel</Link> pour les savons d&apos;Alep,
-                    {" "}<Link href="/marques/terra-etica">Terra Etica</Link> pour les huiles essentielles
-                    bio &amp; équitables, <Link href="/marques/florame">Florame</Link> pour
-                    l&apos;aromathérapie provençale, et <Link href="/marques/ayur-vana">Ayur-vana</Link>
-                    {" "}pour les compléments ayurvédiques bio.
+                    Nous distribuons notamment{" "}
+                    <Link href="/marques/najel">Najel</Link> pour les savons d&apos;Alep et les cosmétiques,
+                    {" "}<Link href="/marques/terra-etica">Terra Etica</Link> pour les huiles essentielles,
+                    {" "}<Link href="/marques/ayur-vana">Ayur-vana</Link> pour les compléments ayurvédiques,
+                    Graine Sauvage pour les huiles en capsules (nigelle, onagre-bourrache) et Miel
+                    Lacourcelle pour les miels.
                 </p>
+            </section>
+
+            <section aria-labelledby="faq-title-maurepas" className="max-w-3xl mb-16">
+                <h2 id="faq-title-maurepas" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-6">
+                    Questions fréquentes
+                </h2>
+                <div className="space-y-3">
+                    {MAUREPAS_FAQ.map(({ q, a }) => (
+                        <details
+                            key={q}
+                            className="group bg-white border border-stone-200 rounded-2xl px-5 py-4 hover:border-primary/30 transition-all open:border-primary/40"
+                        >
+                            <summary className="cursor-pointer list-none flex items-center justify-between gap-4 font-serif text-base md:text-lg font-semibold text-stone-900 group-open:text-primary transition-colors">
+                                <span>{q}</span>
+                                <span aria-hidden="true" className="text-primary transition-transform duration-200 group-open:rotate-180">⌄</span>
+                            </summary>
+                            <p className="mt-3 text-stone-600 leading-relaxed">{a}</p>
+                        </details>
+                    ))}
+                </div>
             </section>
 
             <section className="bg-stone-900 text-white rounded-2xl p-8 md:p-12 text-center mb-16">
@@ -292,8 +301,8 @@ export default function BoutiqueBioMaurepasPage() {
                 <h2 id="trust" className="sr-only">Nos engagements</h2>
                 <div className="text-center p-4">
                     <Leaf className="h-8 w-8 mx-auto mb-3 text-primary" />
-                    <h3 className="font-serif text-lg font-bold mb-1">100 % bio &amp; naturel</h3>
-                    <p className="text-sm text-stone-600">Aucun produit chimique de synthèse, certifications transparentes.</p>
+                    <h3 className="font-serif text-lg font-bold mb-1">Naturel &amp; bio</h3>
+                    <p className="text-sm text-stone-600">Une sélection naturelle, et la mention bio sur chaque produit certifié.</p>
                 </div>
                 <div className="text-center p-4">
                     <Truck className="h-8 w-8 mx-auto mb-3 text-primary" />

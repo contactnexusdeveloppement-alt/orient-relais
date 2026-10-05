@@ -15,6 +15,20 @@ import { WooProduct } from "@/lib/woocommerce-types";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { jsonLdScript } from "@/lib/json-ld";
 
+type CertificationLabel = { src: string; alt: string; height: string };
+
+// Tags WooCommerce (slug exact) qui affichent un logo de certification.
+const CERTIFICATION_LABELS: Record<string, CertificationLabel> = {
+    bio: { src: "/images/certifications/label-bio.png", alt: "Cosmétique Bio", height: "h-12" },
+    cosmos: { src: "/images/certifications/label-cosmos.png", alt: "Cosmos Organic", height: "h-10" },
+    "cosmos-organic": { src: "/images/certifications/label-cosmos.png", alt: "Cosmos Organic", height: "h-10" },
+    ecocert: { src: "/images/certifications/label-ecocert.png", alt: "Ecocert", height: "h-10" },
+    ab: { src: "/images/certifications/label-ab.png", alt: "AB Agriculture Biologique", height: "h-10" },
+    "agriculture-biologique": { src: "/images/certifications/label-ab.png", alt: "AB Agriculture Biologique", height: "h-10" },
+    "fabrique-en-france": { src: "/images/certifications/label-france.png", alt: "Fabriqué en France", height: "h-14" },
+    vegan: { src: "/images/certifications/label-vegan.png", alt: "Vegan", height: "h-12" },
+};
+
 // Helper to clean HTML descriptions for metadata
 function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, '');
@@ -85,6 +99,16 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         .slice(0, 4);
 
     const categoryName = product.categories[0]?.name || "Boutique";
+
+    // Logos de certification : correspondance exacte sur le slug du tag WooCommerce.
+    const certifications = [
+        ...new Map(
+            product.tags
+                .map((tag) => CERTIFICATION_LABELS[tag.slug])
+                .filter((c): c is CertificationLabel => Boolean(c))
+                .map((c) => [c.src, c]),
+        ).values(),
+    ];
 
     // Parse attributes
     const benefitsAttribute = product.attributes.find(a => a.name === "Benefits" || a.name === "Bienfaits");
@@ -244,32 +268,25 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                         <div className="prose prose-stone max-w-none prose-p:leading-relaxed prose-lg prose-headings:font-serif prose-h3:text-2xl prose-h4:text-lg prose-h4:text-primary">
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.description) }} />
 
-                            {/* Certifications (Tags) */}
-                            <h4 className="text-sm font-serif font-bold text-stone-900 uppercase tracking-widest mb-6 mt-8">
-                                Certifications
-                            </h4>
-                            <div className="flex flex-wrap gap-8 items-center opacity-90">
-                                {product.tags.map((tag) => {
-                                    const certMap: Record<string, { src: string; alt: string; height: string }> = {
-                                        "bio": { src: "/images/certifications/label-bio.png", alt: "Cosmétique Bio", height: "h-12" },
-                                        "cosmos": { src: "/images/certifications/label-cosmos.png", alt: "Cosmos Organic", height: "h-10" },
-                                        "ecocert": { src: "/images/certifications/label-ecocert.png", alt: "Ecocert", height: "h-10" },
-                                        "france": { src: "/images/certifications/label-france.png", alt: "Fabriqué en France", height: "h-14" },
-                                        "ab": { src: "/images/certifications/label-ab.png", alt: "AB Agriculture Biologique", height: "h-10" },
-                                        "gelules": { src: "/images/certifications/label-gelules.png", alt: "Gélules Végétales", height: "h-12" },
-                                        "vegan": { src: "/images/certifications/label-vegan.png", alt: "Vegan & Ayurvédique", height: "h-12" },
-                                    };
-                                    // Match loose
-                                    const key = Object.keys(certMap).find(k => tag.slug.includes(k) || tag.name.toLowerCase().includes(k));
-                                    const c = key ? certMap[key] : null;
-
-                                    return c ? (
-                                        <div key={tag.id} className="transition-all duration-300 hover:scale-110 ease-out cursor-help" title={c.alt}>
-                                            <Image src={c.src} alt={c.alt} width={80} height={60} className={`w-auto ${c.height} object-contain`} />
-                                        </div>
-                                    ) : null;
-                                })}
-                            </div>
+                            {/* Certifications : un logo officiel (AB, Ecocert, Cosmos…) ne
+                                s'affiche que si le produit porte EXACTEMENT le tag
+                                correspondant. Une correspondance approximative afficherait
+                                par exemple le logo AB pour un tag « abeille », ce qui
+                                revient à revendiquer une certification inexistante. */}
+                            {certifications.length > 0 && (
+                                <>
+                                    <h4 className="text-sm font-serif font-bold text-stone-900 uppercase tracking-widest mb-6 mt-8">
+                                        Certifications
+                                    </h4>
+                                    <div className="flex flex-wrap gap-8 items-center opacity-90">
+                                        {certifications.map((c) => (
+                                            <div key={c.src} className="transition-all duration-300 hover:scale-110 ease-out cursor-help" title={c.alt}>
+                                                <Image src={c.src} alt={c.alt} width={80} height={60} className={`w-auto ${c.height} object-contain`} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>
+                            )}
 
                             {/* Details Table */}
                             {detailsMeta && (

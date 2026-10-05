@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Star, ShoppingCart, Heart, Truck, ShieldCheck, Leaf, Minus, Plus } from "lucide-react";
+import { Star, ShoppingCart, Heart, Truck, ShieldCheck, Store, Minus, Plus } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
@@ -189,9 +189,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 </div>
                 <div className="flex flex-col items-center gap-2 p-4 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent border border-primary/10 hover:border-primary/20 transition-colors group">
                     <div className="p-2.5 rounded-xl bg-primary/10 group-hover:scale-110 transition-transform">
-                        <Leaf className="h-5 w-5 text-primary" />
+                        <Store className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="text-xs text-stone-600 text-center leading-tight font-medium">100%<br />Naturel</span>
+                    <span className="text-xs text-stone-600 text-center leading-tight font-medium">Retrait gratuit<br />à Maurepas</span>
                 </div>
             </div>
 

@@ -41,7 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ];
 
     // Brand pages
-    const brandPages: MetadataRoute.Sitemap = brands.map((brand) => ({
+    const brandPages: MetadataRoute.Sitemap = brands.filter((brand) => brand.count !== 0).map((brand) => ({
         url: `${BASE_URL}/marques/${brand.slug}`,
         lastModified: new Date(),
         changeFrequency: "weekly" as const,

@@ -3,8 +3,8 @@ import { Truck, ShieldCheck, Leaf, HeartHandshake } from "lucide-react";
 const badges = [
     {
         icon: Leaf,
-        title: "100% Naturel & Bio",
-        desc: "Ingrédients certifiés et purs"
+        title: "Naturel & Bio",
+        desc: "Une sélection naturelle, dont de nombreux produits bio"
     },
     {
         icon: ShieldCheck,

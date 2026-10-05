@@ -6,19 +6,20 @@ import { jsonLdScript } from "@/lib/json-ld";
 export const metadata: Metadata = {
     title: "Toutes nos marques bio et naturelles",
     description:
-        "Découvrez les marques sélectionnées par Orient Relais : Najel, Terra Etica, Florame, Ayur-vana. Des savons d'Alep authentiques aux huiles essentielles bio.",
+        "Découvrez les marques sélectionnées par Orient Relais : Najel, Terra Etica, Ayur-vana, Graine Sauvage. Des savons d'Alep authentiques aux huiles essentielles bio.",
     alternates: { canonical: "/marques" },
     openGraph: {
         title: "Nos marques bio — Orient Relais",
         description:
-            "Najel, Terra Etica, Florame, Ayur-vana : les marques de confiance qui composent notre sélection bio et naturelle.",
+            "Najel, Terra Etica, Ayur-vana, Graine Sauvage : les marques qui composent notre sélection bio et naturelle.",
         url: "https://www.orient-relais.com/marques",
         type: "website",
     },
 };
 
 export default async function MarquesPage() {
-    const brands = await fetchWooBrands();
+    // Les marques sans produit en vente ne sont pas listées (leur page est en 404).
+    const brands = (await fetchWooBrands()).filter((b) => b.count !== 0);
 
     const breadcrumbJsonLd = {
         "@context": "https://schema.org",
@@ -48,9 +49,9 @@ export default async function MarquesPage() {
                 </h1>
                 <p className="text-stone-600 text-lg leading-relaxed">
                     Chez Orient Relais, chaque produit est choisi pour ce qu&apos;il raconte :
-                    une tradition familiale, une certification bio exigeante, une filière
-                    juste. Voici les marques qui composent notre sélection — cliquez pour
-                    découvrir leur histoire et leur gamme.
+                    un savoir-faire, la transparence sur ses ingrédients et, pour une partie
+                    de la sélection, une certification bio. Voici les marques que nous
+                    distribuons : cliquez pour découvrir leur gamme.
                 </p>
             </header>
 

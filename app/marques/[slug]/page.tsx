@@ -10,31 +10,22 @@ import { jsonLdScript } from "@/lib/json-ld";
 // does not provide a description yet. Matches Najel / Aroma-Zone pattern:
 // short story + benefits + connection to our catalogue.
 const BRAND_STORIES: Record<string, { tagline: string; story: string }> = {
+    // Textes limités à ce qui est vérifiable dans notre catalogue : pas
+    // d'allégation santé, pas de certification non confirmée.
     najel: {
-        tagline:
-            "Savons d'Alep authentiques saponifiés au chaudron selon la méthode ancestrale syrienne",
+        tagline: "Savons d'Alep saponifiés au chaudron selon la méthode traditionnelle d'Alep",
         story:
-            "Najel perpétue depuis 1895 la tradition familiale syrienne de fabrication du savon d'Alep. Cuits au chaudron puis séchés neuf mois à l'air libre, leurs pains associent huile d'olive et huile de baie de laurier pour purifier, hydrater et apaiser les peaux les plus sensibles (eczéma, psoriasis, acné). Chez Orient Relais, Najel est la marque de référence pour qui cherche le vrai savon d'Alep, sans colorants ni conservateurs.",
+            "Najel est une maison spécialisée dans le savon d'Alep. Ses pains, saponifiés au chaudron puis séchés à l'air libre, associent huile d'olive et huile de baie de laurier. Chez Orient Relais, vous trouverez le savon d'Alep traditionnel à 40 % de laurier, le savon liquide à 5 %, des savons parfumés et enrichis, ainsi que des cosmétiques Najel, dont plusieurs certifiés Cosmos Organic.",
     },
     "terra-etica": {
-        tagline: "Huiles essentielles 100 % pures, bio et équitables",
+        tagline: "Huiles essentielles, dont une gamme bio",
         story:
-            "Terra Etica est le label de commerce équitable engagé du groupe Éthiquable. Leurs huiles essentielles sont issues de filières paysannes bio — lavande de Provence, ylang-ylang de Madagascar, tea tree australien — avec une traçabilité totale et une certification AB + Fair for Life. Nous avons choisi Terra Etica pour la qualité chromato­graphique de leurs huiles et pour le prix juste versé aux producteurs.",
-    },
-    florame: {
-        tagline: "Cosmétique bio provençale depuis 1988",
-        story:
-            "Pionnière de l'aromathérapie française, Florame travaille à Saint-Rémy-de-Provence avec des producteurs sélectionnés en Europe et dans le monde. Leurs huiles essentielles et cosmétiques bio sont formulés sans ingrédients pétrochimiques, parabens ni silicones. Une marque historique qui a popularisé l'aromathérapie familiale en France.",
+            "Terra Etica fournit une partie de nos huiles essentielles : thym à thymol, ravintsara, orange douce, niaouli, laurier noble et cyprès en version bio, ainsi que l'eucalyptus globulus et le clou de girofle.",
     },
     "ayur-vana": {
-        tagline: "Compléments alimentaires ayurvédiques bio",
+        tagline: "Compléments alimentaires de la tradition ayurvédique",
         story:
-            "Ayur-vana propose des compléments ayurvédiques bio — ashwagandha, curcuma, triphala, spiruline — pour soutenir l'équilibre au quotidien. Les plantes sont cultivées en Inde selon la tradition ayurvédique millénaire et transformées en gélules végétales adaptées aux habitudes occidentales.",
-    },
-    "dp-nature": {
-        tagline: "Cosmétique naturelle et huiles essentielles françaises",
-        story:
-            "DP Nature fabrique en France des huiles essentielles et produits de soin naturels. Leurs formules simples et sans additifs superflus conviennent à toute la famille.",
+            "Ayur-vana propose des plantes de la tradition ayurvédique en gélules ou en poudre. Chez Orient Relais, vous trouverez notamment le moringa, le curcuma, le gingembre indien, le guduchi et le bilva, dont plusieurs références bio. Demandez conseil à un professionnel de santé avant toute cure, notamment en cas de grossesse, d'allaitement ou de traitement en cours.",
     },
 };
 
@@ -51,7 +42,9 @@ export async function generateMetadata({
     const slug = (await params).slug;
     const brands = await fetchWooBrands();
     const brand = brands.find((b) => b.slug === slug);
-    if (!brand) notFound();
+    // Marque sans produit en vente (ex. Florame) : vraie 404 plutôt qu'une
+    // page vide indexable.
+    if (!brand || brand.count === 0) notFound();
 
     const story = BRAND_STORIES[slug];
     const description =
@@ -60,7 +53,7 @@ export async function generateMetadata({
         `Découvrez la gamme ${brand.name} chez Orient Relais.`;
 
     return {
-        title: `${brand.name} — produits bio sélectionnés`,
+        title: `${brand.name} : notre sélection`,
         description,
         alternates: { canonical: `/marques/${slug}` },
         openGraph: {
@@ -80,7 +73,7 @@ export default async function BrandPage({
     const slug = (await params).slug;
     const brands = await fetchWooBrands();
     const brand = brands.find((b) => b.slug === slug);
-    if (!brand) notFound();
+    if (!brand || brand.count === 0) notFound();
 
     // Pull all products and keep only those matching this brand (taxonomy or
     // "Marque" attribute)

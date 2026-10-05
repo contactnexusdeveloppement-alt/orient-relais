@@ -183,7 +183,7 @@ export function HomeContent({ featuredProducts, promoProducts, categoryImages = 
                         <h2 className="mt-2 font-serif text-3xl font-bold text-stone-900">Pourquoi nous choisir ?</h2>
                     </FadeIn>
                     <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-8" staggerDelay={0.1}>
-                        <StaggerItem><ReassuranceItem icon={Leaf} title="Certifié Bio" text="Ingrédients 100% naturels" /></StaggerItem>
+                        <StaggerItem><ReassuranceItem icon={Leaf} title="Naturel & Bio" text="Dont de nombreux produits certifiés bio" /></StaggerItem>
                         <StaggerItem><ReassuranceItem icon={ShieldCheck} title="Fabrication Artisanale" text="Savoir-faire ancestral" /></StaggerItem>
                         <StaggerItem><ReassuranceItem icon={Lock} title="Paiement Sécurisé" text="CB, Google Pay, Stripe" /></StaggerItem>
                         <StaggerItem><ReassuranceItem icon={Truck} title="Livraison Rapide" text="Offerte dès 39€" /></StaggerItem>

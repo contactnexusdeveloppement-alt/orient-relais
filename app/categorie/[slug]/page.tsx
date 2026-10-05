@@ -45,9 +45,9 @@ const FALLBACK_IMAGES: Record<string, string> = {
 
 // ─── Known categories fallback (used when WooCommerce API is down) ─
 const KNOWN_CATEGORIES: Record<string, { name: string; description: string }> = {
-    "savons-dalep": { name: "Savons d'Alep", description: "Découvrez notre sélection de savons d'Alep bio authentiques, fabriqués artisanalement selon une tradition millénaire. Huile d'olive et huile de baie de laurier, saponifiés au chaudron." },
-    "huiles-essentielles": { name: "Huiles Essentielles", description: "Nos huiles essentielles bio certifiées, pressées à froid et 100 % pures, pour votre bien-être au quotidien et votre aromathérapie familiale." },
-    complements: { name: "Compléments", description: "Compléments alimentaires bio et compléments ayurvédiques (moringa, ashwagandha, curcuma, spiruline) pour soutenir votre santé naturellement." },
+    "savons-dalep": { name: "Savons d'Alep", description: "Découvrez notre sélection de savons d'Alep authentiques Najel, dont une référence certifiée bio, fabriqués selon la tradition : huile d'olive et huile de baie de laurier, saponifiées au chaudron." },
+    "huiles-essentielles": { name: "Huiles Essentielles", description: "Nos huiles essentielles, dont une gamme bio Terra Etica, pour votre bien-être au quotidien et l'aromathérapie familiale." },
+    complements: { name: "Compléments", description: "Compléments alimentaires, dont de nombreuses références bio, et plantes de la tradition ayurvédique : moringa, curcuma, guduchi, huile de nigelle." },
     "soins-et-beaute": { name: "Soins et Beauté", description: "Révélez votre beauté naturelle avec nos cosmétiques bio et soins éthiques — crèmes visage, huiles végétales, gommages, baumes." },
     coffrets: { name: "Coffrets", description: "Nos coffrets cadeaux composés de produits naturels et bio, parfaits pour offrir." },
     "epicerie-orientale": { name: "Épicerie Orientale", description: "Découvrez nos produits d'épicerie orientale authentiques et savoureux." },
@@ -86,11 +86,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         `Découvrez notre sélection de ${name.toLowerCase()} bio et naturels. Livraison offerte dès 39€.`;
 
     return {
-        title: `${name} bio — sélection Orient Relais`,
+        title: `${name} : notre sélection`,
         description,
         alternates: { canonical: `/categorie/${slug}` },
         openGraph: {
-            title: `${name} bio — Orient Relais`,
+            title: `${name} — Orient Relais`,
             description,
             url: `https://www.orient-relais.com/categorie/${slug}`,
             type: "website",
