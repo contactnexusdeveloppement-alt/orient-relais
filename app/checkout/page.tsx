@@ -140,6 +140,15 @@ export default function CheckoutPage() {
     const shippingCost = computeShippingCents(shippingMethod, toCents(subtotal)) / 100;
     const total = subtotal + shippingCost;
 
+    // Prix affiché sur chaque option de livraison : dès 39 € d'achat,
+    // Colissimo et Mondial Relay passent à "Gratuit", comme dans le récap.
+    const shippingOptionPrice = (method: ShippingMethod) => {
+        const cents = computeShippingCents(method, toCents(subtotal));
+        return cents === 0
+            ? <span className="font-bold text-green-600">Gratuit</span>
+            : <span className="font-bold text-stone-900">{(cents / 100).toFixed(2).replace(".", ",")} €</span>;
+    };
+
     // Montant calculé par le serveur avec les prix WooCommerce du moment.
     // Il fait foi sur l'étape paiement (un prix a pu changer depuis l'ajout
     // au panier).
@@ -406,7 +415,7 @@ export default function CheckoutPage() {
                                                 <p className="text-base font-medium text-stone-900">🏠 Colissimo Domicile</p>
                                                 <p className="text-sm text-stone-500">Livraison à domicile en 24/48h</p>
                                             </div>
-                                            <span className="font-bold text-stone-900">7,90 €</span>
+                                            {shippingOptionPrice("colissimo")}
                                         </div>
 
                                         {/* Option 2: Mondial Relay */}
@@ -427,7 +436,7 @@ export default function CheckoutPage() {
                                                 <p className="text-base font-medium text-stone-900">📦 Mondial Relay — Point Relais</p>
                                                 <p className="text-sm text-stone-500">Retrait en Point Relais — 3 à 5 jours ouvrés</p>
                                             </div>
-                                            <span className="font-bold text-stone-900">4,90 €</span>
+                                            {shippingOptionPrice("mondialrelay")}
                                         </div>
 
                                         {/* Option 3: Click & Collect */}
@@ -448,7 +457,7 @@ export default function CheckoutPage() {
                                                 <p className="text-base font-medium text-stone-900">🏪 Click & Collect — Retrait en boutique</p>
                                                 <p className="text-sm text-stone-500">48 avenue de Touraine, 78310 Maurepas</p>
                                             </div>
-                                            <span className="font-bold text-green-600">Gratuit</span>
+                                            {shippingOptionPrice("clickcollect")}
                                         </div>
                                     </div>
                                 </section>
