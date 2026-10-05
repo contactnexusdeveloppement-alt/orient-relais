@@ -24,7 +24,7 @@ interface GoogleReviewCTAProps {
  *
  * Until either env var is set we ship the fallback so nothing breaks.
  */
-function buildReviewUrl(): string {
+export function getGoogleReviewUrl(): string {
     const placeId = process.env.NEXT_PUBLIC_GBP_PLACE_ID;
     if (placeId) {
         return `https://search.google.com/local/writereview?placeid=${placeId}`;
@@ -36,13 +36,31 @@ function buildReviewUrl(): string {
     return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
 }
 
+/**
+ * Fiche Google (onglet avis compris), pour LIRE les avis. CID d'abord : c'est
+ * l'URL canonique de la fiche ; le place_id sert de repli.
+ */
+export function getGoogleProfileUrl(): string {
+    const cid = process.env.NEXT_PUBLIC_GBP_CID;
+    if (cid) {
+        return `https://www.google.com/maps?cid=${cid}`;
+    }
+    const placeId = process.env.NEXT_PUBLIC_GBP_PLACE_ID;
+    if (placeId) {
+        return `https://www.google.com/maps/place/?q=place_id:${placeId}`;
+    }
+    return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
+}
+
 export function GoogleReviewCTA({
     variant = "full",
     className = "",
     title = "Votre avis compte vraiment pour nous",
-    body = "Si votre passage chez Orient Relais s'est bien passé, prenez 30 secondes pour laisser un avis sur Google. C'est ce qui nous aide le plus à faire connaître la boutique.",
+    // Formulation neutre obligatoire : Google interdit de "solliciter des avis
+    // positifs de façon sélective" (règlement des contenus Google Maps).
+    body = "Bonne ou moins bonne, votre expérience nous intéresse. Prenez 30 secondes pour laisser un avis sur Google : ça aide d'autres clients à découvrir la boutique.",
 }: GoogleReviewCTAProps) {
-    const url = buildReviewUrl();
+    const url = getGoogleReviewUrl();
 
     if (variant === "compact") {
         return (

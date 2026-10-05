@@ -3,7 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRef } from "react";
-import { ArrowRight, Leaf, Lock, Truck, ShieldCheck, Heart, Sparkles, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Leaf, Lock, Truck, ShieldCheck, Heart, Sparkles, ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { getGoogleProfileUrl, getGoogleReviewUrl } from "@/components/local/GoogleReviewCTA";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/ui/animations";
 import { WooProduct } from "@/lib/woocommerce-types";
@@ -138,41 +139,39 @@ export function HomeContent({ featuredProducts, promoProducts, categoryImages = 
                 <PromoCarousel products={promoProducts} />
             )}
 
-            {/* Testimonials Section - Clean White with accent border */}
+            {/* Avis clients : on renvoie vers les vrais avis publiés sur la fiche
+                Google. Les témoignages rédigés à la création du site ont été
+                retirés : afficher de faux avis de consommateurs est une
+                pratique commerciale trompeuse (art. L121-4 Code de la conso). */}
             <section className="relative py-24 bg-white">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-30" />
                 <div className="container mx-auto px-4">
-                    <FadeIn className="text-center mb-14">
+                    <FadeIn className="text-center max-w-2xl mx-auto">
                         <span className="text-sm font-bold uppercase tracking-widest text-primary">Avis Clients</span>
                         <h2 className="mt-2 font-serif text-4xl font-bold text-stone-900">Ce qu'ils en pensent</h2>
-                        <p className="mt-3 text-stone-500 max-w-lg mx-auto">Des milliers de clients satisfaits nous font confiance.</p>
+                        <p className="mt-3 text-stone-500">
+                            Les avis de nos clients sont publiés sur notre fiche Google. Lisez-les, et si vous avez déjà commandé chez nous, laissez le vôtre.
+                        </p>
+                        <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+                            <a
+                                href={getGoogleProfileUrl()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors shadow-md shadow-primary/20"
+                            >
+                                <Star className="h-4 w-4" aria-hidden="true" />
+                                Lire les avis Google
+                            </a>
+                            <a
+                                href={getGoogleReviewUrl()}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center gap-2 border border-primary text-primary font-bold px-6 py-3 rounded-xl hover:bg-primary/5 transition-colors"
+                            >
+                                Laisser un avis
+                            </a>
+                        </div>
                     </FadeIn>
-                    <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8" staggerDelay={0.15}>
-                        <StaggerItem>
-                            <TestimonialCard
-                                name="Marie L."
-                                location="Paris"
-                                rating={5}
-                                text="Le savon d'Alep a transformé ma peau ! Après des années d'eczéma, j'ai enfin trouvé un produit qui me convient. Livraison rapide et produit de qualité."
-                            />
-                        </StaggerItem>
-                        <StaggerItem>
-                            <TestimonialCard
-                                name="Thomas B."
-                                location="Lyon"
-                                rating={5}
-                                text="Excellent rapport qualité-prix. Les huiles essentielles Terra Etica sont pures et efficaces. Je recommande les yeux fermés."
-                            />
-                        </StaggerItem>
-                        <StaggerItem>
-                            <TestimonialCard
-                                name="Sophie M."
-                                location="Nantes"
-                                rating={5}
-                                text="Le coffret Najel était parfait pour offrir à ma mère. Emballage soigné, produits authentiques. Merci Orient Relais !"
-                            />
-                        </StaggerItem>
-                    </StaggerContainer>
                 </div>
             </section>
 
@@ -203,32 +202,6 @@ function ReassuranceItem({ icon: Icon, title, text }: { icon: React.ElementType,
             </div>
             <h4 className="font-serif font-bold text-base text-stone-900">{title}</h4>
             <p className="text-sm text-stone-500">{text}</p>
-        </div>
-    );
-}
-
-function TestimonialCard({ name, location, rating, text }: { name: string, location: string, rating: number, text: string }) {
-    return (
-        <div className="bg-gradient-to-br from-stone-50 to-white p-8 rounded-3xl border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-primary/10 hover:border-primary/20 transition-all duration-500 relative overflow-hidden group h-full">
-            {/* Quote icon */}
-            <div className="absolute top-6 right-6 h-10 w-10 rounded-full bg-primary/5 flex items-center justify-center text-primary/30 group-hover:text-primary/50 transition-colors">
-                <Quote className="h-5 w-5" />
-            </div>
-            <div className="flex gap-1 mb-5">
-                {[...Array(rating)].map((_, i) => (
-                    <span key={i} className="text-amber-400 text-lg">★</span>
-                ))}
-            </div>
-            <p className="text-stone-600 leading-relaxed mb-6 text-lg italic relative z-10">"{text}"</p>
-            <div className="flex items-center gap-4 pt-4 border-t border-stone-100">
-                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary/20 to-amber-100 flex items-center justify-center text-primary font-bold text-lg shadow-sm">
-                    {name.charAt(0)}
-                </div>
-                <div>
-                    <p className="font-semibold text-stone-900">{name}</p>
-                    <p className="text-xs text-stone-500">{location}</p>
-                </div>
-            </div>
         </div>
     );
 }

@@ -77,14 +77,14 @@ function SuccessContent() {
                 </div>
             </div>
 
-            {/* Review CTA — shown right after a successful purchase, when
-                customer satisfaction is at its peak. This is the single
-                highest-conversion moment to ask for a Google review. */}
+            {/* Review CTA — shown right after a successful purchase. Wording
+                must stay neutral: Google forbids selectively soliciting
+                positive reviews (Maps user-contributed content policy). */}
             <GoogleReviewCTA
                 variant="full"
                 className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-700 delay-300"
                 title="Merci pour votre commande !"
-                body="Si votre passage chez Orient Relais s'est bien passé, prenez 30 secondes pour laisser un avis sur Google. Ça nous aide énormément à faire connaître la boutique."
+                body="Une fois votre commande reçue, prenez 30 secondes pour nous laisser un avis sur Google, quel qu'il soit. Ça aide d'autres clients à découvrir la boutique."
             />
         </div>
     );
