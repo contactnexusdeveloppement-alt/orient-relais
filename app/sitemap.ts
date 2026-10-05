@@ -10,12 +10,12 @@ const CATEGORIES = [
     { slug: "savons-dalep" },
     { slug: "huiles-essentielles" },
     { slug: "complements" },
-    { slug: "cosmetiques" },
     { slug: "soins-et-beaute" },
     { slug: "coffrets" },
     { slug: "miel" },
     { slug: "accessoires" },
     { slug: "epicerie-orientale" },
+    { slug: "idees-cadeaux" },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
