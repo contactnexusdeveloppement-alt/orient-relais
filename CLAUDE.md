@@ -68,7 +68,9 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
 - Vercel : équipe « Nexus' projects » (Ned), projet `orient-relais`. La branche `master`
   part en production à chaque push ; les autres branches donnent une preview.
 - WordPress / WooCommerce (OVH) : propriétaire du compte à compléter.
-- Stripe : propriétaire du compte à compléter.
+- Stripe : les paiements du site ne passent pas par le compte Stripe de Ned (vérifié le
+  05/10/2026) ; compte du client, accès à compléter. Le Stripe de Ned ne sert qu'au
+  prélèvement du forfait.
 
 ## Commandes
 - `npm run dev`, `npm run lint`, `npm test`, `npm run build`.
@@ -76,19 +78,31 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   suffisantes pour vérifier qu'il compile ; les appels WooCommerce échouent alors
   proprement).
 
-## Points ouverts (05/10/2026)
-- Page `/savon-alep-yvelines` : annonce des savons à 5, 12, 20 et 40 % de laurier,
-  alors que seuls le 40 % et le liquide 5 % sont en ligne. À corriger avec Georges.
-- Mentions « 100 % bio » sur les pages locales : demander les certificats
-  (Ecocert / Cosmos) ou adoucir le texte.
-- Catégorie « Huiles végétales » à créer dans WooCommerce (par le client), puis
-  l'ajouter côté code (sitemap, `KNOWN_CATEGORIES`).
-- Une URL invalide renvoie un code HTTP 200 (corps 404 + noindex) au lieu d'un 404.
-- Accueil mobile : 8 px de défilement horizontal (dégradé décoratif `w-[600px]`),
-  déjà présent en prod avant le 05/10.
-- Fiche Google (Business Profile) : donner l'accès à Georges pour qu'il réponde à ses
-  avis (livraison des accès prévue au devis, hors registre). Fiche : CID
-  11005396459811211730.
+## Points ouverts
+- Fiche Google (Business Profile) : Adam invite harbgeorges@yahoo.com comme
+  propriétaire, puis transfère la propriété principale 7 jours après (Ned reste
+  administrateur). Livraison des accès prévue au devis, hors registre. Fiche : CID
+  11005396459811211730. Brouillon de mail à Georges prêt dans Gmail.
+- En attente de Georges : certificats bio (pour remettre la mention bio sur les
+  produits certifiés), livraison Belgique / Luxembourg sur demande (mention retirée),
+  parking gratuit près de la boutique (mention conservée), cadeau de 5 € dès 39 €
+  (bandeau permanent `cadeau-5-39`).
+- Commande sans compte : aucune commande réelle vérifiée depuis le 28/09 (paiements
+  sur le Stripe de Georges, pas celui de Ned). Contrôler dans WooCommerce ou passer
+  une commande test.
+- Catégorie « Huiles végétales » : à créer dans WooCommerce par le client ; le
+  contenu SEO associé est sur devis.
+
+## Contenus : règles (DGCCRF)
+- Bio : seuls les produits dont le nom porte « bio » / « Cosmos Organic » sont
+  certifiés (25 sur 83 au 05/10/2026). Jamais de « 100 % bio », « tous nos produits
+  sont certifiés », ni de logo AB / Ecocert / Cosmos sans tag exact sur le produit.
+- Cosmétiques : aucune allégation thérapeutique (eczéma, psoriasis, acné, mycoses,
+  antiseptique…). Compléments alimentaires : aucune allégation santé non autorisée
+  (immunité, anti-inflammatoire, digestion, « purifie le sang »…).
+- Pas de marque, produit ou pourcentage de laurier qui n'existe pas au catalogue
+  (vérifier via `/wp-json/wc/store/v1/products`). Pas de livraison hors de France
+  annoncée : le checkout est limité à la France.
 
 ## Avis clients : règles
 - Jamais d'avis ou de témoignages rédigés par nous : faux avis = pratique commerciale
