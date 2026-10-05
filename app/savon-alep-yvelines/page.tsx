@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Sparkles, Truck, MapPin, Phone, Clock, ShoppingBag } from "lucide-react";
+import { Sparkles, Truck, MapPin, Phone, Clock, ShoppingBag, Sprout, Droplets, Droplet, Sun, Leaf, Hexagon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { jsonLdScript } from "@/lib/json-ld";
 import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
@@ -97,6 +97,50 @@ const faqJsonLd = {
     ],
 };
 
+// Produits réellement en vente (slugs WooCommerce vérifiés le 05/10/2026).
+// Si un produit est retiré du catalogue, retirer ou rediriger son lien ici.
+const NATURAL_PRODUCTS = [
+    {
+        icon: Sprout,
+        title: "Huile de nigelle bio",
+        text: "Huile de nigelle (cumin noir) biologique en capsules, boîte de 120. Un incontournable de la tradition orientale, dans un format pratique au quotidien.",
+        links: [{ href: "/produit/huile-de-nigelle-bio-120-capsules", label: "Voir l'huile de nigelle" }],
+    },
+    {
+        icon: Droplets,
+        title: "Huile de figue de barbarie",
+        text: "Une huile rare, obtenue à partir des pépins du fruit du figuier de barbarie. Quelques gouttes suffisent pour le soin du visage.",
+        links: [{ href: "/produit/huile-de-graines-de-figue-de-barbarie", label: "Voir l'huile de figue de barbarie" }],
+    },
+    {
+        icon: Sun,
+        title: "Huile de dattier du désert",
+        text: "Une huile sèche qui pénètre vite sans laisser de film gras. Elle s'utilise sur le visage, le corps et les cheveux.",
+        links: [{ href: "/produit/huile-seche-de-dattier-du-desert", label: "Voir l'huile de dattier du désert" }],
+    },
+    {
+        icon: Leaf,
+        title: "Savons à l'huile d'argan",
+        text: "Le savon noir à l'huile d'argan bio pour le rituel du hammam, et un savon d'Alep enrichi à l'argan et au rhassoul.",
+        links: [
+            { href: "/produit/savon-noir-lhuile-dargan-bio-cosmos-natural-180g-najel", label: "Savon noir à l'huile d'argan" },
+            { href: "/produit/savon-dalep-argan-rhassoul-najel-100g", label: "Savon d'Alep argan et rhassoul" },
+        ],
+    },
+    {
+        icon: Droplet,
+        title: "Huile d'olive et laurier",
+        text: "La base de tout vrai savon d'Alep : de l'huile d'olive et de l'huile de baie de laurier, saponifiées au chaudron puis séchées plusieurs mois.",
+        links: [{ href: "/categorie/savons-dalep", label: "Voir les savons d'Alep" }],
+    },
+    {
+        icon: Hexagon,
+        title: "Miel",
+        text: "Miel de montagne et miel de bourdaine, en pots de 250 g et de 500 g.",
+        links: [{ href: "/categorie/miel", label: "Voir les miels" }],
+    },
+];
+
 export default function SavonAlepYvelinesPage() {
     return (
         <div className="container mx-auto px-4 py-12">
@@ -192,6 +236,33 @@ export default function SavonAlepYvelinesPage() {
                     (20 min). Vous pouvez commander en ligne et retirer votre colis sous 24 h ouvrées,
                     gratuitement, du lundi au vendredi de 9 h à 18 h. Téléphone : 06 99 55 69 77.
                 </p>
+            </section>
+
+            <section aria-labelledby="natural-products-title" className="mb-16">
+                <h2 id="natural-products-title" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
+                    Huiles végétales, nigelle et miel à Maurepas
+                </h2>
+                <p className="text-stone-600 mb-8 max-w-3xl">
+                    La boutique ne se limite pas au savon d&apos;Alep. Vous y trouverez aussi des
+                    huiles végétales pour la peau et les cheveux, de l&apos;huile de nigelle et du
+                    miel, à commander en ligne ou à retirer gratuitement en boutique.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {NATURAL_PRODUCTS.map(({ icon: Icon, title, text, links }) => (
+                        <div key={title} className="bg-white border border-stone-200 rounded-2xl p-6 flex flex-col">
+                            <Icon className="h-6 w-6 text-primary mb-3" aria-hidden="true" />
+                            <h3 className="font-serif text-xl font-bold mb-2">{title}</h3>
+                            <p className="text-sm text-stone-600 mb-4">{text}</p>
+                            <div className="mt-auto flex flex-col gap-1">
+                                {links.map((link) => (
+                                    <Link key={link.href} href={link.href} className="text-sm font-medium text-primary hover:underline">
+                                        {link.label} →
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </section>
 
             <section aria-labelledby="map-title-yvelines" className="mb-16">
