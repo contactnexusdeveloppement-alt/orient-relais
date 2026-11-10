@@ -96,6 +96,15 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   adresse d'expédition des comptes Colissimo / Mondial Relay, et nouveau SIRET si
   l'établissement a été transféré (à reporter dans mentions légales, CGV,
   confidentialité). Horaires conservés (lun.-ven. 9 h-18 h), à confirmer.
+- Fiches produits WooCommerce (données du catalogue, pas le code) : scan du 10/11/2026,
+  environ 60 descriptions sur 83 portent des allégations interdites ou du texte erroné.
+  Exemples : savons « eczéma, psoriasis, acné, antiseptique », baume « cicatrisant,
+  soulage la douleur », huiles essentielles « anti-infectieuse, immunité, douleur »
+  avec posologie (clou de girofle), bloc « barrière épidermique, antioxydant » collé
+  par erreur sur les miels et les compléments, « 100 % bio » sur 2 fiches. Textes issus
+  du remplissage du catalogue par Ned lors de la refonte (scripts/ du dépôt) :
+  correction à notre charge. Il faut une clé API WooCommerce en écriture (ou l'admin
+  WordPress) pour les corriger.
 - Commande sans compte : aucune commande réelle vérifiée depuis le 28/09 (paiements
   sur le Stripe de Georges, pas celui de Ned). Contrôler dans WooCommerce ou passer
   une commande test.
