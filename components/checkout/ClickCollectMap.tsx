@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// 48 avenue de Touraine, 78310 Maurepas (geocoded once, hard-coded to avoid
+// 31 rue de la Louvière, 78120 Rambouillet (geocoded once, hard-coded to avoid
 // hitting Nominatim on every page render)
-const STORE_LAT = 48.75829;
-const STORE_LNG = 1.9287;
+const STORE_LAT = 48.64329;
+const STORE_LNG = 1.83474;
 const STORE_NAME = "Orient Relais";
-const STORE_ADDRESS = "48 avenue de Touraine, 78310 Maurepas";
+const STORE_ADDRESS = "31 rue de la Louvière, 78120 Rambouillet";
 
 declare global {
     interface Window {

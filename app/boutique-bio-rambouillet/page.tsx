@@ -14,18 +14,18 @@ const HAS_MAP_URL = GBP_CID
     ? `https://www.google.com/maps?cid=${GBP_CID}`
     : GBP_PLACE_ID
         ? `https://www.google.com/maps/place/?q=place_id:${GBP_PLACE_ID}`
-        : "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas";
+        : "https://www.google.com/maps/search/?api=1&query=31+rue+de+la+Louvi%C3%A8re+78120+Rambouillet";
 
 export const metadata: Metadata = {
-    title: "Boutique Bio à Maurepas (78310) — Savons d'Alep, Cosmétiques & Compléments Bio",
+    title: "Boutique Bio à Rambouillet (78120) — Savons d'Alep, Cosmétiques & Compléments",
     description:
-        "Orient Relais, boutique bio à Maurepas (78310) au 48 avenue de Touraine. Savons d'Alep Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Click & Collect gratuit, livraison rapide en Yvelines.",
-    alternates: { canonical: "/boutique-bio-maurepas" },
+        "Orient Relais, boutique bio à Rambouillet (78120) au 31 rue de la Louvière, à quelques minutes à pied de la gare. Savons d'Alep Najel, huiles essentielles, cosmétiques naturels et compléments ayurvédiques. Click & Collect gratuit.",
+    alternates: { canonical: "/boutique-bio-rambouillet" },
     openGraph: {
-        title: "Boutique Bio à Maurepas — Orient Relais (Yvelines)",
+        title: "Boutique Bio à Rambouillet — Orient Relais (Yvelines)",
         description:
-            "Magasin bio à Maurepas (Yvelines) : savons d'Alep, huiles essentielles bio, cosmétiques naturels, compléments ayurvédiques. Retrait gratuit en boutique.",
-        url: "https://www.orient-relais.com/boutique-bio-maurepas",
+            "Magasin bio à Rambouillet (Yvelines) : savons d'Alep, huiles essentielles, cosmétiques naturels, compléments ayurvédiques. Retrait gratuit en boutique.",
+        url: "https://www.orient-relais.com/boutique-bio-rambouillet",
         type: "website",
     },
 };
@@ -35,31 +35,31 @@ const breadcrumbJsonLd = {
     "@type": "BreadcrumbList",
     itemListElement: [
         { "@type": "ListItem", position: 1, name: "Accueil", item: "https://www.orient-relais.com" },
-        { "@type": "ListItem", position: 2, name: "Boutique Bio Maurepas", item: "https://www.orient-relais.com/boutique-bio-maurepas" },
+        { "@type": "ListItem", position: 2, name: "Boutique Bio Rambouillet", item: "https://www.orient-relais.com/boutique-bio-rambouillet" },
     ],
 };
 
 const placeJsonLd = {
     "@context": "https://schema.org",
     "@type": ["Store", "HealthAndBeautyBusiness"],
-    "@id": "https://www.orient-relais.com/boutique-bio-maurepas#place",
-    name: "Orient Relais — Boutique Bio Maurepas",
+    "@id": "https://www.orient-relais.com/boutique-bio-rambouillet#place",
+    name: "Orient Relais — Boutique Bio Rambouillet",
     description:
-        "Magasin bio à Maurepas (78310) : savons d'Alep, huiles essentielles, cosmétiques bio, compléments ayurvédiques. Click & Collect gratuit du lundi au vendredi.",
-    url: "https://www.orient-relais.com/boutique-bio-maurepas",
+        "Magasin bio à Rambouillet (78120) : savons d'Alep, huiles essentielles, cosmétiques naturels, compléments ayurvédiques. Click & Collect gratuit du lundi au vendredi.",
+    url: "https://www.orient-relais.com/boutique-bio-rambouillet",
     telephone: "+33699556977",
     image: "https://www.orient-relais.com/images/Logo_respon.png",
     priceRange: "€€",
     paymentAccepted: "Cash, Credit Card, Apple Pay, Google Pay",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "48 avenue de Touraine",
-        addressLocality: "Maurepas",
-        postalCode: "78310",
+        streetAddress: "31 rue de la Louvière",
+        addressLocality: "Rambouillet",
+        postalCode: "78120",
         addressRegion: "Yvelines",
         addressCountry: "FR",
     },
-    geo: { "@type": "GeoCoordinates", latitude: 48.7642, longitude: 1.9393 },
+    geo: { "@type": "GeoCoordinates", latitude: 48.6433, longitude: 1.8347 },
     hasMap: HAS_MAP_URL,
     openingHoursSpecification: [
         {
@@ -70,23 +70,28 @@ const placeJsonLd = {
         },
     ],
     areaServed: [
-        { "@type": "City", name: "Maurepas" },
+        { "@type": "City", name: "Rambouillet" },
+        { "@type": "City", name: "Gazeran" },
+        { "@type": "City", name: "Le Perray-en-Yvelines" },
+        { "@type": "City", name: "Les Essarts-le-Roi" },
+        { "@type": "City", name: "Saint-Arnoult-en-Yvelines" },
+        { "@type": "City", name: "Poigny-la-Forêt" },
         { "@type": "City", name: "Coignières" },
-        { "@type": "City", name: "Élancourt" },
-        { "@type": "City", name: "La Verrière" },
-        { "@type": "City", name: "Saint-Quentin-en-Yvelines" },
-        { "@type": "City", name: "Plaisir" },
-        { "@type": "City", name: "Trappes" },
+        { "@type": "City", name: "Maurepas" },
     ],
 };
 
 // FAQ affichée sur la page ET reprise en données structurées (Google exige que
 // le contenu FAQPage soit visible). Chaque réponse doit rester vérifiable :
 // catalogue réel, pas de livraison promise hors de France (le checkout est FR).
-const MAUREPAS_FAQ = [
+const RAMBOUILLET_FAQ = [
     {
-        q: "Où se trouve la boutique Orient Relais à Maurepas ?",
-        a: "Notre boutique bio est située au 48 avenue de Touraine, 78310 Maurepas (Yvelines), à deux pas de Coignières et de Saint-Quentin-en-Yvelines. Ouverte du lundi au vendredi de 9 h à 18 h.",
+        q: "Où se trouve la boutique Orient Relais à Rambouillet ?",
+        a: "Notre boutique bio est située au 31 rue de la Louvière, 78120 Rambouillet (Yvelines), à quelques minutes à pied de la gare de Rambouillet. Ouverte du lundi au vendredi de 9 h à 18 h.",
+    },
+    {
+        q: "La boutique a-t-elle déménagé ?",
+        a: "Oui. Orient Relais était auparavant installée à Maurepas : la boutique et le retrait Click & Collect se font désormais au 31 rue de la Louvière à Rambouillet. Le site, le téléphone et l'adresse email ne changent pas.",
     },
     {
         q: "Quels produits trouve-t-on chez Orient Relais ?",
@@ -94,29 +99,29 @@ const MAUREPAS_FAQ = [
     },
     {
         q: "Le Click & Collect est-il gratuit ?",
-        a: "Oui, le retrait Click & Collect en boutique à Maurepas est entièrement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées au 48 avenue de Touraine.",
+        a: "Oui, le retrait Click & Collect en boutique à Rambouillet est entièrement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées au 31 rue de la Louvière.",
     },
     {
         q: "Livrez-vous en dehors des Yvelines ?",
         a: "Oui, nous livrons partout en France métropolitaine via Colissimo (24-48 h) et Mondial Relay (2-5 jours). Livraison offerte à partir de 39 € d'achat.",
     },
     {
-        q: "Comment accéder à la boutique en transports ?",
-        a: "Depuis Paris : train jusqu'à La Verrière (lignes N ou U), puis bus. En voiture, la boutique est à quelques minutes de la N10. Depuis Saint-Quentin-en-Yvelines : environ 10 min en voiture.",
+        q: "Comment accéder à la boutique ?",
+        a: "Depuis Paris : train de la ligne N au départ de Paris-Montparnasse jusqu'à la gare de Rambouillet, puis quelques minutes à pied. En voiture, Rambouillet est desservie par la N10, depuis Le Perray-en-Yvelines, Coignières ou Maurepas.",
     },
 ] as const;
 
 const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: MAUREPAS_FAQ.map(({ q, a }) => ({
+    mainEntity: RAMBOUILLET_FAQ.map(({ q, a }) => ({
         "@type": "Question",
         name: q,
         acceptedAnswer: { "@type": "Answer", text: a },
     })),
 };
 
-export default function BoutiqueBioMaurepasPage() {
+export default function BoutiqueBioRambouilletPage() {
     return (
         <div className="container mx-auto px-4 py-12">
             <script
@@ -127,23 +132,29 @@ export default function BoutiqueBioMaurepasPage() {
             <nav aria-label="Fil d'Ariane" className="text-sm text-stone-500 mb-6 flex items-center gap-2">
                 <Link href="/" className="hover:text-primary">Accueil</Link>
                 <span aria-hidden>›</span>
-                <span className="text-stone-700">Boutique Bio Maurepas</span>
+                <span className="text-stone-700">Boutique Bio Rambouillet</span>
             </nav>
 
             <header className="max-w-3xl mb-12">
                 <span className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-primary bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10 mb-4">
-                    <Leaf className="h-4 w-4" /> Magasin bio à Maurepas (78310)
+                    <Leaf className="h-4 w-4" /> Magasin bio à Rambouillet (78120)
                 </span>
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mb-4">
-                    Boutique Bio à Maurepas (Yvelines)
+                    Boutique Bio à Rambouillet (Yvelines)
                 </h1>
                 <p className="text-stone-600 text-lg leading-relaxed">
                     Bienvenue chez <strong>Orient Relais</strong>, votre boutique bio de proximité au
-                    {" "}<strong>48 avenue de Touraine, 78310 Maurepas</strong>. Nous sélectionnons depuis 2024
-                    des savons d&apos;Alep authentiques, des huiles essentielles bio, des cosmétiques
-                    naturels et des compléments ayurvédiques pour les habitants de
-                    Saint-Quentin-en-Yvelines, Coignières, Élancourt, Plaisir, La Verrière, Trappes
-                    et toute l&apos;agglomération SQY. Achat en ligne ou retrait gratuit en magasin.
+                    {" "}<strong>31 rue de la Louvière, 78120 Rambouillet</strong>, à quelques minutes à
+                    pied de la gare. Nous sélectionnons depuis 2024 des savons d&apos;Alep authentiques,
+                    des huiles essentielles, des cosmétiques naturels et des compléments ayurvédiques
+                    pour les habitants de Rambouillet, Gazeran, Le Perray-en-Yvelines, Les Essarts-le-Roi,
+                    Saint-Arnoult-en-Yvelines et de tout le sud des Yvelines. Achat en ligne ou retrait
+                    gratuit en magasin.
+                </p>
+                <p className="mt-4 text-sm text-stone-700 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                    <strong>Nouvelle adresse :</strong> Orient Relais, auparavant à Maurepas, vous accueille
+                    désormais au 31 rue de la Louvière à Rambouillet. Le retrait Click &amp; Collect se fait
+                    à cette adresse.
                 </p>
             </header>
 
@@ -153,15 +164,15 @@ export default function BoutiqueBioMaurepasPage() {
                         <MapPin className="h-5 w-5 text-primary" /> Notre boutique physique
                     </h2>
                     <p className="text-stone-700 mb-3">
-                        <strong>48 avenue de Touraine</strong><br />
-                        78310 Maurepas (Yvelines)
+                        <strong>31 rue de la Louvière</strong><br />
+                        78120 Rambouillet (Yvelines)
                     </p>
                     <p className="text-stone-600 text-sm mb-4">
                         Ouvert du lundi au vendredi, 9 h–18 h.
                         Téléphone : <a href="tel:+33699556977" className="text-primary hover:underline">06 99 55 69 77</a>
                     </p>
                     <a
-                        href="https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas"
+                        href="https://www.google.com/maps/search/?api=1&query=31+rue+de+la+Louvi%C3%A8re+78120+Rambouillet"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
@@ -178,8 +189,8 @@ export default function BoutiqueBioMaurepasPage() {
                         en boutique sans aucun frais de port.
                     </p>
                     <p className="text-stone-600 text-sm mb-4">
-                        Idéal pour les habitants de Maurepas, Coignières, Élancourt, Saint-Quentin-en-Yvelines,
-                        Plaisir, La Verrière, Trappes et Versailles.
+                        Idéal pour les habitants de Rambouillet, Gazeran, Le Perray-en-Yvelines,
+                        Les Essarts-le-Roi, Saint-Arnoult-en-Yvelines et du sud des Yvelines.
                     </p>
                     <Link href="/boutique" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
                         <ShoppingBag className="h-4 w-4" /> Voir le catalogue
@@ -189,15 +200,15 @@ export default function BoutiqueBioMaurepasPage() {
 
             <section aria-labelledby="map-title" className="mb-16">
                 <h2 id="map-title" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
-                    Nous trouver à Maurepas
+                    Nous trouver à Rambouillet
                 </h2>
                 <p className="text-stone-600 mb-6 max-w-2xl">
-                    Boutique située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
-                    à quelques minutes de la N10.
+                    Boutique située au <strong>31 rue de la Louvière, 78120 Rambouillet</strong>,
+                    à quelques minutes à pied de la gare de Rambouillet.
                 </p>
                 <GoogleMapEmbed
                     height={400}
-                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                    ariaLabel="Carte Google Maps — Orient Relais, 31 rue de la Louvière, 78120 Rambouillet"
                 />
             </section>
 
@@ -226,12 +237,12 @@ export default function BoutiqueBioMaurepasPage() {
                         {" "}— moringa, curcuma, guduchi, shilajit… Marque Ayur-vana, dont de nombreuses références bio.
                     </li>
                 </ul>
-                <h2>Une boutique de proximité pour tout le 78</h2>
+                <h2>Une boutique de proximité pour le sud des Yvelines</h2>
                 <p>
-                    Que vous habitiez <strong>Maurepas</strong>, <strong>Coignières</strong>,
-                    {" "}<strong>Élancourt</strong>, <strong>Saint-Quentin-en-Yvelines</strong>, <strong>Plaisir</strong>,
-                    {" "}<strong>La Verrière</strong> ou <strong>Trappes</strong>, la boutique est à quelques
-                    minutes de chez vous. Ce que nous vous proposons :
+                    Que vous habitiez <strong>Rambouillet</strong>, <strong>Gazeran</strong>,
+                    {" "}<strong>Le Perray-en-Yvelines</strong>, <strong>Les Essarts-le-Roi</strong>,
+                    {" "}<strong>Saint-Arnoult-en-Yvelines</strong> ou <strong>Poigny-la-Forêt</strong>, la boutique
+                    est à quelques minutes de chez vous. Ce que nous vous proposons :
                 </p>
                 <ol>
                     <li>Une sélection resserrée : chaque marque est choisie pour sa transparence sur ses ingrédients et son mode de fabrication.</li>
@@ -249,12 +260,12 @@ export default function BoutiqueBioMaurepasPage() {
                 </p>
             </section>
 
-            <section aria-labelledby="faq-title-maurepas" className="max-w-3xl mb-16">
-                <h2 id="faq-title-maurepas" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-6">
+            <section aria-labelledby="faq-title-rambouillet" className="max-w-3xl mb-16">
+                <h2 id="faq-title-rambouillet" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-6">
                     Questions fréquentes
                 </h2>
                 <div className="space-y-3">
-                    {MAUREPAS_FAQ.map(({ q, a }) => (
+                    {RAMBOUILLET_FAQ.map(({ q, a }) => (
                         <details
                             key={q}
                             className="group bg-white border border-stone-200 rounded-2xl px-5 py-4 hover:border-primary/30 transition-all open:border-primary/40"
@@ -285,7 +296,7 @@ export default function BoutiqueBioMaurepasPage() {
                         </Button>
                     </Link>
                     <a
-                        href="https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas"
+                        href="https://www.google.com/maps/search/?api=1&query=31+rue+de+la+Louvi%C3%A8re+78120+Rambouillet"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -322,7 +333,7 @@ export default function BoutiqueBioMaurepasPage() {
                     <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
                         <strong className="block text-stone-900">Adresse</strong>
-                        48 avenue de Touraine<br />78310 Maurepas (Yvelines)
+                        31 rue de la Louvière<br />78120 Rambouillet (Yvelines)
                     </div>
                 </div>
                 <div className="flex items-start gap-3">

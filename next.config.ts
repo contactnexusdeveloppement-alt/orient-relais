@@ -52,6 +52,12 @@ const nextConfig: NextConfig = {
       ],
     },
   ],
+  // La boutique a quitté Maurepas pour Rambouillet (novembre 2026) : redirection
+  // permanente (308, équivalent 301 pour Google) vers la
+  // nouvelle page locale pour garder le référencement et les liens existants.
+  redirects: async () => [
+    { source: '/boutique-bio-maurepas', destination: '/boutique-bio-rambouillet', permanent: true },
+  ],
   rewrites: async () => [
     { source: '/wp-admin/:path*', destination: '/api/wp-proxy/wp-admin/:path*' },
     { source: '/wp-login.php', destination: '/api/wp-proxy/wp-login.php' },

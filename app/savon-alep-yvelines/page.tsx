@@ -6,14 +6,14 @@ import { jsonLdScript } from "@/lib/json-ld";
 import { GoogleMapEmbed } from "@/components/local/GoogleMapEmbed";
 
 export const metadata: Metadata = {
-    title: "Savon d'Alep et savon d'Alep bio dans les Yvelines (78) — Click & Collect Maurepas",
+    title: "Savon d'Alep et savon d'Alep bio dans les Yvelines (78) — Click & Collect Rambouillet",
     description:
-        "Savons d'Alep authentiques Najel, dont une référence certifiée bio, dans les Yvelines : livraison sous 24-48 h en Île-de-France ou retrait gratuit dans notre boutique de Maurepas (78310).",
+        "Savons d'Alep authentiques Najel, dont une référence certifiée bio, dans les Yvelines : livraison sous 24-48 h en Île-de-France ou retrait gratuit dans notre boutique de Rambouillet (78120).",
     alternates: { canonical: "/savon-alep-yvelines" },
     openGraph: {
-        title: "Savon d'Alep Yvelines — Orient Relais Maurepas",
+        title: "Savon d'Alep Yvelines — Orient Relais Rambouillet",
         description:
-            "Boutique bio à Maurepas (78310) spécialisée en savons d'Alep authentiques Najel. Livraison rapide en Yvelines et en Île-de-France.",
+            "Boutique bio à Rambouillet (78120) spécialisée en savons d'Alep authentiques Najel. Livraison rapide en Yvelines et en Île-de-France.",
         url: "https://www.orient-relais.com/savon-alep-yvelines",
         type: "website",
     },
@@ -34,27 +34,27 @@ const placeJsonLd = {
     "@id": "https://www.orient-relais.com/savon-alep-yvelines#place",
     name: "Orient Relais — Savons d'Alep Yvelines",
     description:
-        "Boutique bio dans les Yvelines (Maurepas, 78310) spécialisée en savons d'Alep authentiques saponifiés au chaudron.",
+        "Boutique bio dans les Yvelines (Rambouillet, 78120) spécialisée en savons d'Alep authentiques saponifiés au chaudron.",
     url: "https://www.orient-relais.com/savon-alep-yvelines",
     telephone: "+33699556977",
     address: {
         "@type": "PostalAddress",
-        streetAddress: "48 avenue de Touraine",
-        addressLocality: "Maurepas",
-        postalCode: "78310",
+        streetAddress: "31 rue de la Louvière",
+        addressLocality: "Rambouillet",
+        postalCode: "78120",
         addressRegion: "Yvelines",
         addressCountry: "FR",
     },
-    geo: { "@type": "GeoCoordinates", latitude: 48.7642, longitude: 1.9393 },
+    geo: { "@type": "GeoCoordinates", latitude: 48.6433, longitude: 1.8347 },
     areaServed: [
         { "@type": "AdministrativeArea", name: "Yvelines" },
         { "@type": "AdministrativeArea", name: "Île-de-France" },
+        { "@type": "City", name: "Rambouillet" },
+        { "@type": "City", name: "Gazeran" },
+        { "@type": "City", name: "Le Perray-en-Yvelines" },
+        { "@type": "City", name: "Les Essarts-le-Roi" },
+        { "@type": "City", name: "Saint-Arnoult-en-Yvelines" },
         { "@type": "City", name: "Maurepas" },
-        { "@type": "City", name: "Saint-Quentin-en-Yvelines" },
-        { "@type": "City", name: "Versailles" },
-        { "@type": "City", name: "Élancourt" },
-        { "@type": "City", name: "Plaisir" },
-        { "@type": "City", name: "Trappes" },
     ],
 };
 
@@ -65,7 +65,7 @@ const placeJsonLd = {
 const YVELINES_FAQ = [
     {
         q: "Où acheter un savon d'Alep bio dans les Yvelines ?",
-        a: "Chez Orient Relais, boutique bio au 48 avenue de Touraine à Maurepas (78310). Nous proposons les savons d'Alep de la maison Najel, dont un savon d'Alep à la rose de Damas certifié bio. Achat en ligne avec livraison en France, ou retrait gratuit en Click & Collect du lundi au vendredi, de 9 h à 18 h.",
+        a: "Chez Orient Relais, boutique bio au 31 rue de la Louvière à Rambouillet (78120), à quelques minutes à pied de la gare. Nous proposons les savons d'Alep de la maison Najel, dont un savon d'Alep à la rose de Damas certifié bio. Achat en ligne avec livraison en France, ou retrait gratuit en Click & Collect du lundi au vendredi, de 9 h à 18 h.",
     },
     {
         q: "Quel pourcentage de laurier choisir pour un savon d'Alep ?",
@@ -77,7 +77,7 @@ const YVELINES_FAQ = [
     },
     {
         q: "Quels sont les délais de livraison en Île-de-France ?",
-        a: "Comptez 24 à 48 h ouvrées pour une livraison Colissimo en Île-de-France, et 2 à 5 jours en Mondial Relay. La livraison est offerte dès 39 € d'achat en France métropolitaine. Pour les habitants des Yvelines, le Click & Collect gratuit à notre boutique de Maurepas est souvent le plus simple.",
+        a: "Comptez 24 à 48 h ouvrées pour une livraison Colissimo en Île-de-France, et 2 à 5 jours en Mondial Relay. La livraison est offerte dès 39 € d'achat en France métropolitaine. Pour les habitants des Yvelines, le Click & Collect gratuit à notre boutique de Rambouillet est souvent le plus simple.",
     },
 ] as const;
 
@@ -159,8 +159,8 @@ export default function SavonAlepYvelinesPage() {
                 <p className="text-stone-600 text-lg leading-relaxed">
                     Vous cherchez un véritable <strong>savon d&apos;Alep</strong> près de chez vous
                     dans les <strong>Yvelines</strong> (78) ? Orient Relais est votre boutique
-                    spécialisée à Maurepas (78310), à deux pas de Saint-Quentin-en-Yvelines,
-                    Élancourt, Plaisir, Trappes et Versailles. Nous distribuons les savons
+                    spécialisée à Rambouillet (78120), au sud des Yvelines, tout près de Gazeran,
+                    du Perray-en-Yvelines, des Essarts-le-Roi et de Saint-Arnoult-en-Yvelines. Nous distribuons les savons
                     d&apos;Alep de la maison <strong>Najel</strong>, saponifiés au chaudron et séchés
                     à l&apos;air libre selon la recette traditionnelle, dont un
                     {" "}<strong>savon d&apos;Alep bio</strong> certifié. Livraison rapide en
@@ -180,7 +180,7 @@ export default function SavonAlepYvelinesPage() {
                     <ShoppingBag className="h-6 w-6 text-primary mb-3" />
                     <h2 className="font-serif text-xl font-bold mb-2">Click &amp; Collect gratuit</h2>
                     <p className="text-sm text-stone-600">
-                        Retrait sous 24 h à notre boutique de Maurepas, sans frais.
+                        Retrait sous 24 h à notre boutique de Rambouillet, sans frais.
                     </p>
                 </div>
                 <div className="bg-white border border-stone-200 rounded-2xl p-6">
@@ -199,7 +199,7 @@ export default function SavonAlepYvelinesPage() {
                     l&apos;huile d&apos;olive, de l&apos;huile de baie de laurier, de la soude et de
                     l&apos;eau. Il s&apos;utilise sur le visage, le corps et les cheveux, convient à
                     toute la famille, et un pain posé sur un porte-savon aéré dure plusieurs mois.
-                    Que vous habitiez Maurepas, Élancourt, Plaisir ou Saint-Quentin-en-Yvelines,
+                    Que vous habitiez Rambouillet, Gazeran, Le Perray-en-Yvelines ou Les Essarts-le-Roi,
                     vous pouvez venir le découvrir en boutique avant de choisir.
                 </p>
                 <h2>Notre sélection de savons d&apos;Alep distribués dans le 78</h2>
@@ -230,18 +230,18 @@ export default function SavonAlepYvelinesPage() {
                     taux de laurier, lisez{" "}
                     <Link href="/blog/savon-alep-eczema-guide">notre guide pour bien choisir son savon d&apos;Alep</Link>.
                 </p>
-                <h2>Boutique physique à Maurepas (78310) — Click &amp; Collect</h2>
+                <h2>Boutique physique à Rambouillet (78120) — Click &amp; Collect</h2>
                 <p>
-                    Notre boutique est située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
-                    accessible facilement depuis Saint-Quentin-en-Yvelines (10 min en voiture) et Versailles
-                    (20 min). Vous pouvez commander en ligne et retirer votre colis sous 24 h ouvrées,
+                    Notre boutique est située au <strong>31 rue de la Louvière, 78120 Rambouillet</strong>,
+                    à quelques minutes à pied de la gare (ligne N depuis Paris-Montparnasse) et accessible
+                    en voiture par la N10. Vous pouvez commander en ligne et retirer votre colis sous 24 h ouvrées,
                     gratuitement, du lundi au vendredi de 9 h à 18 h. Téléphone : 06 99 55 69 77.
                 </p>
             </section>
 
             <section aria-labelledby="natural-products-title" className="mb-16">
                 <h2 id="natural-products-title" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
-                    Huiles végétales, nigelle et miel à Maurepas
+                    Huiles végétales, nigelle et miel à Rambouillet
                 </h2>
                 <p className="text-stone-600 mb-8 max-w-3xl">
                     La boutique ne se limite pas au savon d&apos;Alep. Vous y trouverez aussi des
@@ -268,15 +268,15 @@ export default function SavonAlepYvelinesPage() {
 
             <section aria-labelledby="map-title-yvelines" className="mb-16">
                 <h2 id="map-title-yvelines" className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-4">
-                    Notre boutique à Maurepas (78310)
+                    Notre boutique à Rambouillet (78120)
                 </h2>
                 <p className="text-stone-600 mb-6 max-w-2xl">
-                    Située au <strong>48 avenue de Touraine, 78310 Maurepas</strong>,
-                    accessible en 10 min depuis Saint-Quentin-en-Yvelines et en 20 min depuis Versailles.
+                    Située au <strong>31 rue de la Louvière, 78120 Rambouillet</strong>,
+                    à quelques minutes à pied de la gare de Rambouillet.
                 </p>
                 <GoogleMapEmbed
                     height={400}
-                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                    ariaLabel="Carte Google Maps — Orient Relais, 31 rue de la Louvière, 78120 Rambouillet"
                 />
             </section>
 
@@ -327,7 +327,7 @@ export default function SavonAlepYvelinesPage() {
                     <MapPin className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                     <div>
                         <strong className="block text-stone-900">Adresse</strong>
-                        48 avenue de Touraine<br />78310 Maurepas (Yvelines)
+                        31 rue de la Louvière<br />78120 Rambouillet (Yvelines)
                     </div>
                 </div>
                 <div className="flex items-start gap-3">

@@ -1,7 +1,9 @@
 # Orient Relais : fiche projet
 
 ## Client
-- Orient Relais, boutique bio, 48 avenue de Touraine, 78310 Maurepas (Yvelines).
+- Orient Relais, boutique bio, 31 rue de la Louvière, 78120 Rambouillet (Yvelines), à
+  ~250 m de la gare (GPS 48.6433, 1.8347). Avant novembre 2026 : 48 avenue de Touraine,
+  78310 Maurepas. La page `/boutique-bio-maurepas` redirige (301) vers `/boutique-bio-rambouillet`.
 - Interlocuteur : Georges Harb (gérant). On le tutoie.
 - Site : https://www.orient-relais.com
 
@@ -49,6 +51,7 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
 | 21/05 – 20/06 | Bannière Fête des Mères (27/05) | Système de bannières de campagne + avis de réappro (16/06, évolution) |
 | 21/07 – 20/08 | Tarifs livraison + badge Stripe (11/08) | Mots-clés newsletter (12/08), mots-clés Paris (13/08) |
 | 21/09 – 20/10 | Mots-clés Alep / Yvelines / cadeaux (28/09) | Commande sans compte (28/09, évolution) ; mots-clés huiles (05/10) ; section SEO page Yvelines (05/10, annoncée comme offerte) |
+| 21/10 – 20/11 | Nouvelle adresse de la boutique à Rambouillet sur tout le site (10/11) | Page locale Maurepas réécrite pour Rambouillet + redirection 301 (10/11, évolution) |
 
 ## Stack
 - Next.js 15 (App Router, TypeScript, Tailwind) en front headless, sur Vercel.
@@ -85,8 +88,14 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   11005396459811211730. Brouillon de mail à Georges prêt dans Gmail.
 - En attente de Georges : certificats bio (pour remettre la mention bio sur les
   produits certifiés), livraison Belgique / Luxembourg sur demande (mention retirée),
-  parking gratuit près de la boutique (mention conservée), cadeau de 5 € dès 39 €
+  cadeau de 5 € dès 39 €
   (bandeau permanent `cadeau-5-39`).
+- Déménagement à Rambouillet (10/11), hors site, à faire par Adam / Georges :
+  adresse de la fiche Google (Google peut redemander une validation), adresse de la
+  boutique dans WooCommerce (Réglages > Général, utilisée dans les emails de commande),
+  adresse d'expédition des comptes Colissimo / Mondial Relay, et nouveau SIRET si
+  l'établissement a été transféré (à reporter dans mentions légales, CGV,
+  confidentialité). Horaires conservés (lun.-ven. 9 h-18 h), à confirmer.
 - Commande sans compte : aucune commande réelle vérifiée depuis le 28/09 (paiements
   sur le Stripe de Georges, pas celui de Ned). Contrôler dans WooCommerce ou passer
   une commande test.

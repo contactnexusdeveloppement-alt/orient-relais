@@ -156,7 +156,7 @@ export default function CGVPage() {
                         <strong>Orient Relais</strong> — HARB GEORGES<br />
                         Email : contact@orient-relais.com<br />
                         Téléphone : 06 99 55 69 77 (Lun-Ven, 9h-18h)<br />
-                        48 avenue de Touraine, 78310 Maurepas, France
+                        31 rue de la Louvière, 78120 Rambouillet, France
                     </p>
                 </section>
             </div>

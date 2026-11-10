@@ -30,7 +30,7 @@ import { jsonLdScript } from "@/lib/json-ld";
 const HOMEPAGE_FAQ = [
     {
         q: "Qu'est-ce qu'Orient Relais ?",
-        a: "Orient Relais est une boutique bio basée à Maurepas (78310, Yvelines) spécialisée dans les savons d'Alep authentiques Najel, les huiles essentielles (dont une gamme bio Terra Etica), les cosmétiques naturels et les compléments ayurvédiques. Vente en ligne et retrait gratuit en boutique.",
+        a: "Orient Relais est une boutique bio basée à Rambouillet (78120, Yvelines) spécialisée dans les savons d'Alep authentiques Najel, les huiles essentielles (dont une gamme bio Terra Etica), les cosmétiques naturels et les compléments ayurvédiques. Vente en ligne et retrait gratuit en boutique.",
     },
     {
         q: "Les produits Orient Relais sont-ils certifiés bio ?",
@@ -42,7 +42,7 @@ const HOMEPAGE_FAQ = [
     },
     {
         q: "Le Click & Collect en boutique est-il gratuit ?",
-        a: "Oui, le retrait Click & Collect en boutique à Maurepas (48 avenue de Touraine) est totalement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées du lundi au vendredi de 9 h à 18 h.",
+        a: "Oui, le retrait Click & Collect en boutique à Rambouillet (31 rue de la Louvière) est totalement gratuit, quel que soit le montant de votre commande. Vous commandez en ligne et récupérez votre colis sous 24 h ouvrées du lundi au vendredi de 9 h à 18 h.",
     },
 ] as const;
 
@@ -59,13 +59,13 @@ const homepageFaqJsonLd = {
 export const metadata: Metadata = {
     // Uses the layout's title template's `default` value — no override needed
     // on the homepage since we don't want "Accueil | Orient Relais".
-    description: "Boutique bio à Maurepas (Yvelines, 78) et en ligne : savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Livraison offerte dès 39 € en France ou Click & Collect gratuit en boutique.",
+    description: "Boutique bio à Rambouillet (Yvelines, 78) et en ligne : savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Livraison offerte dès 39 € en France ou Click & Collect gratuit en boutique.",
     alternates: {
         canonical: "/",
     },
     openGraph: {
-        title: "Orient Relais — Boutique Bio à Maurepas (Yvelines) | Savons d'Alep & Cosmétiques Naturels",
-        description: "Savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques bio et compléments ayurvédiques. Livraison France offerte dès 39 € ou retrait gratuit à Maurepas (Yvelines).",
+        title: "Orient Relais — Boutique Bio à Rambouillet (Yvelines) | Savons d'Alep & Cosmétiques Naturels",
+        description: "Savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques bio et compléments ayurvédiques. Livraison France offerte dès 39 € ou retrait gratuit à Rambouillet (Yvelines).",
         url: "https://www.orient-relais.com/",
         type: "website",
     },
@@ -97,16 +97,16 @@ export default async function Home() {
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Local SEO bar — indexable HTML for "Maurepas Yvelines Click & Collect" queries */}
+      {/* Local SEO bar — indexable HTML for "Rambouillet Yvelines Click & Collect" queries */}
       <section
         aria-label="Informations livraison et retrait"
         className="bg-stone-900 text-stone-100 py-3 px-4 text-center text-sm md:text-base"
       >
         <p className="container mx-auto">
-          <strong>Boutique bio à Maurepas (Yvelines, 78310)</strong> ·
+          <strong>Boutique bio à Rambouillet (Yvelines, 78120)</strong> ·
           {" "}🏪 Click & Collect gratuit en boutique ·
           {" "}📦 Livraison offerte dès 39 € en France métropolitaine ·
-          {" "}<a href="/contact" className="underline hover:text-primary">48 avenue de Touraine</a>
+          {" "}<a href="/contact" className="underline hover:text-primary">31 rue de la Louvière</a>
         </p>
       </section>
 

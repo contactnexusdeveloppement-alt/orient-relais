@@ -35,10 +35,10 @@ interface GoogleMapEmbedProps {
  */
 export function GoogleMapEmbed({
     placeId = process.env.NEXT_PUBLIC_GBP_PLACE_ID,
-    query = "48+avenue+de+Touraine+78310+Maurepas",
+    query = "31+rue+de+la+Louvi%C3%A8re+78120+Rambouillet",
     height = 350,
     className = "",
-    ariaLabel = "Carte Google Maps de la boutique Orient Relais à Maurepas",
+    ariaLabel = "Carte Google Maps de la boutique Orient Relais à Rambouillet",
 }: GoogleMapEmbedProps) {
     const embedKey = process.env.NEXT_PUBLIC_GMAPS_EMBED_KEY;
     const canEmbed = Boolean(placeId && embedKey);
@@ -59,7 +59,7 @@ export function GoogleMapEmbed({
                         Voir sur Google Maps
                     </span>
                     <span className="text-sm text-stone-500">
-                        48 avenue de Touraine, 78310 Maurepas
+                        31 rue de la Louvière, 78120 Rambouillet
                     </span>
                     <span className="mt-3 inline-flex items-center text-xs text-primary font-medium underline">
                         Ouvrir l&apos;itinéraire →

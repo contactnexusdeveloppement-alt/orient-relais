@@ -33,7 +33,7 @@ export function getGoogleReviewUrl(): string {
     if (cid) {
         return `https://www.google.com/maps?cid=${cid}`;
     }
-    return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
+    return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+31+rue+de+la+Louvi%C3%A8re+Rambouillet";
 }
 
 /**
@@ -49,7 +49,7 @@ export function getGoogleProfileUrl(): string {
     if (placeId) {
         return `https://www.google.com/maps/place/?q=place_id:${placeId}`;
     }
-    return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
+    return "https://www.google.com/maps/search/?api=1&query=Orient+Relais+31+rue+de+la+Louvi%C3%A8re+Rambouillet";
 }
 
 export function GoogleReviewCTA({

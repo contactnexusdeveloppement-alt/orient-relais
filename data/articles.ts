@@ -84,7 +84,7 @@ Pour un enfant ou un bébé, demandez d'abord l'avis de votre pédiatre ou de vo
 
 ## Comment utiliser le savon d'Alep sur une peau atopique : les bons gestes
 
-Le produit ne fait pas tout. Le **geste** compte autant que le savon. Voici la routine de toilette douce que nous partageons en boutique à Maurepas, en complément des conseils de votre médecin :
+Le produit ne fait pas tout. Le **geste** compte autant que le savon. Voici la routine de toilette douce que nous partageons en boutique à Rambouillet, en complément des conseils de votre médecin :
 
 ### Le matin (toutes peaux)
 
@@ -119,7 +119,7 @@ Deux références de la gamme se distinguent par leur teneur en laurier :
 - **Le Savon d'Alep liquide 5 % laurier Najel** : faiblement dosé en laurier, c'est le plus doux de notre sélection, pratique en flacon pour la toilette de tous les jours.
 - **Le Savon d'Alep traditionnel 40 % laurier Najel** : le pain traditionnel, très purifiant, plutôt destiné aux peaux mixtes à grasses. Sur une peau sèche ou atopique, il risque de dessécher : ce n'est pas notre premier conseil dans ce cas.
 
-Vous les trouverez dans notre [catégorie Savons d'Alep](/categorie/savons-dalep), avec livraison offerte dès 39 € ou retrait gratuit à la boutique de Maurepas. Nos pains parfumés ou enrichis (rose de Damas, jasmin, miel, lait de chèvre…) sont agréables au quotidien, mais sur une peau atopique, lisez bien leur composition avant de les adopter.
+Vous les trouverez dans notre [catégorie Savons d'Alep](/categorie/savons-dalep), avec livraison offerte dès 39 € ou retrait gratuit à la boutique de Rambouillet. Nos pains parfumés ou enrichis (rose de Damas, jasmin, miel, lait de chèvre…) sont agréables au quotidien, mais sur une peau atopique, lisez bien leur composition avant de les adopter.
 
 Avant d'utiliser un nouveau savon sur tout le corps, faites le test du pli du coude décrit plus bas, et n'hésitez pas à montrer la composition à votre pharmacien ou à votre dermatologue.
 
@@ -171,7 +171,7 @@ L'eczéma est une maladie aux causes multiples, et **aucun savon ne le soigne ni
 
 Les bons gestes sont simples : **eau tiède, mousse délicate, rinçage complet, émollient sur peau humide**. Observez votre peau pendant quelques semaines, et arrêtez au moindre signe d'irritation.
 
-Si vous voulez essayer, notre sélection Najel est fabriquée selon la méthode traditionnelle : le [Savon d'Alep liquide 5 % laurier](/categorie/savons-dalep), le plus doux, ou le [Savon d'Alep traditionnel 40 % laurier](/categorie/savons-dalep), plus purifiant, pour les peaux mixtes à grasses. Livraison offerte dès 39 € partout en France, ou retrait à notre boutique du 48 avenue de Touraine à Maurepas (78).
+Si vous voulez essayer, notre sélection Najel est fabriquée selon la méthode traditionnelle : le [Savon d'Alep liquide 5 % laurier](/categorie/savons-dalep), le plus doux, ou le [Savon d'Alep traditionnel 40 % laurier](/categorie/savons-dalep), plus purifiant, pour les peaux mixtes à grasses. Livraison offerte dès 39 € partout en France, ou retrait à notre boutique du 31 rue de la Louvière à Rambouillet (78).
 
 Des questions sur nos savons ? Écrivez-nous à **contact@orient-relais.com** : on vous répond sous 24 h ouvrées. Pour tout ce qui concerne votre eczéma lui-même, le bon interlocuteur reste votre médecin.
         `

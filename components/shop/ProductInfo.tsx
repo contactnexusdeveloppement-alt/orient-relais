@@ -191,7 +191,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     <div className="p-2.5 rounded-xl bg-primary/10 group-hover:scale-110 transition-transform">
                         <Store className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="text-xs text-stone-600 text-center leading-tight font-medium">Retrait gratuit<br />à Maurepas</span>
+                    <span className="text-xs text-stone-600 text-center leading-tight font-medium">Retrait gratuit<br />à Rambouillet</span>
                 </div>
             </div>
 

@@ -77,7 +77,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             "huiles essentielles bio",
             "cosmétiques bio",
             "compléments ayurvédiques",
-            "Maurepas",
+            "Rambouillet",
             "Yvelines",
             article.category,
         ],

@@ -29,7 +29,7 @@ const GBP_PROFILE_URL = GBP_CID
         : null;
 
 const HAS_MAP_URL = GBP_PROFILE_URL
-    ?? "https://www.google.com/maps/search/?api=1&query=48+avenue+de+Touraine+78310+Maurepas";
+    ?? "https://www.google.com/maps/search/?api=1&query=31+rue+de+la+Louvi%C3%A8re+78120+Rambouillet";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -43,11 +43,11 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: {
-    default: "Orient Relais — Boutique Bio à Maurepas (Yvelines) | Savons d'Alep, Huiles Essentielles, Cosmétiques Bio",
-    template: "%s | Orient Relais — Boutique Bio Maurepas",
+    default: "Orient Relais — Boutique Bio à Rambouillet (Yvelines) | Savons d'Alep, Huiles Essentielles, Cosmétiques Bio",
+    template: "%s | Orient Relais — Boutique Bio Rambouillet",
   },
   description: "Boutique en ligne de produits bio : savons d'Alep authentiques, huiles essentielles Terra Etica, compléments alimentaires naturels. Livraison offerte dès 39€.",
-  keywords: ["savon d'Alep", "savon d'Alep bio", "savon d'Alep Yvelines", "savon d'Alep en Yvelines", "cosmétiques bio", "cosmétiques bio en ligne", "cosmétiques biologiques en ligne", "cosmétiques bio à Paris", "huiles essentielles bio", "compléments ayurvédiques", "compléments alimentaires bio", "miel", "miel bio", "huile de nigelle", "huile d'olive", "huile d'argan", "huile de ricin", "huile de figue de barbarie", "huile de figuier de barbarie", "huile de dattier du désert", "épicerie orientale Yvelines", "herboristerie Yvelines", "coffrets cadeaux", "idées cadeaux", "accessoires", "boutique bio Maurepas", "boutique bio Yvelines", "herboristerie 78310", "Orient Relais"],
+  keywords: ["savon d'Alep", "savon d'Alep bio", "savon d'Alep Yvelines", "savon d'Alep en Yvelines", "cosmétiques bio", "cosmétiques bio en ligne", "cosmétiques biologiques en ligne", "cosmétiques bio à Paris", "huiles essentielles bio", "compléments ayurvédiques", "compléments alimentaires bio", "miel", "miel bio", "huile de nigelle", "huile d'olive", "huile d'argan", "huile de ricin", "huile de figue de barbarie", "huile de figuier de barbarie", "huile de dattier du désert", "épicerie orientale Yvelines", "herboristerie Yvelines", "coffrets cadeaux", "idées cadeaux", "accessoires", "boutique bio Rambouillet", "boutique bio Yvelines", "herboristerie 78120", "Orient Relais"],
   authors: [{ name: "Orient Relais" }],
   creator: "Orient Relais",
   metadataBase: new URL("https://www.orient-relais.com"),
@@ -116,9 +116,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 "@type": ["Store", "HealthAndBeautyBusiness"],
                 "@id": "https://www.orient-relais.com/#business",
                 name: "Orient Relais",
-                alternateName: "Orient Relais — Boutique Bio Maurepas",
+                alternateName: "Orient Relais — Boutique Bio Rambouillet",
                 slogan: "L'Orient naturel, livré chez vous",
-                description: "Boutique bio à Maurepas (Yvelines) et en ligne, spécialisée en savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Click & Collect gratuit en boutique.",
+                description: "Boutique bio à Rambouillet (Yvelines) et en ligne, spécialisée en savons d'Alep authentiques Najel, huiles essentielles bio Terra Etica, cosmétiques naturels et compléments ayurvédiques. Click & Collect gratuit en boutique.",
                 url: "https://www.orient-relais.com",
                 image: "https://www.orient-relais.com/images/Logo_respon.png",
                 logo: "https://www.orient-relais.com/images/logo-new.png",
@@ -140,16 +140,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 ],
                 address: {
                   "@type": "PostalAddress",
-                  streetAddress: "48 avenue de Touraine",
-                  addressLocality: "Maurepas",
-                  postalCode: "78310",
+                  streetAddress: "31 rue de la Louvière",
+                  addressLocality: "Rambouillet",
+                  postalCode: "78120",
                   addressRegion: "Yvelines",
                   addressCountry: "FR",
                 },
                 geo: {
                   "@type": "GeoCoordinates",
-                  latitude: 48.7642,
-                  longitude: 1.9393,
+                  latitude: 48.6433,
+                  longitude: 1.8347,
                 },
                 hasMap: HAS_MAP_URL,
                 areaServed: [

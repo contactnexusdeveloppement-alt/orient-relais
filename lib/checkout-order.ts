@@ -195,7 +195,7 @@ export async function createOrderFromPaymentIntent(
 
     const shippingAddress =
         method === "clickcollect"
-            ? { address_1: "Click & Collect — 48 avenue de Touraine", city: "Maurepas", postcode: "78310" }
+            ? { address_1: "Click & Collect — 31 rue de la Louvière", city: "Rambouillet", postcode: "78120" }
             : method === "mondialrelay" && meta.relay_id
                 ? { address_1: `${meta.relay_name} — ${meta.relay_address}`, city: meta.relay_city ?? "", postcode: meta.relay_zip ?? "" }
                 : { address_1: meta.shipping_address ?? "", city: meta.shipping_city ?? "", postcode: meta.shipping_zip ?? "" };

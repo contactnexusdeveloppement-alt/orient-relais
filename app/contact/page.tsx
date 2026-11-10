@@ -36,7 +36,7 @@ export default function ContactPage() {
                     <Mail className="h-4 w-4" /> Contactez-nous
                 </span>
                 <h1 className="font-serif text-4xl md:text-5xl font-bold text-stone-900 mt-2 mb-4">
-                    Contact &amp; Click &amp; Collect — Boutique Bio à Maurepas (Yvelines)
+                    Contact &amp; Click &amp; Collect — Boutique Bio à Rambouillet (Yvelines)
                 </h1>
                 <p className="text-stone-600 text-lg">
                     Une question sur un produit ? Un conseil personnalisé ?<br />
@@ -47,13 +47,17 @@ export default function ContactPage() {
             {/* Click & Collect indexable banner */}
             <div className="max-w-3xl mx-auto mb-12 bg-gradient-to-r from-amber-50 to-stone-50 border border-primary/20 rounded-2xl p-6 md:p-8 text-center">
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-stone-900 mb-3">
-                    Click &amp; Collect gratuit à Maurepas
+                    Click &amp; Collect gratuit à Rambouillet
                 </h2>
                 <p className="text-stone-700 leading-relaxed mb-4">
                     Commandez en ligne, retirez votre colis sous 24 h dans notre boutique
-                    bio du <strong>48 avenue de Touraine, 78310 Maurepas (Yvelines)</strong> —
+                    bio du <strong>31 rue de la Louvière, 78120 Rambouillet (Yvelines)</strong> —
                     sans frais de livraison, du lundi au vendredi de 9 h à 18 h.
                     Une question avant de venir ? Appelez-nous au 06 99 55 69 77.
+                </p>
+                <p className="text-sm text-stone-700 bg-white/70 border border-amber-200 rounded-xl px-4 py-2 mb-4">
+                    <strong>Nouvelle adresse :</strong> la boutique, auparavant à Maurepas, est désormais
+                    à Rambouillet, à quelques minutes à pied de la gare.
                 </p>
                 <p className="text-sm text-stone-500">
                     Couverture livraison : France métropolitaine via Colissimo et Mondial Relay.
@@ -91,7 +95,7 @@ export default function ContactPage() {
                                 <div>
                                     <span className="block font-bold text-stone-900">Adresse</span>
                                     <p className="text-stone-600">
-                                        48 avenue de Touraine,<br /> 78310 Maurepas, France
+                                        31 rue de la Louvière,<br /> 78120 Rambouillet, France
                                     </p>
                                 </div>
                             </div>
@@ -187,11 +191,11 @@ export default function ContactPage() {
                     Nous trouver
                 </h2>
                 <p className="text-stone-600 text-center mb-6 max-w-2xl mx-auto">
-                    48 avenue de Touraine, 78310 Maurepas — à 5 min de la sortie A12 Maurepas centre.
+                    31 rue de la Louvière, 78120 Rambouillet — à quelques minutes à pied de la gare de Rambouillet.
                 </p>
                 <GoogleMapEmbed
                     height={420}
-                    ariaLabel="Carte Google Maps — Orient Relais, 48 avenue de Touraine, 78310 Maurepas"
+                    ariaLabel="Carte Google Maps — Orient Relais, 31 rue de la Louvière, 78120 Rambouillet"
                 />
             </section>
         </div>

@@ -455,7 +455,7 @@ export default function CheckoutPage() {
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-base font-medium text-stone-900">🏪 Click & Collect — Retrait en boutique</p>
-                                                <p className="text-sm text-stone-500">48 avenue de Touraine, 78310 Maurepas</p>
+                                                <p className="text-sm text-stone-500">31 rue de la Louvière, 78120 Rambouillet</p>
                                             </div>
                                             {shippingOptionPrice("clickcollect")}
                                         </div>
@@ -494,7 +494,7 @@ export default function CheckoutPage() {
                                         <div className="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
                                             <p className="text-sm font-bold text-green-800">🏪 Adresse de retrait :</p>
                                             <p className="text-sm text-green-700 mt-1">
-                                                Orient Relais — 48 avenue de Touraine, 78310 Maurepas
+                                                Orient Relais — 31 rue de la Louvière, 78120 Rambouillet
                                             </p>
                                             <p className="text-xs text-green-600 mt-2">
                                                 Vous recevrez un email lorsque votre commande sera prête à retirer.
@@ -692,7 +692,7 @@ export default function CheckoutPage() {
                                         {shippingMethod === "clickcollect" && (
                                             <div className="pl-5 mt-1 text-xs text-stone-500 bg-stone-50 p-2 rounded-md border border-stone-100">
                                                 <p className="font-medium text-stone-700">Orient Relais</p>
-                                                <p>48 avenue de Touraine, 78310 Maurepas</p>
+                                                <p>31 rue de la Louvière, 78120 Rambouillet</p>
                                             </div>
                                         )}
                                         {shippingMethod === "mondialrelay" && selectedRelay && (

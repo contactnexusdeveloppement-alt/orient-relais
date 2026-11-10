@@ -12,7 +12,7 @@ const REVIEW_URL = GBP_PLACE_ID
     ? `https://search.google.com/local/writereview?placeid=${GBP_PLACE_ID}`
     : GBP_CID
         ? `https://www.google.com/maps?cid=${GBP_CID}`
-        : "https://www.google.com/maps/search/?api=1&query=Orient+Relais+48+avenue+de+Touraine+Maurepas";
+        : "https://www.google.com/maps/search/?api=1&query=Orient+Relais+31+rue+de+la+Louvi%C3%A8re+Rambouillet";
 
 export function Footer() {
     return (
@@ -101,7 +101,7 @@ export function Footer() {
                                 <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
                                     <MapPin className="h-4 w-4 text-primary" />
                                 </div>
-                                <span>48 avenue de Touraine,<br />78310 Maurepas, France</span>
+                                <span>31 rue de la Louvière,<br />78120 Rambouillet, France</span>
                             </li>
                         </ul>
                     </div>

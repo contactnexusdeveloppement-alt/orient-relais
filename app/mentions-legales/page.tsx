@@ -29,8 +29,8 @@ export default function MentionsLegalesPage() {
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-4">
                         <strong>Siège social :</strong><br />
-                        48 avenue de Touraine<br />
-                        78310 Maurepas, France
+                        31 rue de la Louvière<br />
+                        78120 Rambouillet, France
                     </p>
                     <p className="text-stone-600 leading-relaxed mt-4">
                         <strong>Contact :</strong><br />
