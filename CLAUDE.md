@@ -40,6 +40,13 @@ Adam / Théo pour chiffrage.
 - La période du forfait va du 21 au 20 du mois suivant.
 - Le catalogue (produits, prix, stocks, catégories) est géré par le client dans
   WooCommerce depuis la formation au back-office.
+- **Décision d'Adam (10/11/2026) : on ne corrige plus rien de notre propre initiative.**
+  On traite ce que Georges demande (dans la limite du forfait) et les pannes du site.
+  Textes, fiches produits, communication, référencement : validés par le client à la
+  recette, sous sa responsabilité. Toute reprise passe par un devis.
+- **Devis : ne pas le rédiger dans cette session.** Il se crée en passant par le
+  gestionnaire Ned (session de gestion, dépôt `ned-gestion`). Ici, on fournit
+  seulement le descriptif technique et l'estimation de temps.
 
 ## Registre des modifications mineures
 Mettre à jour à chaque intervention demandée par le client.
@@ -97,14 +104,12 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   l'établissement a été transféré (à reporter dans mentions légales, CGV,
   confidentialité). Horaires conservés (lun.-ven. 9 h-18 h), à confirmer.
 - Fiches produits WooCommerce (données du catalogue, pas le code) : scan du 10/11/2026,
-  environ 60 descriptions sur 83 portent des allégations interdites ou du texte erroné.
-  Exemples : savons « eczéma, psoriasis, acné, antiseptique », baume « cicatrisant,
-  soulage la douleur », huiles essentielles « anti-infectieuse, immunité, douleur »
-  avec posologie (clou de girofle), bloc « barrière épidermique, antioxydant » collé
-  par erreur sur les miels et les compléments, « 100 % bio » sur 2 fiches. Textes issus
-  du remplissage du catalogue par Ned lors de la refonte (scripts/ du dépôt) :
-  correction à notre charge. Il faut une clé API WooCommerce en écriture (ou l'admin
-  WordPress) pour les corriger.
+  environ 60 descriptions sur 83 portent des allégations interdites ou du texte erroné
+  (savons « eczéma, psoriasis, antiseptique », huiles essentielles « anti-infectieuse,
+  immunité » avec posologie, bloc « barrière épidermique » collé par erreur sur les
+  miels et les compléments, « 100 % bio » sur 2 fiches). **Décision d'Adam du 10/11 :
+  on ne les modifie pas** (catalogue validé par le client). Réécriture possible sur
+  devis uniquement.
 - Commande sans compte : aucune commande réelle vérifiée depuis le 28/09 (paiements
   sur le Stripe de Georges, pas celui de Ned). Contrôler dans WooCommerce ou passer
   une commande test.
@@ -116,7 +121,14 @@ Les lignes antérieures au 05/10/2026 ont été reconstituées à partir de l'hi
   effet. Seule vraie correction : retirer ce loading.tsx (on perd l'indicateur de
   chargement). Impact faible, laissé tel quel.
 
+## À proposer sur devis (rien n'est engagé)
+- Mise en conformité des ~60 fiches produits (allégations santé, textes erronés).
+- Visibilité locale à Rambouillet : fiche Google, publications, réponses aux avis.
+- Formule de forfait supérieure (plusieurs modifications par mois).
+- Catégorie « Huiles végétales » avec contenu SEO ; articles de blog.
+
 ## Contenus : règles (DGCCRF)
+Ces règles valent pour ce que nous rédigeons nous-mêmes à l'avenir.
 - Bio : seuls les produits dont le nom porte « bio » / « Cosmos Organic » sont
   certifiés (25 sur 83 au 05/10/2026). Jamais de « 100 % bio », « tous nos produits
   sont certifiés », ni de logo AB / Ecocert / Cosmos sans tag exact sur le produit.
